@@ -1,5 +1,5 @@
 
- .info-section{
+.info-section{
 display:flex;
 justify-content:center;
 gap:70px;
@@ -70,3 +70,4 @@ color:#e6f7ff;
 0%,100%{transform:translateY(0);}
 50%{transform:translateY(-15px);}
 }
+ 

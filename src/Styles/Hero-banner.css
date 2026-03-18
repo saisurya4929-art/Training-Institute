@@ -78,3 +78,183 @@ color: black;
 background:white;
 color:black;
 }
+
+/* @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+
+body{
+margin:0;
+font-family:"Poppins",sans-serif;
+}
+
+/* HERO SECTION 
+
+.hero{
+height:100vh;
+display:flex;
+align-items:center;
+justify-content:center;
+
+/* IMAGE + DARK OVERLAY 
+background:
+linear-gradient(rgba(15,23,42,0.85), rgba(15,23,42,0.9)),
+url("https://images.unsplash.com/photo-1522071820081-009f0129c71c");
+
+background-size:cover;
+background-position:center;
+background-repeat:no-repeat;
+
+/* ZOOM ANIMATION 
+animation:zoomBg 12s ease-in-out infinite alternate;
+
+position:relative;
+overflow:hidden;
+}
+
+/* FLOATING LIGHT EFFECTS 
+
+.hero::before{
+content:"";
+position:absolute;
+width:300px;
+height:300px;
+background:rgba(79,70,229,0.4);
+filter:blur(100px);
+top:10%;
+left:10%;
+animation:float 6s infinite alternate;
+}
+
+.hero::after{
+content:"";
+position:absolute;
+width:250px;
+height:250px;
+background:rgba(34,197,94,0.4);
+filter:blur(100px);
+bottom:10%;
+right:10%;
+animation:float 8s infinite alternate;
+}
+
+/* CONTENT BOX (GLASS EFFECT) 
+
+.hero-content{
+text-align:center;
+color:white;
+max-width:700px;
+
+background:rgba(255,255,255,0.05);
+padding:40px;
+border-radius:15px;
+backdrop-filter:blur(10px);
+
+animation:fadeUp 1s ease;
+}
+
+/* HEADING 
+
+.hero-content h1{
+font-size:42px;
+font-weight:700;
+line-height:1.3;
+}
+
+.hero-content h1 span{
+background:linear-gradient(90deg,#22c55e,#4ade80);
+
+background-clip:text;
+-webkit-background-clip:text;
+
+color:transparent;
+-webkit-text-fill-color:transparent;
+}
+/* PARAGRAPH 
+
+.hero-content p{
+margin-top:15px;
+font-size:16px;
+color:#e2e8f0;
+}
+
+/* FEATURES 
+
+.hero-features{
+margin-top:20px;
+display:flex;
+justify-content:center;
+gap:15px;
+flex-wrap:wrap;
+}
+
+.hero-features span{
+background:rgba(255,255,255,0.1);
+padding:6px 12px;
+border-radius:20px;
+font-size:13px;
+backdrop-filter:blur(10px);
+}
+
+/* BUTTONS 
+
+.hero-buttons{
+margin-top:25px;
+display:flex;
+justify-content:center;
+gap:15px;
+flex-wrap:wrap;
+}
+
+.btn-primary{
+padding:12px 25px;
+background:#22c55e;
+border:none;
+border-radius:8px;
+color:white;
+font-weight:600;
+cursor:pointer;
+transition:0.3s;
+}
+
+.btn-primary:hover{
+transform:scale(1.08);
+background:#16a34a;
+}
+
+.btn-secondary{
+padding:12px 25px;
+background:transparent;
+border:1px solid white;
+border-radius:8px;
+color:white;
+cursor:pointer;
+transition:0.3s;
+}
+
+.btn-secondary:hover{
+background:white;
+color:black;
+transform:scale(1.08);
+}
+
+/* ANIMATIONS 
+
+@keyframes fadeUp{
+from{
+opacity:0;
+transform:translateY(30px);
+}
+to{
+opacity:1;
+transform:translateY(0);
+}
+}
+
+@keyframes zoomBg{
+0%{background-size:100%;}
+100%{background-size:110%;}
+}
+
+@keyframes float{
+from{transform:translateY(0);}
+to{transform:translateY(-40px);}
+} */

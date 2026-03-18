@@ -151,8 +151,5 @@ const Placements = () => {
   );
 };
 
-export default Placements
-
-
-
+export default Placements ;
 

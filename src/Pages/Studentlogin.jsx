@@ -6,27 +6,26 @@ function StudentLogin(){
 
 const [email,setEmail] = useState("");
 const [password,setPassword] = useState("");
-
 const navigate = useNavigate();
 
 const login = (e)=>{
-
 e.preventDefault();
 
 if(email==="student@gmail.com" && password==="123"){
 localStorage.setItem("role","student");
 navigate("/dashboard");
 }
-
-}
+};
 
 return(
 
 <div className="login-container">
 
-<form className="login-box" onSubmit={login}>
+<div className="login-card">
 
 <h2>Student Login</h2>
+
+<form onSubmit={login}>
 
 <input type="email" placeholder="Email"
 onChange={(e)=>setEmail(e.target.value)}/>
@@ -34,17 +33,19 @@ onChange={(e)=>setEmail(e.target.value)}/>
 <input type="password" placeholder="Password"
 onChange={(e)=>setPassword(e.target.value)}/>
 
-<button type="submit">Login</button>
-
-<p>
-Admin? <Link to="/admin">Admin Login</Link>
-</p>
+<button>Login</button>
 
 </form>
 
+<p>
+Admin? <Link to="/admin">Login here</Link>
+</p>
+
 </div>
 
-)
+</div>
+
+);
 
 }
 
