@@ -1,0 +1,204 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+}
+
+.about-page{
+min-height:100vh;
+background:linear-gradient(135deg,#141e30,#243b55);
+display:flex;
+flex-direction:column;
+align-items:center;
+overflow:hidden;
+position:relative;
+color:white;
+}
+
+
+.header{
+width:100%;
+padding:25px;
+text-align:center;
+background:rgba(255,255,255,0.05);
+backdrop-filter:blur(10px);
+}
+
+.logo{
+font-size:26px;
+font-weight:600;
+letter-spacing:2px;
+}
+
+.title{
+margin-top:40px;
+font-size:48px;
+font-weight:600;
+}
+
+
+.cards{
+display:flex;
+gap:40px;
+margin-top:60px;
+flex-wrap:wrap;
+justify-content:center;
+cursor: pointer;
+}
+
+
+.glass-card{
+width:320px;
+padding:30px;
+border-radius:20px;
+background:rgba(255,255,255,0.08);
+backdrop-filter:blur(15px);
+border:1px solid rgba(255,255,255,0.2);
+box-shadow:0 10px 40px rgba(0,0,0,0.4);
+transition:0.4s;
+position:relative;
+overflow:hidden;
+}
+
+.glass-card h3{
+margin-bottom:15px;
+color:#00f2ff;
+}
+
+.glass-card p{
+font-size:15px;
+line-height:1.6;
+color:#ddd;
+}
+
+/* Glow border animation */
+
+.glass-card::before{
+content:"";
+position:absolute;
+width:150%;
+height:150%;
+background:linear-gradient(45deg,#00f2ff,#ff00ff,#00f2ff);
+top:-50%;
+left:-50%;
+animation:rotate 6s linear infinite;
+opacity:0.2;
+}
+
+@keyframes rotate{
+0%{transform:rotate(0deg)}
+100%{transform:rotate(360deg)}
+}
+
+
+.bg-shape{
+position:absolute;
+border-radius:50%;
+filter:blur(100px);
+opacity:0.5;
+animation:float 10s infinite ease-in-out;
+}
+
+.shape1{
+width:300px;
+height:300px;
+background:#00f2ff;
+top:10%;
+left:5%;
+}
+
+.shape2{
+width:250px;
+height:250px;
+background:#ff00ff;
+bottom:10%;
+right:5%;
+}
+
+.shape3{
+width:200px;
+height:200px;
+background:#00ff9d;
+top:60%;
+left:40%;
+}
+
+@keyframes float{
+0%,100%{transform:translateY(0)}
+50%{transform:translateY(-40px)}
+}
+
+/* Responsive */
+
+@media(max-width:900px){
+
+.cards{
+flex-direction:column;
+align-items:center;
+}
+
+.title{
+font-size:36px;
+}
+
+}
+
+
+/* CONTACT SECTION */
+
+.contact-section{
+width:100%;
+margin-top:100px;
+padding:60px 20px;
+background:rgba(255,255,255,0.05);
+backdrop-filter:blur(10px);
+text-align:center;
+}
+
+.contact-section h2{
+font-size:36px;
+margin-bottom:40px;
+color:#00f2ff;
+}
+
+.contact-container{
+display:flex;
+justify-content:center;
+gap:40px;
+flex-wrap:wrap;
+}
+
+.contact-box{
+width:260px;
+padding:25px;
+border-radius:15px;
+background:rgba(255,255,255,0.08);
+border:1px solid rgba(255,255,255,0.2);
+box-shadow:0 8px 25px rgba(0,0,0,0.3);
+transition:0.3s;
+}
+
+.contact-box:hover{
+transform:translateY(-8px);
+}
+
+.contact-box h4{
+margin-bottom:10px;
+color:#00ffcc;
+}
+
+.contact-box p{
+font-size:14px;
+line-height:1.6;
+color:#ddd;
+
+}
+
+.copyright{
+margin-top:40px;
+font-size:13px;
+color:#aaa;
+}

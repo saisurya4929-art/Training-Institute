@@ -1,0 +1,28 @@
+.sidebar{
+width:230px;
+height:100vh;
+background:linear-gradient(180deg,#0f172a,#1e293b);
+color:white;
+padding:25px;
+position:fixed;
+display:flex;
+flex-direction:column;
+}
+
+.sidebar h2{
+margin-bottom:30px;
+}
+
+.sidebar a{
+color:white;
+text-decoration:none;
+padding:12px;
+border-radius:8px;
+margin:5px 0;
+transition:0.3s;
+}
+
+.sidebar a:hover{
+background:#334155;
+transform:translateX(5px);
+}
