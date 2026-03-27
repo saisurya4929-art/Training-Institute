@@ -1,4 +1,4 @@
-.sidebar{
+/* .sidebar{
 width:230px;
 height:100vh;
 background:linear-gradient(180deg,#0f172a,#1e293b);
@@ -25,4 +25,27 @@ transition:0.3s;
 .sidebar a:hover{
 background:#334155;
 transform:translateX(5px);
+} */
+
+.sidebar {
+  width: 240px;
+  background: #0f172a;
+  color: white;
+  padding: 20px;
+}
+
+.sidebar h2 {
+  margin-bottom: 30px;
+}
+
+.sidebar li {
+  list-style: none;
+  margin: 15px 0;
+  padding: 10px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.sidebar li:hover {
+  background: #1e293b;
 }

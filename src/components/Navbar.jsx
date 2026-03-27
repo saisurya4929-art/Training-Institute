@@ -7,6 +7,7 @@ function Navbar() {
 
   const navigate = useNavigate();
 
+   const user = JSON.parse(localStorage.getItem("user"));
   return (
 
     <div className="navbar">
@@ -36,11 +37,9 @@ function Navbar() {
       >
         Gallery
       </button>
-      {/* <button className="student" onClick={() => navigate("/dashboard")}>
-Student Portal
-</button> */}
 
     </div>
+    
 
   );
 }
