@@ -11,7 +11,10 @@ const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+
   const navigate = useNavigate();
+
+  const user = JSON.parse(localStorage.getItem("user"));
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -26,7 +29,7 @@ const LoginPage = () => {
 
       // role based redirect
       if (user.role === "ADMIN") {
-        navigate("/"); // admin -> home
+        navigate("/Home"); // admin -> home
       } else {
         navigate("/student-dashboard"); // student -> dashboard
       }

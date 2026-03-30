@@ -33,7 +33,8 @@ width:250%;
 height:250%;
 top:-75%;
 left:-75%;
-background:conic-gradient(#00eaff,#4facfe,#38bdf8,#00eaff);
+/* background:conic-gradient(#00eaff,#4facfe,#38bdf8,#00eaff); */
+background: linear-gradient(120deg,#5f6df5,#c850c0);
 animation:rotateBorder 6s linear infinite;
 opacity:0.15;
 }
