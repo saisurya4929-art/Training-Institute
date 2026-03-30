@@ -31,7 +31,7 @@ View Courses
 </header>
 
 
-<section className="hero">
+<section className="hero-tn">
 
 <h1>Build Your Career in IT Industry</h1>
 {/* 

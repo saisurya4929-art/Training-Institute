@@ -7,7 +7,7 @@ const StudentRegister = () => {
     name: "",
     email: "",
     phone: "",
-    course: ""
+    role: ""
   });
 
   const handleChange = (e) => {
@@ -49,22 +49,21 @@ const StudentRegister = () => {
           />
 
           <input
-            type="tel"
-            name="phone"
-            placeholder="Phone"
+            type="password"
+            name="password"
+            placeholder="Enter your password"
             onChange={handleChange}
             required
           />
 
           <select
-            name="course"
+            name="role"
             onChange={handleChange}
             required
           >
-            <option value="">Select Course</option>
-            <option value="Java Full Stack">Java Full Stack</option>
-            <option value="Python Full Stack">Python Full Stack</option>
-            <option value="Springboot Backend">Springboot Backend</option>
+            <option value="">Select Role</option>
+            <option value="Admin">Admin</option>
+            <option value="Student">Student</option>
           </select>
 
           <button type="submit">Register</button>
