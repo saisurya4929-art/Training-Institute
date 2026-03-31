@@ -1,22 +1,5 @@
 import "../Styles/Sidebar.css";
 import { Link } from "react-router-dom";
-// function Sidebar(){
-
-// return(
-
-// <div className="sidebar">
-
-// <h2>Institute Portal</h2>
-
-// </div>
-
-// )
-
-// }
-
-// export default Sidebar;
-
-// import "../assets/styles/Sidebar.css";
 
 function Sidebar() {
 

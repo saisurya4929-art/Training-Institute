@@ -40,33 +40,15 @@ return (
 
 
 
-{/* <Route path="/login" element={<Login/>}/> */}
-<Route path="/student" element={
-          <ProtectedRoute>
-            <StudentDashboard />
-          </ProtectedRoute>
-        } />
-
-        <Route path="/profile" element={
-          <ProtectedRoute>
-            <Profile />
-          </ProtectedRoute>
-        } />
-
-        <Route path="/courses1" element={
-          <ProtectedRoute>
-            <Courses1 />
-          </ProtectedRoute>
-        } />
-
-        <Route path="/upload" element={
-          <ProtectedRoute>
-            <Upload />
-          </ProtectedRoute>
-        } />
 
 
+<Route path="/studentdashboard" element={<StudentDashboard />} />
 
+        <Route path="/profile" element={<Profile />} />
+
+        <Route path="/courses1" element={<Courses1 />} />
+
+        <Route path="/upload" element={<Upload />} />
 </Routes>
 </BrowserRouter>
     </>
@@ -74,6 +56,4 @@ return (
 }
 
 
-export default App
-
-
+export default App;

@@ -1,4 +1,3 @@
-import Navbar from "../components/Navbar";
 import Sidebar from "../components/Sidebar";
 function Profile() {
 
@@ -10,7 +9,7 @@ function Profile() {
       <Sidebar />
 
       <div className="main">
-        <Navbar />
+
 
         <h2>My Profile</h2>
         <p>Name: {user?.name}</p>

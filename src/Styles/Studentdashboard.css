@@ -1,4 +1,4 @@
-.layout {
+ .layout {
   display: flex;
   height: 100vh;
   font-family: 'Poppins', sans-serif;
@@ -26,4 +26,5 @@
 
 .card:hover {
   transform: translateY(-5px);
-}
+} 
+ 

@@ -1,97 +1,111 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import "../Styles/Gallery.css";
-
-
-import p1 from "../assets/img.jpg";
-import p2 from "../assets/img1.jpg";
-import p3 from "../assets/img2.jpg";
-import p4 from "../assets/img3.jpg";
-import e1 from "../assets/img4.jpg";
-import e2 from "../assets/img5.jpg";
-import e3 from "../assets/ga1.jpg";
-import e4 from "../assets/ga2.jpg";
-
-
 const Gallery = () => {
+  const [filter, setFilter] = useState("All");
+  const [lightbox, setLightbox] = useState(null);
 
-const [selectedImage, setSelectedImage] = useState(null);
+  const galleryData = [
+    {
+      id: 1,
+      category: "Classroom",
+      img: "https://images.unsplash.com/photo-1581092335397-9583eb92d232",
+      title: "Smart Classroom"
+    },
+    {
+      id: 2,
+      category: "Students",
+      img: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f",
+      title: "Student Collaboration"
+    },
+    {
+      id: 3,
+      category: "Lab",
+      img: "https://images.unsplash.com/photo-1518779578993-ec3579fee39f",
+      title: "Coding Lab"
+    },
+    {
+      id: 4,
+      category: "Events",
+      img: "https://images.unsplash.com/photo-1503428593586-e225b39bddfe",
+      title: "Workshop Event"
+    },
+    {
+      id: 5,
+      category: "Classroom",
+      img: "https://images.unsplash.com/photo-1509062522246-3755977927d7",
+      title: "Interactive Training"
+    },
+    {
+      id: 6,
+      category: "Students",
+      img: "https://images.unsplash.com/photo-1523580494863-6f3031224c94",
+      title: "Student Success"
+    },
+    {
+      id: 7,
+      category: "Events",
+      img: "https://images.unsplash.com/photo-1543269865-cbf427effbad",
+      title: "Seminar Session"
+    },
+    {
+      id: 8,
+      category: "Lab",
+      img: "https://images.unsplash.com/photo-1555066931-4365d14bab8c",
+      title: "Development Lab"
+    }
+  ];
 
-const photoGallery = [p1,p2,p3,p4];
-const eventPhotos = [e1,e2,e3,e4];
+  const categories = ["All", "Classroom", "Students", "Lab", "Events"];
 
-return (
+  const filteredImages =
+    filter === "All"
+      ? galleryData
+      : galleryData.filter((item) => item.category === filter);
 
-<div className="gallery-page">
+  return (
+    <div className="gallery-container">
+      <h1 className="gallery-heading">Our Training Institute Gallery</h1>
 
-<h1 className="gallery-title">Our Gallery</h1>
+      {/* Filter Buttons */}
+      <div className="gallery-filters">
+        {categories.map((category, index) => (
+          <button
+            key={index}
+            className={filter === category ? "active" : ""}
+            onClick={() => setFilter(category)}
+          >
+            {category}
+          </button>
+        ))}
+      </div>
 
+      {/* Gallery Grid */}
+      <div className="gallery-grid">
+        {filteredImages.map((item) => (
+          <div
+            className="gallery-card"
+            key={item.id}
+            onClick={() => setLightbox(item)}
+          >
+            <img src={item.img} alt={item.title} />
+            <div className="gallery-overlay">
+              <h3>{item.title}</h3>
+              <p>{item.category}</p>
+            </div>
+          </div>
+        ))}
+      </div>
 
-
-<section className="gallery-section">
-
-<h2>Photo Gallery</h2>
-
-<div className="gallery-grid">
-
-{photoGallery.map((img,index)=>(
-<motion.div
-className="gallery-card"
-key={index}
-whileHover={{scale:1.08}}
-onClick={()=>setSelectedImage(img)}
->
-
-<img src={img} alt="gallery"/>
-
-</motion.div>
-))}
-
-</div>
-
-</section>
-
-
-
-<section className="gallery-section">
-
-<h2>Event Photos</h2>
-
-<div className="gallery-grid">
-
-{eventPhotos.map((img,index)=>(
-<motion.div
-className="gallery-card"
-key={index}
-whileHover={{scale:1.08}}
-onClick={()=>setSelectedImage(img)}
->
-
-<img src={img} alt="event"/>
-
-</motion.div>
-))}
-
-</div>
-
-</section>
-
-
-
-{selectedImage && (
-
-<div className="image-popup" onClick={()=>setSelectedImage(null)}>
-
-<img src={selectedImage} alt="popup"/>
-
-</div>
-
-)}
-
-</div>
-
-);
-
+      {/* Lightbox Preview */}
+      {lightbox && (
+        <div className="gallery-lightbox" onClick={() => setLightbox(null)}>
+          <img src={lightbox.img} alt="preview" />
+          <span className="close-btn">×</span>
+        </div>
+      )}
+    </div>
+  );
 };
 
 export default Gallery;

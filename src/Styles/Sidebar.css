@@ -1,4 +1,4 @@
-/* .sidebar{
+.sidebar{
 width:230px;
 height:100vh;
 background:linear-gradient(180deg,#0f172a,#1e293b);
@@ -25,8 +25,8 @@ transition:0.3s;
 .sidebar a:hover{
 background:#334155;
 transform:translateX(5px);
-} */
-
+} 
+ 
 .sidebar {
   width: 240px;
   background: #0f172a;

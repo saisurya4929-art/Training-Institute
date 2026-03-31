@@ -1,7 +1,7 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "../Styles/Navbar.css";
-import logo from "../assets/trailimage.webp";
+import logo from "../assets/logoimg2.jpeg";
 
 function Navbar() {
 

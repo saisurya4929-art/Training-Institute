@@ -1,6 +1,5 @@
 
 import Sidebar from "../components/Sidebar";
-import Navbar from "../components/Navbar";
 import { useState } from "react";
 import axios from "axios";
 
@@ -22,7 +21,7 @@ function Upload() {
       <Sidebar />
 
       <div className="main">
-        <Navbar />
+        
 
         <h2>Upload Document</h2>
 

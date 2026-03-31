@@ -18,7 +18,7 @@ const AboutUs = () => {
       <div className="bg-shape shape3"></div>
 
       <header className="header">
-        <h2 className="logo">NextGen Institute</h2>
+        <h2 className="logo">Global Skills Acaedmy</h2>
       </header>
 
       <motion.h1
@@ -41,7 +41,7 @@ const AboutUs = () => {
         >
           <h3>Our Story</h3>
           <p>
-            NextGen Institute was founded to empower students with modern
+            Global Skills Acaedmy was founded to empower students with modern
             digital skills. Our programs combine theory with real-world
             projects so students gain industry-ready experience.
           </p>
@@ -96,7 +96,7 @@ const AboutUs = () => {
           <div className="contact-box">
             <h4>📍 Address</h4>
             <p>
-              NextGen Institute <br/>
+              Global Skills Acaedmy <br/>
               2nd Floor, Tech Park Building <br/>
               Anna Nagar, Madurai <br/>
               Tamil Nadu - 625020
@@ -114,22 +114,22 @@ const AboutUs = () => {
           <div className="contact-box">
             <h4>📧 Email</h4>
             <p>
-              info@nextgeninstitute.com <br/>
-              support@nextgeninstitute.com
+              info@Globelskills.com <br/>
+              support@Globelskillsac.com
             </p>
           </div>
 
           <div className="contact-box">
             <h4>🌐 Website</h4>
             <p>
-              www.nextgeninstitute.com
+              www.Globelskillsacaedmy.com
             </p>
           </div>
 
         </div>
 
         <p className="copyright">
-          © 2026 NextGen Institute. All Rights Reserved.
+          © 2026 Global Skills Accedmy. All Rights Reserved.
         </p>
 
       </motion.div>

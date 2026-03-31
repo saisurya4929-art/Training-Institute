@@ -28,7 +28,7 @@ const StudentRegister = () => {
 
       <div className="register-card">
 
-        <h2 className="register-title">Student Registration</h2>
+        <h2 className="register-title">Registration</h2>
 
         <form onSubmit={handleSubmit}>
 

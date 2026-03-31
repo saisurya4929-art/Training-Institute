@@ -1,5 +1,4 @@
 
-import Navbar from "../components/Navbar";
 import Sidebar from "../components/Sidebar";
 import '../Styles/Studentdashboard.css';
 
@@ -11,7 +10,7 @@ function StudentDashboard() {
       <Sidebar />
 
       <div className="main">
-        <Navbar />
+        
 
         <div className="cards">
           <div className="card">My Courses: 3</div>
@@ -24,5 +23,6 @@ function StudentDashboard() {
     </div>
   );
 }
+
 
 export default StudentDashboard;
