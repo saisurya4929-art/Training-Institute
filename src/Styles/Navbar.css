@@ -1,63 +1,60 @@
 
-.navbar{
-display: flex;
-align-items: center;
-justify-content: space-between;
-padding: 10px 40px;
-border: 2px solid #f6f7f1;
-background:#59b7edee;
-font-family: Arial, sans-serif;
-}
-
-
-.logo img{
+.navbar {
   display: flex;
   align-items: center;
-  gap: 10px;
+  justify-content: space-between;
+  padding: 10px 60px;
+  background: #59b7edee;
+
+  /* REMOVE gap issue */
+  margin: 0;
+  border: none;
+
+  /* modern look */
+  font-family: "Poppins", sans-serif;
 }
 
+/* logo */
 .logo img {
-  height: 60px;
+  height: 70px;
   width: auto;
 }
 
-
-
-
-.nav-links{
-display: flex;
-list-style: none;
-gap: 70px;
-text-decoration: none;
-margin: 0;
-padding: 0;
+/* links */
+.nav-links {
+  display: flex;
+  list-style: none;
+  gap: 60px;
+  margin: 0;
+  padding: 0;
 }
 
-
-.nav-links li a{
-text-decoration: none;
-color: #111010;
-font-size: 16px;
-}
-.nav-links li a:hover{
-color: #ff8c42;
-
+.nav-links li a {
+  text-decoration: none;
+  color: #111010;
+  font-size: 17px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  transition: 0.1s ease;
 }
 
-
-.gallery-btn{
-background-color: #444;
-color: white;
-border: none;
-padding: 6px 14px;
-border-radius: 4px;
-cursor: pointer;
+.nav-links li a:hover {
+  color: #ff8c42;
 }
-.student{
-background-color: #444;
-color: white;
-border: none;
-padding: 6px 14px;
-border-radius: 4px;
-cursor: pointer;
+
+/* buttons */
+.gallery-btn,
+.student {
+  background-color: #444;
+  color: white;
+  border: none;
+  padding: 8px 18px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.gallery-btn:hover,
+.student:hover {
+  background-color: #ff8c42;
 }

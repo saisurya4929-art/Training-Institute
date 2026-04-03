@@ -1,51 +1,45 @@
-.sidebar{
-width:230px;
-height:100vh;
-background:linear-gradient(180deg,#0f172a,#1e293b);
-color:white;
-padding:25px;
-position:fixed;
-display:flex;
-flex-direction:column;
-}
 
-.sidebar h2{
-margin-bottom:30px;
-}
-
-.sidebar a{
-color:white;
-text-decoration:none;
-padding:12px;
-border-radius:8px;
-margin:5px 0;
-transition:0.3s;
-}
-
-.sidebar a:hover{
-background:#334155;
-transform:translateX(5px);
-} 
- 
 .sidebar {
   width: 240px;
-  background: #0f172a;
+  height: 100vh;
+  background: linear-gradient(180deg,#6366f1,#4f46e5);
   color: white;
   padding: 20px;
+  animation: sidebarSlide 0.6s ease;
 }
 
-.sidebar h2 {
-  margin-bottom: 30px;
+@keyframes sidebarSlide {
+  from { transform: translateX(-100px); opacity:0; }
+  to { transform: translateX(0); opacity:1; }
 }
 
-.sidebar li {
-  list-style: none;
-  margin: 15px 0;
+.sidebar nav a {
+  display: block;
+  color: white;
+  padding: 12px;
+  text-decoration: none;
+  border-radius: 8px;
+  margin: 5px 0;
+  transition: 0.3s;
+}
+
+.sidebar nav a:hover {
+  background: rgba(255,255,255,0.2);
+  transform: translateX(5px);
+}
+
+.sidebar .logout {
+  margin-top: 20px;
+  background: white;
+  color: #4f46e5;
   padding: 10px;
+  border: none;
+  width: 100%;
   border-radius: 8px;
   cursor: pointer;
+  transition: 0.3s;
 }
 
-.sidebar li:hover {
-  background: #1e293b;
+.sidebar .logout:hover {
+  background: #eef2ff;
 }

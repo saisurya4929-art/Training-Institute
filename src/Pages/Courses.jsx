@@ -11,10 +11,10 @@ return (
 
 <div className="courses-container">
 
-<header className="header">
+<div className="logo-header">
 
 <div className="logo">
-Nextgen Institute
+  Globel Skills Acaedmy
 </div>
 
 <div className="header-buttons">
@@ -28,18 +28,18 @@ View Courses
 
 </div>
 
-</header>
+</div>
 
 
 <section className="hero-tn">
 
 <h1>Build Your Career in IT Industry</h1>
-{/* 
+
 <p>
 Join our industry oriented training programs designed by experienced
 developers and mentors. Learn practical development skills and work
 on real-world projects.
-</p> */}
+</p> 
 
 <div className="hero-cards">
 

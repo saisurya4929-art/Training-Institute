@@ -1,37 +1,23 @@
-
+import "../Styles/Upload.css";
+import React from "react";
 import Sidebar from "../components/Sidebar";
-import { useState } from "react";
-import axios from "axios";
 
-function Upload() {
-
-  const [file, setFile] = useState(null);
-
-  const uploadFile = () => {
-    const formData = new FormData();
-    formData.append("file", file);
-
-    axios.post("http://localhost:8080/api/upload", formData)
-      .then(() => alert("Uploaded"));
-  };
-
+const UploadDocs = () => {
   return (
-    <div className="layout">
-
+    <div className="page">
       <Sidebar />
 
-      <div className="main">
-        
+      <div className="content">
+        <h2>Upload Documents</h2>
+       <div className="uploadbox">
 
-        <h2>Upload Document</h2>
-
-        <input type="file" onChange={e => setFile(e.target.files[0])} />
-        <button onClick={uploadFile}>Upload</button>
-
+       
+        <input type="file" />
+        <button>Upload</button>
+        </div>
       </div>
-
     </div>
   );
-}
+};
 
-export default Upload;
+export default UploadDocs;

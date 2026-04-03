@@ -51,14 +51,7 @@ const Blog = () => {
         </div>
       </section>
 
-      {/* NEWSLETTER */}
-      <section className="newsletter">
-        <h2>Subscribe For Latest Updates</h2>
-        <p>Get free learning materials and course offers</p>
-        <input type="email" placeholder="Enter your email"/>
-        <button>Subscribe</button>
-      </section>
-
+      
     </div>
   );
 };

@@ -1,28 +1,39 @@
+
 import "../Styles/Sidebar.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import React from "react";
 
-function Sidebar() {
 
-  const logout = () => {
-    localStorage.removeItem("user");
-    window.location.href = "/";
+const Sidebar = () => {
+  const navigate = useNavigate();
+  const student = JSON.parse(localStorage.getItem("student"));
+
+  const handleLogout = () => {
+    localStorage.removeItem("student");
+    navigate("/");
   };
 
   return (
     <div className="sidebar">
+      <h2 className="logo">Training Institute</h2>
 
-      <h2>Student</h2>
+      <div className="student-box">
+        
+        <h4>{student?.name}</h4>
+        <p>Student</p>
+      </div>
 
-      <ul>
-        <Link to="/student"><li>Dashboard</li></Link>
-        <Link to="/profile"><li>Profile</li></Link>
-        <Link to="/courses"><li>Courses</li></Link>
-        <Link to="/upload"><li>Upload</li></Link>
-        <li onClick={logout}>Logout</li>
-      </ul>
+      <nav>
+        <Link to="/mycourses">My Courses</Link>
+        <Link to="/upload">Upload</Link>
+        <Link to="/profile">Profile</Link>
+      </nav>
 
+      <button className="logout" onClick={handleLogout}>
+        Logout
+      </button>
     </div>
   );
-}
+};
 
 export default Sidebar;

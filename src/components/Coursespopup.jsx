@@ -14,8 +14,9 @@ return(
 <ul>
 
 <li>Java Full Stack Development</li>
-<li>Python Full Stack Development</li>
 <li>Spring Boot Backend</li>
+<li>Python Full Stack Development</li>
+<li>Frontend Development</li>
 <li>React JS Development</li>
 <li>Python Data Science</li>
 <li>DevOps & Cloud Computing</li>
@@ -24,7 +25,7 @@ return(
 </ul>
 
 <button className="close-btn" onClick={closePopup}>
-Close
+X
 </button>
 
 </div>
@@ -35,4 +36,4 @@ Close
 
 }
 
-export default CoursePopup
+export default CoursePopup;

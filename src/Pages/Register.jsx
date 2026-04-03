@@ -1,12 +1,14 @@
 import React, { useState } from "react";
 import '../Styles/Register.css';
 
+import axios from "axios";
+
 const StudentRegister = () => {
 
   const [formData, setFormData] = useState({
     name: "",
     email: "",
-    phone: "",
+    password: "",
     role: ""
   });
 
@@ -17,10 +19,22 @@ const StudentRegister = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(formData);
-    alert("Registration Successful!");
+
+    try {
+      const response = await axios.post(
+        "http://localhost:8080/api/register",
+        formData
+      );
+
+      console.log(response.data);
+      alert("Registration Successful!");
+
+    } catch (error) {
+      console.error(error);
+      alert("Error saving data");
+    }
   };
 
   return (

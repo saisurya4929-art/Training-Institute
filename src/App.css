@@ -1,0 +1,9 @@
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  background: #f6f8fc;
+}
+
+* {
+  box-sizing: border-box;
+}

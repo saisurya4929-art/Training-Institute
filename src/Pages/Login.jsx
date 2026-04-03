@@ -1,20 +1,17 @@
+
 import React, { useState } from "react";
-import '../Styles/Login.css';
-import girl from '../assets/girl.png';
+import "../Styles/Login.css";
+import girl from "../assets/girl.png";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-
 
 const LoginPage = () => {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-
   const navigate = useNavigate();
-
-  const user = JSON.parse(localStorage.getItem("user"));
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -26,12 +23,12 @@ const LoginPage = () => {
       });
 
       const user = res.data;
+      localStorage.setItem("user", JSON.stringify(user));
 
-      // role based redirect
       if (user.role === "ADMIN") {
-        navigate("/Home"); // admin -> home
+        navigate("/Home");
       } else {
-        navigate("/Studentdashboard"); // student -> dashboard
+        navigate("/Student");
       }
 
     } catch (error) {
@@ -40,53 +37,62 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="login-container">
+    <motion.div
+      className="login-page"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.8 }}
+    >
 
-      {/* LEFT SIDE */}
-      <motion.div 
+      {/* LEFT */}
+      <motion.div
         className="login-left"
-        initial={{ x: -100, opacity: 0 }}
+        initial={{ x: -80, opacity: 0 }}
         animate={{ x: 0, opacity: 1 }}
-        transition={{ duration: 0.6 }}
+        transition={{ duration: 0.7 }}
       >
-        <h2>Welcome Back</h2>
+        <div className="login-box">
+          <h2>Welcome Back 👋</h2>
+          <p>Login to continue learning</p>
 
-        <form onSubmit={handleLogin}>
+          <form onSubmit={handleLogin}>
+            <input
+              type="email"
+              placeholder="Email Address"
+              onChange={(e)=>setEmail(e.target.value)}
+              required
+            />
 
-          <input
-            type="email"
-            placeholder="Email Address"
-            onChange={(e)=>setEmail(e.target.value)}
-            required
-          />
+            <input
+              type="password"
+              placeholder="Password"
+              onChange={(e)=>setPassword(e.target.value)}
+              required
+            />
 
-          <input
-            type="password"
-            placeholder="Password"
-            onChange={(e)=>setPassword(e.target.value)}
-            required
-          />
-
-          <motion.button
-            type="submit"
-            className="login-btn"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            Login
-          </motion.button>
-
-        </form>
-
+            <motion.button
+              type="submit"
+              className="login-btn"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              Login
+            </motion.button>
+          </form>
+        </div>
       </motion.div>
 
-      {/* RIGHT IMAGE */}
-      <div 
+      {/* RIGHT */}
+      <motion.div
         className="login-right"
-        style={{ backgroundImage: `url(${girl})` }}
-      />
+        initial={{ x: 80, opacity: 0 }}
+        animate={{ x: 0, opacity: 1 }}
+        transition={{ duration: 0.7 }}
+      >
+        <img src={girl} alt="login" />
+      </motion.div>
 
-    </div>
+    </motion.div>
   );
 };
 

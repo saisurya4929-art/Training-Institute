@@ -17,7 +17,7 @@ const AboutUs = () => {
       <div className="bg-shape shape2"></div>
       <div className="bg-shape shape3"></div>
 
-      <header className="header">
+      <header className="clas-header">
         <h2 className="logo">Global Skills Acaedmy</h2>
       </header>
 
@@ -78,6 +78,7 @@ const AboutUs = () => {
             through practical learning and mentorship.
           </p>
         </motion.div>
+         
 
       </div>
 

@@ -1,59 +1,60 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import "../Styles/Gallery.css";
+import classroom1 from "../assets/gallimg2.png";
+import students1 from "../assets/gallimg7.jpeg";
+import lab1 from "../assets/gallimg4.jpeg";
+import event1 from "../assets/gallimg5.jpeg";
+import classroom2 from "../assets/gallimg3.jpeg";
+import students2 from "../assets/gallimg8.jpeg";
+import event2 from "../assets/gallimg6.jpeg";
+import lab2 from "../assets/gallimg1.jpeg";
+
 const Gallery = () => {
   const [filter, setFilter] = useState("All");
   const [lightbox, setLightbox] = useState(null);
 
   const galleryData = [
     {
-      id: 1,
       category: "Classroom",
-      img: "https://images.unsplash.com/photo-1581092335397-9583eb92d232",
-      title: "Smart Classroom"
+      img: classroom1,
+      title: "Smart Classroom",
     },
     {
-      id: 2,
       category: "Students",
-      img: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f",
-      title: "Student Collaboration"
+      img: students1,
+      title: "Student Collaboration",
     },
     {
-      id: 3,
       category: "Lab",
-      img: "https://images.unsplash.com/photo-1518779578993-ec3579fee39f",
-      title: "Coding Lab"
+      img: lab1,
+      title: "Coding Lab",
     },
     {
-      id: 4,
       category: "Events",
-      img: "https://images.unsplash.com/photo-1503428593586-e225b39bddfe",
-      title: "Workshop Event"
+      img: event1,
+      title: "Workshop Event",
     },
     {
-      id: 5,
       category: "Classroom",
-      img: "https://images.unsplash.com/photo-1509062522246-3755977927d7",
-      title: "Interactive Training"
+      img: classroom2,
+      title: "Interactive Training",
     },
     {
-      id: 6,
       category: "Students",
-      img: "https://images.unsplash.com/photo-1523580494863-6f3031224c94",
-      title: "Student Success"
+      img: students2,
+      title: "Student Success",
     },
     {
-      id: 7,
       category: "Events",
-      img: "https://images.unsplash.com/photo-1543269865-cbf427effbad",
-      title: "Seminar Session"
+      img: event2,
+      title: "Seminar Session",
     },
     {
-      id: 8,
       category: "Lab",
-      img: "https://images.unsplash.com/photo-1555066931-4365d14bab8c",
-      title: "Development Lab"
-    }
+      img: lab2,
+      title: "Development Lab",
+    },
   ];
 
   const categories = ["All", "Classroom", "Students", "Lab", "Events"];
@@ -82,10 +83,10 @@ const Gallery = () => {
 
       {/* Gallery Grid */}
       <div className="gallery-grid">
-        {filteredImages.map((item) => (
+        {filteredImages.map((item, index) => (
           <div
             className="gallery-card"
-            key={item.id}
+            key={index}
             onClick={() => setLightbox(item)}
           >
             <img src={item.img} alt={item.title} />
