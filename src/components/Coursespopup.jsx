@@ -24,8 +24,8 @@ return(
 
 </ul>
 
-<button className="close-btn" onClick={closePopup}>
-X
+<button className="close1-btn" onClick={closePopup}>
+close
 </button>
 
 </div>

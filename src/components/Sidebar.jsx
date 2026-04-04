@@ -6,10 +6,10 @@ import React from "react";
 
 const Sidebar = () => {
   const navigate = useNavigate();
-  const student = JSON.parse(localStorage.getItem("student"));
+  const student = JSON.parse(localStorage.getItem("user"));
 
   const handleLogout = () => {
-    localStorage.removeItem("student");
+    localStorage.removeItem("user");
     navigate("/");
   };
 

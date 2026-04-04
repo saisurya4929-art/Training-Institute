@@ -28,7 +28,7 @@ const LoginPage = () => {
       if (user.role === "ADMIN") {
         navigate("/Home");
       } else {
-        navigate("/Student");
+        navigate("/Studentdashboard");
       }
 
     } catch (error) {

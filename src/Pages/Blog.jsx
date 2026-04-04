@@ -9,7 +9,6 @@ const Blog = () => {
   return (
     <div className="blog">
 
-      {/* HERO */}
       <section className="blog-hero">
         <div className="blog-hero-content">
           <h1>Learning Resources & Career Tips</h1>
@@ -18,7 +17,6 @@ const Blog = () => {
         </div>
       </section>
 
-      {/* CATEGORIES */}
       <section className="blog-categories">
         <div className="category">Web Development</div>
         <div className="category">Java & Spring Boot</div>
@@ -27,7 +25,6 @@ const Blog = () => {
         <div className="category">Career Guidance</div>
       </section>
 
-      {/* BLOG CARDS */}
       <section className="blog-grid">
         <div className="blog-card">
           <img src={blog1} alt="Reactblog" />
