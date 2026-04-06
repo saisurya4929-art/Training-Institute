@@ -12,19 +12,19 @@ const Profile = () => {
   });
 
   useEffect(() => {
-    const data = JSON.parse(localStorage.getItem("user"));
+    const data = JSON.parse(localStorage.getItem("student"));
     if (data) setStudent(data);
   }, []);
 
   const handleChange = (e) => {
     setStudent({
-      ...user,
+      ...student,
       [e.target.name]: e.target.value
     });
   };
 
   const handleSave = () => {
-    localStorage.setItem("student", JSON.stringify(user));
+    localStorage.setItem("student", JSON.stringify(student));
     alert("Profile Updated Successfully");
   };
 

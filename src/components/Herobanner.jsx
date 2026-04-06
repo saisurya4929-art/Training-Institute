@@ -14,24 +14,19 @@ const HeroBanner = () => {
           animate={{ y: 0, opacity: 1 }}
         >
           <span className="hero-tag">Best Training Institute</span>
-
           <h1>
             Learn Skills <br /> Build Your Career
           </h1>
-
           <p>
             Join our professional courses in Java, React, Full Stack and
             get real-time projects with placement support.
           </p>
-
           <div className="hero-buttons">
             <button className="hero-btn">Join For Free</button>
             <button className="hero-outline">View Courses</button>
           </div>
-
         </motion.div>
-      </div>
-
+      </div>``
     </div>
   );
 };

@@ -1,38 +1,38 @@
 import React from "react";
 import "../styles/Courses.css";
 
-const CoursePopup = ({closePopup}) => {
+const CoursePopup = ({ closePopup }) => {
 
-return(
+    return (
 
-<div className="popup-overlay">
+        <div className="popup-overlay">
 
-<div className="popup">
+            <div className="popup">
 
-<h2>Available Courses</h2>
+                <h2>Available Courses</h2>
 
-<ul>
+                <ul>
 
-<li>Java Full Stack Development</li>
-<li>Spring Boot Backend</li>
-<li>Python Full Stack Development</li>
-<li>Frontend Development</li>
-<li>React JS Development</li>
-<li>Python Data Science</li>
-<li>DevOps & Cloud Computing</li>
-<li>UI / UX Design</li>
+                    <li>Java Full Stack Development</li>
+                    <li>Spring Boot Backend</li>
+                    <li>Python Full Stack Development</li>
+                    <li>Frontend Development</li>
+                    <li>React JS Development</li>
+                    <li>Python Data Science</li>
+                    <li>DevOps & Cloud Computing</li>
+                    <li>UI / UX Design</li>
 
-</ul>
+                </ul>
 
-<button className="close1-btn" onClick={closePopup}>
-close
-</button>
+                <button className="close1-btn" onClick={closePopup}>
+                    close
+                </button>
 
-</div>
+            </div>
 
-</div>
+        </div>
 
-)
+    )
 
 }
 

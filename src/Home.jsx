@@ -3,13 +3,13 @@ import Navbar from "./components/Navbar";
 import Herobanner from "./components/Herobanner";
 import InfoSection from "./components/Infosection";
 
-function Home(){
-    return (
+function Home() {
+  return (
     <div>
-    <Navbar/>
-    <Herobanner/>
-    <InfoSection/>
-    
+      <Navbar />
+      <Herobanner />
+      <InfoSection />
+
     </div>
   );
 

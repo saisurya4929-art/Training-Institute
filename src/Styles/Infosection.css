@@ -1,74 +1,84 @@
-
-.info-section{
-display:flex;
-justify-content:center;
-gap:70px;
-padding:100px 60px;
-flex-wrap:wrap;
+.info-section {
+    display: flex;
+    justify-content: center;
+    gap: 70px;
+    padding: 100px 60px;
+    flex-wrap: wrap;
 }
 
 
-.info-box{
-width:420px;
-min-height:260px;
-padding:50px;
-border-radius:26px;
-background:rgba(255,255,255,0.06);
-backdrop-filter:blur(20px);
-border:1px solid rgba(135,206,235,0.5);
-box-shadow:0 20px 60px rgba(0,0,0,0.45);
-position:relative;
-overflow:hidden;
-text-align:center;
-cursor:pointer;
-transition:all .5s ease;
-animation:cardFloat 7s ease-in-out infinite;
+.info-box {
+    width: 420px;
+    min-height: 260px;
+    padding: 50px;
+    border-radius: 26px;
+    background: rgba(255, 255, 255, 0.06);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(135, 206, 235, 0.5);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.45);
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+    cursor: pointer;
+    transition: all .5s ease;
+    animation: cardFloat 7s ease-in-out infinite;
 }
 
 
-.info-box::before{
-content:"";
-position:absolute;
-width:250%;
-height:250%;
-top:-75%;
-left:-75%;
-/* background:conic-gradient(#00eaff,#4facfe,#38bdf8,#00eaff); */
-background: linear-gradient(120deg,#5f6df5,#c850c0);
-animation:rotateBorder 6s linear infinite;
-opacity:0.15;
+.info-box::before {
+    content: "";
+    position: absolute;
+    width: 250%;
+    height: 250%;
+    top: -75%;
+    left: -75%;
+    /* background:conic-gradient(#00eaff,#4facfe,#38bdf8,#00eaff); */
+    background: linear-gradient(120deg, #5f6df5, #c850c0);
+    animation: rotateBorder 6s linear infinite;
+    opacity: 0.15;
 }
 
 
-.info-box:hover{
-transform:translateY(-20px) scale(1.05);
-box-shadow:0 30px 80px rgba(0,0,0,0.6);
+.info-box:hover {
+    transform: translateY(-20px) scale(1.05);
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6);
 }
 
 
-.info-box h3{
-margin-bottom:20px;
-font-size:28px;
-color:#00eaff;
-letter-spacing:1px;
+.info-box h3 {
+    margin-bottom: 20px;
+    font-size: 28px;
+    color: #00eaff;
+    letter-spacing: 1px;
 }
 
 
-.info-box p{
-font-size:18px;
-line-height:1.8;
-color:#e6f7ff;
+.info-box p {
+    font-size: 18px;
+    line-height: 1.8;
+    color: #e6f7ff;
 }
 
 
-@keyframes rotateBorder{
-0%{transform:rotate(0deg);}
-100%{transform:rotate(360deg);}
+@keyframes rotateBorder {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
 }
 
 
-@keyframes cardFloat{
-0%,100%{transform:translateY(0);}
-50%{transform:translateY(-15px);}
+@keyframes cardFloat {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-15px);
+    }
 }
- 

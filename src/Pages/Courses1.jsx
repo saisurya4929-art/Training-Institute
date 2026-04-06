@@ -1,7 +1,6 @@
-
 import React from "react";
-import "../styles/MyCourses.css";
 import Sidebar from "../components/Sidebar";
+import "../Styles/MyCourses.css";
 
 const MyCourses = () => {
 
@@ -30,39 +29,46 @@ const MyCourses = () => {
   ];
 
   return (
-    <div className="page">
-      
+    <div className="courses-page">
+
       <Sidebar />
 
-      <div className="content">
+      <div className="courses-content">
 
-        <h2>My Courses</h2>
+        {/* Header */}
+        <div className="courses-header">
+          <h2>My Learning</h2>
+          <p>Track your progress and continue learning 🚀</p>
+        </div>
 
+        {/* Course Grid */}
         <div className="course-grid">
           {courses.map((course, index) => (
             <div className="course-card" key={index}>
 
-              <h3>{course.title}</h3>
+              <div className="card-top">
+                <h3>{course.title}</h3>
+                <span className={`status ${course.status === "Completed" ? "done" : ""}`}>
+                  {course.status}
+                </span>
+              </div>
 
-              <p>👨‍🏫 Instructor: {course.instructor}</p>
-              <p>📅 Duration: {course.duration}</p>
+              <p>👨‍🏫 {course.instructor}</p>
+              <p>📅 {course.duration}</p>
 
-              <div className="progress-wrapper">
+              {/* Progress */}
+              <div className="progress-box">
                 <div className="progress-bar">
                   <div 
                     className="progress"
-                    style={{width: `${course.progress}%`}}
+                    style={{ width: `${course.progress}%` }}
                   ></div>
                 </div>
                 <span>{course.progress}%</span>
               </div>
 
-              <div className="status">
-                {course.status}
-              </div>
-
               <button className="continue-btn">
-                Continue Learning
+                Continue
               </button>
 
             </div>
@@ -70,7 +76,6 @@ const MyCourses = () => {
         </div>
 
       </div>
-
     </div>
   );
 };

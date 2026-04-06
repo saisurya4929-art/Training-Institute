@@ -76,7 +76,6 @@ const StudentRegister = () => {
             required
           >
             <option value="">Select Role</option>
-            <option value="Admin">Admin</option>
             <option value="Student">Student</option>
           </select>
 

@@ -1,114 +1,119 @@
-.placements{
-background:linear-gradient(135deg,#141e30,#77b5fc);
-padding:80px 10%;
-color:white;
-font-family:Arial;
+.placements {
+    background: linear-gradient(135deg, #141e30, #77b5fc);
+    padding: 80px 10%;
+    color: white;
+    font-family: Arial;
 }
 
-.placement-header{
-text-align:center;
-max-width:800px;
-margin:auto;
-margin-bottom:60px;
+.placement-header {
+    text-align: center;
+    max-width: 800px;
+    margin: auto;
+    margin-bottom: 60px;
 }
 
-.section-title{
-text-align:center;
-margin:60px 0 30px;
-font-size:32px;
-}
-
-
-.placement-stats{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
-gap:25px;
-margin-bottom:50px;
-}
-
-.stat-box{
-background:white;
-color:#333;
-padding:30px;
-border-radius:10px;
-text-align:center;
-}
-
-.stat-box h2{
-color:#8e44ad;
-font-size:36px;
+.section-title {
+    text-align: center;
+    margin: 60px 0 30px;
+    font-size: 32px;
 }
 
 
-.students-grid{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-gap:25px;
+.placement-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 25px;
+    margin-bottom: 50px;
 }
 
-.student-card{
-background:white;
-color:#333;
-padding:25px;
-border-radius:12px;
-text-align:center;
+.stat-box {
+    background: white;
+    color: #333;
+    padding: 30px;
+    border-radius: 10px;
+    text-align: center;
 }
 
-.student-card img{
-width:80px;
-height:80px;
-border-radius:50%;
-margin-bottom:10px;
-}
-
-.student-card span{
-color:#5444ad;
-font-weight:bold;
+.stat-box h2 {
+    color: #8e44ad;
+    font-size: 36px;
 }
 
 
-.logo-slider{
-overflow:hidden;
-background:white;
-padding:30px;
-margin-top:40px;
-border-radius:10px;
+.students-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 25px;
 }
 
-.logo-track{
-display:flex;
-gap:50px;
-animation:slide 15s linear infinite;
+.student-card {
+    background: white;
+    color: #333;
+    padding: 25px;
+    border-radius: 12px;
+    text-align: center;
 }
 
-.logo-track img{
-height:70px;
-object-fit:contain;
+.student-card img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    margin-bottom: 10px;
+}
+
+.student-card span {
+    color: #5444ad;
+    font-weight: bold;
 }
 
 
-@keyframes slide{
-0%{transform:translateX(0);}
-100%{transform:translateX(-50%);}
+.logo-slider {
+    overflow: hidden;
+    background: white;
+    padding: 30px;
+    margin-top: 40px;
+    border-radius: 10px;
+}
+
+.logo-track {
+    display: flex;
+    gap: 50px;
+    animation: slide 15s linear infinite;
+}
+
+.logo-track img {
+    height: 70px;
+    object-fit: contain;
 }
 
 
-.placement-table{
-width:100%;
-background:white;
-color:#333;
-border-radius:10px;
-overflow:hidden;
-margin-top:30px;
+@keyframes slide {
+    0% {
+        transform: translateX(0);
+    }
+
+    100% {
+        transform: translateX(-50%);
+    }
 }
 
-.placement-table th{
-background:#8e44ad;
-color:white;
-padding:12px;
+
+.placement-table {
+    width: 100%;
+    background: white;
+    color: #333;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-top: 30px;
 }
 
-.placement-table td{
-padding:12px;
-text-align:center;
+.placement-table th {
+    background: #8e44ad;
+    color: white;
+    padding: 12px;
+}
+
+.placement-table td {
+    padding: 12px;
+    text-align: center;
 }

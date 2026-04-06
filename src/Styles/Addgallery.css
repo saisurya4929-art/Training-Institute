@@ -1,0 +1,33 @@
+.gallery-content {
+  flex: 1;
+  padding: 40px;
+  background: linear-gradient(135deg, #eef2ff, #f8fafc);
+}
+
+.gallery-upload-box {
+  display: block;
+  background: rgba(255,255,255,0.85);
+  border: 2px dashed #6366f1;
+  padding: 50px;
+  text-align: center;
+  border-radius: 24px;
+  cursor: pointer;
+  margin-bottom: 24px;
+}
+
+.gallery-upload-box input {
+  display: none;
+}
+
+.gallery-preview-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+}
+
+.gallery-preview-card {
+  background: white;
+  padding: 24px;
+  border-radius: 18px;
+  box-shadow: 0 10px 22px rgba(0,0,0,0.05);
+}

@@ -1,0 +1,79 @@
+.admin-sidebar {
+  width: 260px;
+  min-height: 100vh;
+  background: linear-gradient(180deg, #111827, #312e81);
+  color: white;
+  padding: 24px 18px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  animation: adminSidebarSlide 0.6s ease;
+}
+
+.admin-logo h2 {
+  margin: 0;
+  font-size: 24px;
+}
+
+.admin-logo p {
+  margin-top: 6px;
+  color: #cbd5e1;
+  font-size: 13px;
+}
+
+.admin-profile-box {
+  margin: 24px 0;
+  background: rgba(255,255,255,0.08);
+  padding: 14px;
+  border-radius: 16px;
+}
+
+.admin-profile-box h3 {
+  margin: 0;
+}
+
+.admin-profile-box span {
+  font-size: 13px;
+  color: #dbeafe;
+}
+
+.admin-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.admin-nav a {
+  text-decoration: none;
+  color: white;
+  padding: 12px 14px;
+  border-radius: 12px;
+  transition: 0.3s;
+}
+
+.admin-nav a:hover {
+  background: rgba(255,255,255,0.12);
+  transform: translateX(6px);
+}
+
+.admin-logout-btn {
+  margin-top: 24px;
+  padding: 12px;
+  border: none;
+  border-radius: 12px;
+  background: white;
+  color: #312e81;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+@keyframes adminSidebarSlide {
+  from {
+    transform: translateX(-80px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
