@@ -81,7 +81,6 @@ const Gallery = () => {
         ))}
       </div>
 
-      {/* Gallery Grid */}
       <div className="gallery-grid">
         {filteredImages.map((item, index) => (
           <div
@@ -98,7 +97,6 @@ const Gallery = () => {
         ))}
       </div>
 
-      {/* Lightbox Preview */}
       {lightbox && (
         <div className="gallery-lightbox" onClick={() => setLightbox(null)}>
           <img src={lightbox.img} alt="preview" />

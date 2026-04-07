@@ -10,7 +10,8 @@ const Blog = () => {
   useEffect(() => {
     axios.get("http://localhost:8080/api/blogs")
       .then((res) => {
-        setBlogs(res.data);
+        console.log("API DATA",res.data);
+        setBlogs(res.data)
       })
       .catch((err) => {
         console.log(err);

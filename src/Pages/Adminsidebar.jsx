@@ -16,7 +16,7 @@ const AdminSidebar = () => {
         <div className="admin-sidebar">
             <div className="admin-logo">
                 <h2>Admin panel</h2>
-                <p>Globel Skills acaedmy</p>
+                <p>Globel Skills academy</p>
             </div>
             
             <div className="admin-profile-box">
