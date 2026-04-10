@@ -1,33 +1,124 @@
-.gallery-content {
+ .add-gallery-container {
   flex: 1;
-  padding: 40px;
-  background: linear-gradient(135deg, #eef2ff, #f8fafc);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #0f172a, #7e9df4, #38bdf8);
+  padding: 20px;
+  font-family: "Poppins", sans-serif;
+  box-sizing: border-box;
 }
 
-.gallery-upload-box {
-  display: block;
-  background: rgba(255,255,255,0.85);
-  border: 2px dashed #6366f1;
-  padding: 50px;
+.add-gallery-card {
+  width: 100%;
+  max-width: 450px;
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-radius: 20px;
+  padding: 30px;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
+  color: white;
+  animation: fadeUp 0.6s ease;
+}
+
+.add-gallery-card h2 {
   text-align: center;
-  border-radius: 24px;
+  margin-bottom: 20px;
+  font-size: 26px;
+}
+
+.add-gallery-card form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.add-gallery-card input,
+.add-gallery-card select {
+  width: 100%;
+  padding: 12px;
+  border-radius: 10px;
+  border: none;
+  outline: none;
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+
+.add-gallery-card input::placeholder {
+  color: #ddd;
+}
+
+.add-gallery-card select option {
+  color: #111;
+  background: #fff;
+}
+
+.add-gallery-card input[type="file"] {
+  background: transparent;
+  color: white;
+  padding: 10px;
+}
+
+.add-gallery-card input[type="file"]::file-selector-button {
+  margin-right: 10px;
+  padding: 10px 14px;
+  border: none;
+  border-radius: 8px;
+  background: #38bdf8;
+  color: #0f172a;
+  font-weight: 600;
   cursor: pointer;
-  margin-bottom: 24px;
 }
 
-.gallery-upload-box input {
-  display: none;
+.add-gallery-card button {
+  padding: 12px;
+  border-radius: 10px;
+  border: none;
+  background: #38bdf8;
+  color: #0f172a;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s;
 }
 
-.gallery-preview-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 18px;
+.add-gallery-card button:hover {
+  background: #0ea5e9;
+  transform: translateY(-2px);
 }
 
-.gallery-preview-card {
-  background: white;
-  padding: 24px;
-  border-radius: 18px;
-  box-shadow: 0 10px 22px rgba(0,0,0,0.05);
+.add-gallery-card p {
+  text-align: center;
+  margin-top: 10px;
+  font-size: 14px;
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 768px) {
+  .add-gallery-container {
+    min-height: auto;
+    padding: 16px;
+  }
+
+  .add-gallery-card {
+    max-width: 100%;
+    padding: 22px;
+  }
+
+  .add-gallery-card h2 {
+    font-size: 22px;
+  }
 }

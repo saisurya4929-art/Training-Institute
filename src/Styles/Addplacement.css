@@ -9,7 +9,7 @@
 .admin-layout-page {
   display: flex;
   min-height: 100vh;
-  background: linear-gradient(135deg, #0f172a, #1e3a8a, #38bdf8);
+  background: linear-gradient(135deg, #0f172a, #7e9df4, #38bdf8);
   font-family: 'Poppins', sans-serif;
 }
 

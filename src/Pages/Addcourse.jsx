@@ -1,42 +1,107 @@
 import React, { useState } from "react";
+import axios from "axios";
 import AdminSidebar from "./Adminsidebar";
 import "../Styles/Addcourse.css"
+
 const AddCourse = () => {
-    const [course, setCourse] = useState({
+    const [formData, setFormData] = useState({
         title: "",
-        instructor: "",
+        description: "",
         duration: "",
-        fees: "",
-        description: ""
+        imageUrl: "",
     });
 
+    const [message, setMessage] = useState("");
+
     const handleChange = (e) => {
-        setCourse({ ...course, [e.target.name]: e.target.value });
+        setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log(course);
-        alert("Course Added Successfully");
+
+        try {
+            await axios.post("http://localhost:8080/api/courses", formData);
+            setMessage("Course added successfully ✅");
+
+            setFormData({
+                title: "",
+                description: "",
+                duration: "",
+                imageUrl: "",
+            });
+        } catch (error) {
+            console.error(error);
+            setMessage("Failed to add course ❌");
+        }
     };
 
     return (
-        <div className="admin-page">
+        <div className="admin-course-layout">
             <AdminSidebar />
 
-            <div className="form-page-content">
-                <div className="form-card">
-                    <h2>Add New Course</h2>
+            <div className="add-course-page">
+                <div className="add-course-header">
+                    <h1>Add New Course 📘</h1>
+                    <p>Create course content for your website</p>
+                </div>
 
-                    <form onSubmit={handleSubmit}>
-                        <input type="text" name="title" placeholder="Course Title" onChange={handleChange} />
-                        <input type="text" name="instructor" placeholder="Instructor Name" onChange={handleChange} />
-                        <input type="text" name="duration" placeholder="Duration" onChange={handleChange} />
-                        <input type="text" name="fees" placeholder="Course Fees" onChange={handleChange} />
-                        <textarea name="description" placeholder="Course Description" rows="5" onChange={handleChange}></textarea>
+                <div className="add-course-card">
+                    <form onSubmit={handleSubmit} className="add-course-form">
+                        <div className="course-field">
+                            <label>Course Title</label>
+                            <input
+                                type="text"
+                                name="title"
+                                placeholder="Enter course title"
+                                value={formData.title}
+                                onChange={handleChange}
+                                required
+                            />
+                        </div>
 
-                        <button type="submit">Add Course</button>
+                        <div className="course-field">
+                            <label>Duration</label>
+                            <input
+                                type="text"
+                                name="duration"
+                                placeholder="Example: 6 Months"
+                                value={formData.duration}
+                                onChange={handleChange}
+                                required
+                            />
+                        </div>
+
+                        <div className="course-field">
+                            <label>Image URL</label>
+                            <input
+                                type="text"
+                                name="imageUrl"
+                                placeholder="Enter course image URL"
+                                value={formData.imageUrl}
+                                onChange={handleChange}
+                                required
+                            />
+                        </div>
+
+                        <div className="course-field">
+                            <label>Description</label>
+                            <textarea
+                                name="description"
+                                placeholder="Enter course description"
+                                value={formData.description}
+                                onChange={handleChange}
+                                rows="5"
+                                required
+                            />
+                        </div>
+
+                        <button type="submit" className="course-submit-btn">
+                            Add Course
+                        </button>
                     </form>
+
+                    {message && <p className="course-message">{message}</p>}
                 </div>
             </div>
         </div>

@@ -12,6 +12,7 @@ import {
   Bar
 } from "recharts";
 
+
 const data = [
   { name: "Jan", progress: 20 },
   { name: "Feb", progress: 40 },

@@ -10,7 +10,6 @@ import Placements from "./Pages/Palcement";
 import Blog from "./Pages/Blog";
 import Gallery from "./components/Gallery";
 import Login from "./Pages/Login";
-
 import StudentDashboard from "./Pages/Studentdashboard";
 import Upload from "./Pages/Upload";
 import Profile from "./Pages/Profile";

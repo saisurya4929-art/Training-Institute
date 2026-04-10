@@ -1,8 +1,6 @@
 
-
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
 
- 
 .gallery-container {
   padding: 60px 8%;
   background: linear-gradient(135deg, #020617, #0f172a);
@@ -16,8 +14,6 @@
   font-weight: 700;
   margin-bottom: 40px;
 }
-
-/* Filters */
 
 .gallery-filters {
   text-align: center;
@@ -43,7 +39,6 @@
   background: #6366f1;
 }
 
-/* Grid */
 
 .gallery-grid {
   display: grid;
@@ -51,7 +46,6 @@
   gap: 25px;
 }
 
-/* Card */
 
 .gallery-card {
   position: relative;
@@ -71,7 +65,6 @@
   transform: scale(1.1);
 }
 
-/* Overlay */
 
 .gallery-overlay {
   position: absolute;
@@ -86,8 +79,6 @@
 .gallery-card:hover .gallery-overlay {
   transform: translateY(0);
 }
-
-/* Lightbox */
 
 .gallery-lightbox {
   position: fixed;

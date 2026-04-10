@@ -1,38 +1,81 @@
 import React, { useState } from "react";
-import AdminSidebar from "./Adminsidebar";
 import "../Styles/Addgallery.css";
+import AdminSidebar from "./Adminsidebar";
+import axios from "axios";
 
-const AdminGallery = () => {
-  const [images, setImages] = useState([]);
+const AddGallery = () => {
+  const [title, setTitle] = useState("");
+  const [category, setCategory] = useState("");
+  const [image, setImage] = useState(null);
+  const [message, setMessage] = useState("");
 
-  const handleUpload = (e) => {
-    const files = Array.from(e.target.files);
-    setImages([...images, ...files]);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!title || !category || !image) {
+      setMessage("Please fill all fields");
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("title", title);
+    formData.append("category", category);
+    formData.append("image", image);
+
+    try {
+      await axios.post("http://localhost:8080/api/gallery/add", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      setMessage("Gallery image added successfully");
+      setTitle("");
+      setCategory("");
+      setImage(null);
+      e.target.reset();
+    } catch (error) {
+      console.log(error);
+      setMessage("Failed to upload gallery image");
+    }
   };
 
   return (
     <div className="admin-page">
       <AdminSidebar />
+      <div className="add-gallery-container">
+        <div className="add-gallery-card">
+          <h2>Add Gallery Image</h2>
+          <form onSubmit={handleSubmit}>
+            <input
+              type="text"
+              placeholder="Enter title"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+            />
 
-      <div className="gallery-content">
-        <h2>Gallery Upload</h2>
+            <select value={category} onChange={(e) => setCategory(e.target.value)}>
+              <option value="">Select Category</option>
+              <option value="Classroom">Classroom</option>
+              <option value="Students">Students</option>
+              <option value="Lab">Lab</option>
+              <option value="Events">Events</option>
+            </select>
 
-        <label className="gallery-upload-box">
-          <input type="file" multiple onChange={handleUpload} />
-          <h3>Upload Gallery Images</h3>
-          <p>Click here to add institute images</p>
-        </label>
+            <input
+              type="file"
+              accept="image/*"
+              onChange={(e) => setImage(e.target.files[0])}
+            />
 
-        <div className="gallery-preview-grid">
-          {images.map((img, index) => (
-            <div className="gallery-preview-card" key={index}>
-              <p>{img.name}</p>
-            </div>
-          ))}
+            <button type="submit">Upload Image</button>
+          </form>
+
+          {message && <p>{message}</p>}
         </div>
       </div>
     </div>
   );
 };
 
-export default AdminGallery;
+export default AddGallery;

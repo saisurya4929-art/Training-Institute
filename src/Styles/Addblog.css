@@ -1,16 +1,14 @@
 .admin-page {
     display: flex;
     min-height: 100vh;
-    background: linear-gradient(135deg, #eef2ff, #f8fafc);
+    background: linear-gradient(135deg, #0f172a, #7e9df4, #38bdf8);
 }
 
-/* Container */
 .addblog-container {
     flex: 1;
     padding: 50px;
 }
 
-/* Header */
 .addblog-header h1 {
     font-size: 40px;
     font-weight: 700;
@@ -23,7 +21,6 @@
     margin-top: 10px;
 }
 
-/* Card */
 .addblog-card {
     margin-top: 30px;
     background: rgba(255, 255, 255, 0.85);
@@ -34,7 +31,6 @@
     animation: fadeIn .5s ease;
 }
 
-/* Form */
 .form-group {
     display: flex;
     flex-direction: column;
@@ -63,7 +59,6 @@
     box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
 }
 
-/* Button */
 .publish-btn {
     margin-top: 20px;
     width: 100%;

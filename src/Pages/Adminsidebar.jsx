@@ -1,41 +1,70 @@
 import React from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import "../Styles/AdminSidebar.css";
 
 const AdminSidebar = () => {
     const navigate = useNavigate();
-    const admin =JSON.parse(localStorage.getItem("user"));
+    const admin = JSON.parse(localStorage.getItem("user"));
 
     const handleLogout = () => {
         localStorage.removeItem("user");
         navigate("/");
-
     };
 
-    return(
-        <div className="admin-sidebar">
-            <div className="admin-logo">
-                <h2>Admin panel</h2>
-                <p>Globel Skills academy</p>
-            </div>
-            
-            <div className="admin-profile-box">
-                <h3>{admin?.name || "Admin"}</h3>
-                <span>Administrator</span>
+    const menuItems = [
+        { path: "/admin", label: "Dashboard", icon: "📊" },
+        { path: "/admin/add-course", label: "Add Course", icon: "📘" },
+        { path: "/admin/gallery", label: "Gallery Upload", icon: "🖼️" },
+        { path: "/admin/blog", label: "Add Blog", icon: "📝" },
+        { path: "/admin/placement", label: "Add Placement", icon: "🏆" },
+    ];
+
+    return (
+        <aside className="admin-sidebar">
+            <div className="admin-sidebar-top">
+                <div className="admin-logo-box">
+                    <div className="admin-logo-icon">🎓</div>
+                    <div>
+                        <h2>Admin Panel</h2>
+                        <p>Globel Skills Academy</p>
+                    </div>
                 </div>
 
-             <nav className="admin-nav">
-                <Link to="/admin">Dashboard</Link>
-                <Link to="/admin/add-course">Add Course</Link>
-                <Link to="/admin/gallery">Gallery Upload</Link>
-                <Link to="/admin/blog">Add Blog</Link>
-                <Link to="/admin/placement">Add Placement</Link>
-            </nav>
+                <div className="admin-profile-card">
+                    <div className="admin-avatar">
+                        {admin?.name ? admin.name.charAt(0).toUpperCase() : "A"}
+                    </div>
 
-            <button className="admin-logout-btn" onClick={handleLogout}>
-                Logout
-            </button>
-        </div>
+                    <div className="admin-profile-text">
+                        <h3>{"Admin"}</h3>
+                        <span>Administrator</span>
+                    </div>
+                </div>
+
+                <nav className="admin-nav">
+                    {menuItems.map((item) => (
+                        <NavLink
+                            key={item.path}
+                            to={item.path}
+                            end={item.path === "/admin"}
+                            className={({ isActive }) =>
+                                isActive ? "admin-nav-link active" : "admin-nav-link"
+                            }
+                        >
+                            <span className="admin-nav-icon">{item.icon}</span>
+                            <span>{item.label}</span>
+                        </NavLink>
+                    ))}
+                </nav>
+            </div>
+
+            <div className="admin-sidebar-bottom">
+                <button className="admin-logout-btn" onClick={handleLogout}>
+                    <span>🚪</span>
+                    <span>Logout</span>
+                </button>
+            </div>
+        </aside>
     );
 };
 
