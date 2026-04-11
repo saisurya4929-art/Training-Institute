@@ -41,37 +41,61 @@ const AddGallery = () => {
   };
 
   return (
-    <div className="admin-page">
+    <div className="admin-gallery-page">
       <AdminSidebar />
-      <div className="add-gallery-container">
-        <div className="add-gallery-card">
-          <h2>Add Gallery Image</h2>
-          <form onSubmit={handleSubmit}>
-            <input
-              type="text"
-              placeholder="Enter title"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-            />
 
-            <select value={category} onChange={(e) => setCategory(e.target.value)}>
-              <option value="">Select Category</option>
-              <option value="Classroom">Classroom</option>
-              <option value="Students">Students</option>
-              <option value="Lab">Lab</option>
-              <option value="Events">Events</option>
-            </select>
+      <div className="admin-gallery-main">
+        <div className="admin-gallery-form-wrap">
+          <div className="admin-gallery-card">
+            <div className="admin-gallery-heading">
+              <h2>Add Gallery Image</h2>
+              <p>
+                Upload training institute gallery images with title and category
+                in a premium admin panel.
+              </p>
+            </div>
 
-            <input
-              type="file"
-              accept="image/*"
-              onChange={(e) => setImage(e.target.files[0])}
-            />
+            <form onSubmit={handleSubmit} className="admin-gallery-form">
+              <div className="admin-gallery-input-group">
+                <label>Image Title</label>
+                <input
+                  type="text"
+                  placeholder="Enter image title"
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
+                />
+              </div>
 
-            <button type="submit">Upload Image</button>
-          </form>
+              <div className="admin-gallery-input-group">
+                <label>Category</label>
+                <select
+                  value={category}
+                  onChange={(e) => setCategory(e.target.value)}
+                >
+                  <option value="">Select Category</option>
+                  <option value="Classroom">Classroom</option>
+                  <option value="Students">Students</option>
+                  <option value="Lab">Lab</option>
+                  <option value="Events">Events</option>
+                </select>
+              </div>
 
-          {message && <p>{message}</p>}
+              <div className="admin-gallery-input-group">
+                <label>Upload Image</label>
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) => setImage(e.target.files[0])}
+                />
+              </div>
+
+              <button type="submit" className="admin-gallery-btn">
+                Upload Image
+              </button>
+            </form>
+
+            {message && <p className="admin-gallery-message">{message}</p>}
+          </div>
         </div>
       </div>
     </div>

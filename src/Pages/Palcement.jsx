@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import axios from "axios";
@@ -25,7 +24,7 @@ const Placements = () => {
   const fetchPlacements = async () => {
     try {
       const res = await axios.get("http://localhost:8080/api/placements");
-      console.log(res.data);
+      console.log("placements:", res.data);
       setPlacements(res.data);
     } catch (error) {
       console.log("Error fetching placements:", error);
@@ -48,7 +47,7 @@ const Placements = () => {
 
       <div className="placement-stats">
         <motion.div whileHover={{ scale: 1.05 }} className="stat-box">
-          <h2>{placements.length}+</h2>
+          <h2>1200</h2>
           <p>Students Placed</p>
         </motion.div>
 
@@ -79,8 +78,11 @@ const Placements = () => {
               whileHover={{ scale: 1.07 }}
             >
               <img
-                src={student.imageUrl || "https://via.placeholder.com/150"}
+                src={student.imageUrl}
                 alt={student.studentName}
+                onError={(e) => {
+                  e.target.src = "https://via.placeholder.com/150";
+                }}
               />
               <h3>{student.studentName}</h3>
               <p>{student.company}</p>
