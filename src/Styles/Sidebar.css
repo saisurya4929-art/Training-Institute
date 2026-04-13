@@ -10,7 +10,7 @@
   flex-direction: column;
   justify-content: space-between;
   box-shadow: 10px 0 35px rgba(18, 32, 143, 0.18);
-  position: sticky;
+  position: fixed;
   top: 0;
   left: 0;
   animation: sdSidebarIn 0.7s ease;

@@ -1,15 +1,14 @@
 import React, { useState } from "react";
-import '../Styles/Register.css';
-
+import "../Styles/Register.css";
 import axios from "axios";
 
 const StudentRegister = () => {
-
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     password: "",
-    role: ""
+    role: "",
+    courses: ""
   });
 
   const handleChange = (e) => {
@@ -30,22 +29,18 @@ const StudentRegister = () => {
 
       console.log(response.data);
       alert("Registration Successful!");
-
     } catch (error) {
       console.error(error);
-      alert("Error saving data");
+      alert(error.response?.data || "Error saving data");
     }
   };
 
   return (
     <div className="register-container">
-
       <div className="register-card">
-
         <h2 className="register-title">Registration</h2>
 
         <form onSubmit={handleSubmit}>
-
           <input
             type="text"
             name="name"
@@ -69,22 +64,19 @@ const StudentRegister = () => {
             onChange={handleChange}
             required
           />
-
           <select
-            name="role"
+            name="courses"
             onChange={handleChange}
-            required
           >
-            <option value="">Select Role</option>
-            <option value="Student">Student</option>
+            <option value="">Select Courses</option>
+            <option value="Java">Java Full Stack</option>
+            <option value="Python">Python Full Stack</option>
+            <option value="Mern">MERN Full Stack</option>
           </select>
 
           <button type="submit">Register</button>
-
         </form>
-
       </div>
-
     </div>
   );
 };

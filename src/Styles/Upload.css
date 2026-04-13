@@ -1,4 +1,4 @@
-.upload-wrapper {
+z.upload-wrapper {
     display: flex;
     min-height: 100vh;
     background: linear-gradient(135deg, #eef2ff, #f8fafc);
@@ -9,6 +9,10 @@
     flex: 1;
     padding: 40px;
     position: relative;
+    margin-left: 280px;              
+   width: calc(100% - 280px);       
+   box-sizing: border-box;  
+  
 }
 
 .bg-shape {
