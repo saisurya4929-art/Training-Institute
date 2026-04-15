@@ -29,14 +29,14 @@ const AddGallery = () => {
         },
       });
 
-      setMessage("Gallery image added successfully");
+      setMessage("Gallery image added successfully ✅");
       setTitle("");
       setCategory("");
       setImage(null);
       e.target.reset();
     } catch (error) {
       console.log(error);
-      setMessage("Failed to upload gallery image");
+      setMessage("Failed to upload gallery image ❌");
     }
   };
 
@@ -50,8 +50,8 @@ const AddGallery = () => {
             <div className="admin-gallery-heading">
               <h2>Add Gallery Image</h2>
               <p>
-                Upload training institute gallery images with title and category
-                in a premium admin panel.
+                Upload and manage institute gallery images with premium admin
+                experience.
               </p>
             </div>
 
@@ -88,6 +88,12 @@ const AddGallery = () => {
                   onChange={(e) => setImage(e.target.files[0])}
                 />
               </div>
+
+              {image && (
+                <div className="admin-gallery-preview">
+                  <p>Selected File: {image.name}</p>
+                </div>
+              )}
 
               <button type="submit" className="admin-gallery-btn">
                 Upload Image

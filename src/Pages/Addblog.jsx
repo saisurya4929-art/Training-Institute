@@ -26,7 +26,7 @@ const AddBlog = () => {
       );
 
       console.log(res.data);
-``
+      ``
       alert("Blog Added Successfully 🚀");
 
       // ✅ Clear form after submit
@@ -64,6 +64,7 @@ const AddBlog = () => {
               <input
                 type="text"
                 name="title"
+                placeholder="Enter the title"
                 value={blog.title}
                 onChange={handleChange}
               />
@@ -74,6 +75,7 @@ const AddBlog = () => {
               <input
                 type="text"
                 name="category"
+                placeholder="Enter blog category"
                 value={blog.category}
                 onChange={handleChange}
               />
@@ -84,6 +86,7 @@ const AddBlog = () => {
               <input
                 type="text"
                 name="image"
+                placeholder="Enter image URL"
                 value={blog.image}
                 onChange={handleChange}
               />
@@ -93,6 +96,7 @@ const AddBlog = () => {
               <label>Description</label>
               <textarea
                 name="description"
+                placeholder="Enter course description"
                 rows="5"
                 value={blog.description}
                 onChange={handleChange}

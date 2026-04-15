@@ -60,7 +60,7 @@ const StudentRegister = () => {
           <input
             type="password"
             name="password"
-            placeholder="Enter your password"
+            placeholder="Example Pass Sai@1234"
             onChange={handleChange}
             required
           />

@@ -5,22 +5,16 @@
   justify-content: space-between;
   padding: 10px 60px;
   background: #59b7edee;
-
-  /* REMOVE gap issue */
   margin: 0;
   border: none;
-
-  /* modern look */
   font-family: "Poppins", sans-serif;
 }
 
-/* logo */
 .logo img {
   height: 70px;
   width: auto;
 }
 
-/* links */
 .nav-links {
   display: flex;
   list-style: none;
@@ -41,8 +35,6 @@
 .nav-links li a:hover {
   color: #ff8c42;
 }
-
-/* buttons */
 .gallery-btn,
 .student {
   background-color: #444;

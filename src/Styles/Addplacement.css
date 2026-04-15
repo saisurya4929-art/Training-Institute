@@ -1,132 +1,167 @@
- @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap');
 
 * {
-  margin: 0;
-  padding: 0;
   box-sizing: border-box;
 }
 
-.admin-layout-page {
-  display: flex;
-  min-height: 100vh;
-  background: linear-gradient(135deg, #0f172a, #7e9df4, #38bdf8);
-  font-family: 'Poppins', sans-serif;
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Poppins", sans-serif;
 }
 
-.admin-sidebar {
-  width: 260px;
+.admin-layout-page {
   min-height: 100vh;
-  background: #0f172a;
-  color: white;
-  padding: 25px 18px;
-  box-shadow: 4px 0 20px rgba(0, 0, 0, 0.18);
-  flex-shrink: 0;
+  background: #f1f1f1;
 }
+
 .add-placement-page {
-  flex: 1;
+  margin-left: 295px;
+  width: calc(100% - 295px);
   min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 40px 20px;
-  background: transparent;
+  padding: 28px 40px 40px;
+  background: #f1f1f1;
 }
 
 .add-placement-card {
-  width: 100%;
-  max-width: 550px;
-  background: rgba(255, 255, 255, 0.14);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  border-radius: 22px;
-  padding: 35px;
-  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.25);
-  color: white;
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  max-width: 950px;
+  background: #ffffff;
+  border-radius: 30px;
+  padding: 40px;
+  box-shadow: 0 14px 35px rgba(0, 0, 0, 0.06);
 }
 
 .add-placement-card h2 {
-  font-size: 30px;
-  margin-bottom: 10px;
-  text-align: center;
-  font-weight: 700;
+  margin: 0 0 10px;
+  font-size: 46px;
+  font-weight: 900;
+  color: #171717;
+  line-height: 1.2;
 }
 
 .add-placement-card p {
-  text-align: center;
-  margin-bottom: 25px;
-  color: #e2e8f0;
-  font-size: 15px;
-  line-height: 1.6;
+  margin: 0 0 30px;
+  font-size: 17px;
+  color: #666666;
+  font-weight: 500;
+  line-height: 1.7;
+  max-width: 700px;
 }
 
 .placement-form {
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 22px;
 }
 
 .placement-form input {
-  padding: 14px 16px;
+  width: 100%;
   border: none;
   outline: none;
-  border-radius: 12px;
-  font-size: 15px;
-  background: rgba(255, 255, 255, 0.95);
-  color: #0f172a;
-  transition: 0.3s ease;
+  background: #f8f8f8;
+  border-radius: 18px;
+  padding: 20px 18px;
+  font-size: 16px;
+  font-family: "Poppins", sans-serif;
+  font-weight: 600;
+  color: #222222;
+  box-shadow: inset 0 0 0 1px #ececec;
+  transition: all 0.25s ease;
+}
+
+.placement-form input::placeholder {
+  color: #9a9a9a;
+  font-weight: 500;
 }
 
 .placement-form input:focus {
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.25);
-  transform: translateY(-1px);
+  background: #ffffff;
+  box-shadow: inset 0 0 0 2px #ff7d95, 0 0 0 4px rgba(255, 125, 149, 0.12);
 }
 
 .placement-form button {
-  padding: 14px;
+  align-self: flex-end;
   border: none;
-  border-radius: 12px;
-  background: #ffffff;
-  color: #1e3a8a;
-  font-size: 16px;
-  font-weight: 700;
+  outline: none;
+  background: linear-gradient(90deg, #f5515f, #ff7ca8);
+  color: #ffffff;
+  padding: 18px 34px;
+  font-size: 20px;
+  font-weight: 800;
+  font-family: "Poppins", sans-serif;
+  border-radius: 16px;
   cursor: pointer;
-  transition: 0.3s ease;
+  transition: all 0.25s ease;
+  box-shadow: 0 12px 24px rgba(245, 81, 95, 0.24);
 }
 
 .placement-form button:hover {
   transform: translateY(-2px);
-  background: #dbeafe;
+  box-shadow: 0 16px 30px rgba(245, 81, 95, 0.30);
 }
 
 .message {
-  margin-top: 18px;
-  text-align: center;
-  font-weight: 600;
-  color: white;
+  margin-top: 20px;
+  font-size: 16px;
+  font-weight: 700;
+  color: #333333;
 }
 
-@media (max-width: 768px) {
-  .admin-layout-page {
-    flex-direction: column;
-  }
-
-  .admin-sidebar {
-    width: 100%;
-    min-height: auto;
-  }
-
+@media (max-width: 992px) {
   .add-placement-page {
-    padding: 25px 15px;
-    min-height: auto;
+    margin-left: 250px;
+    width: calc(100% - 250px);
+    padding: 24px 24px 30px;
   }
 
   .add-placement-card {
-    max-width: 100%;
-    padding: 25px 20px;
+    padding: 28px;
   }
 
   .add-placement-card h2 {
-    font-size: 24px;
+    font-size: 36px;
+  }
+
+  .add-placement-card p {
+    font-size: 15px;
+  }
+
+  .placement-form input {
+    font-size: 15px;
+    padding: 18px 16px;
+  }
+}
+
+@media (max-width: 768px) {
+  .add-placement-page {
+    margin-left: 92px;
+    width: calc(100% - 92px);
+    padding: 18px;
+  }
+
+  .add-placement-card {
+    padding: 22px;
+    border-radius: 22px;
+  }
+
+  .add-placement-card h2 {
+    font-size: 28px;
+  }
+
+  .add-placement-card p {
+    font-size: 14px;
+  }
+
+  .placement-form input {
+    font-size: 14px;
+    padding: 16px 14px;
+    border-radius: 14px;
+  }
+
+  .placement-form button {
+    width: 100%;
+    align-self: stretch;
+    font-size: 17px;
+    padding: 16px 18px;
   }
 }
