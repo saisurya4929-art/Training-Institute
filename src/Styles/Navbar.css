@@ -18,7 +18,7 @@
 .nav-links {
   display: flex;
   list-style: none;
-  gap: 60px;
+  gap: 40px;
   margin: 0;
   padding: 0;
 }
@@ -48,5 +48,18 @@
 
 .gallery-btn:hover,
 .student:hover {
+  background-color: #ff8c42;
+}
+.log-btn{
+  background-color: #020202;
+  color: white;
+  border: none;
+  padding: 8px 18px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.3s;
+
+}
+.log-btn:hover{
   background-color: #ff8c42;
 }

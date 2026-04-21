@@ -1,0 +1,32 @@
+.course-skeleton-card {
+  overflow: hidden;
+}
+
+.course-skeleton-image {
+  width: 100%;
+  height: 220px;
+  border-radius: 18px;
+  margin-bottom: 16px;
+}
+
+.course-skeleton-title {
+  width: 75%;
+  height: 22px;
+  margin-bottom: 14px;
+}
+
+.course-skeleton-line {
+  width: 100%;
+  height: 14px;
+  margin-bottom: 10px;
+}
+
+.course-skeleton-line.short {
+  width: 70%;
+}
+
+.course-skeleton-duration {
+  width: 130px;
+  height: 18px;
+  margin-top: 16px;
+}

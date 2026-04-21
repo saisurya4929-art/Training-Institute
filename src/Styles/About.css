@@ -27,30 +27,6 @@
   opacity: 0.35;
 }
 
-.about-circle-one {
-  width: 320px;
-  height: 320px;
-  background: linear-gradient(135deg, #00c6ff, #637bff);
-  top: -80px;
-  right: -60px;
-}
-
-.about-circle-two {
-  width: 220px;
-  height: 220px;
-  background: linear-gradient(135deg, #6f7cff, #b56cff);
-  bottom: 18%;
-  left: -70px;
-}
-
-.about-circle-three {
-  width: 180px;
-  height: 180px;
-  background: linear-gradient(135deg, #11cdef, #00ffa3);
-  top: 40%;
-  right: 8%;
-}
-
 .about-topbar,
 .about-hero-section,
 .about-stats-section,
@@ -178,7 +154,7 @@
   background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(18px);
   border: 1px solid rgba(255, 255, 255, 0.12);
-  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.16);
+  box-shadow: 0 18px 40px rgba(243, 232, 232, 0.16);
   transition: all 0.3s ease;
 }
 

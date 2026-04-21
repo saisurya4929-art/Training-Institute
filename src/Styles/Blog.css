@@ -61,7 +61,6 @@
     color: white;
 }
 
-/* cards */
 .blog-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -82,7 +81,7 @@
 
 .blog-card img {
     width: 100%;
-    height: 200px;
+    height: 300px;
     object-fit: cover;
 }
 
@@ -97,23 +96,8 @@
 .blog-card button {
     margin: 15px;
     padding: 10px 20px;
-    background: #6c63ff;
+    background: #ff8902;
     color: white;
-    border: none;
-}
-
-/* newsletter */
-.newsletter {
-    text-align: center;
-    padding: 60px;
-    background: #6c63ff;
-    color: white;
-}
-
-.newsletter input {
-    padding: 10px;
-    width: 250px;
-    margin: 10px;
     border: none;
 }
 

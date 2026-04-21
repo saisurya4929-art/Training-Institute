@@ -37,10 +37,7 @@ const fadeRight = {
 const AboutUs = () => {
   return (
     <div className="about-modern-page">
-      <div className="about-bg-circle about-circle-one"></div>
-      <div className="about-bg-circle about-circle-two"></div>
-      <div className="about-bg-circle about-circle-three"></div>
-
+      
       <motion.header
         className="about-topbar"
         initial={{ opacity: 0, y: -25 }}

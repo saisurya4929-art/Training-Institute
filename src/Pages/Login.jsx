@@ -1,9 +1,8 @@
-
 import React, { useState } from "react";
 import "../Styles/Login.css";
 import girl from "../assets/girl.png";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { motion } from "framer-motion";
 
 const LoginPage = () => {
@@ -17,22 +16,41 @@ const LoginPage = () => {
     e.preventDefault();
 
     try {
-      const res = await axios.post("http://localhost:8080/api/login", {
-        email,
-        password
-      });
+      const res = await axios.post(
+        "http://localhost:8080/api/login",
+        {
+          email,
+          password
+        }
+      );
 
-      const user = res.data;
-      localStorage.setItem("user", JSON.stringify(user));
+      if (typeof res.data === "string") {
+        alert(res.data);
+        return;
+      }
 
-      if (user.role === "ADMIN") {
+      localStorage.setItem("token", res.data.token);
+
+      localStorage.setItem(
+        "user",
+        JSON.stringify({
+          id: res.data.id,
+          name: res.data.name,
+          email: res.data.email,
+          role: res.data.role,
+          courses: res.data.courses
+        })
+      );
+
+      if (res.data.role === "ADMIN") {
         navigate("/admin");
       } else {
-        navigate("/Studentdashboard");
+        navigate("/studentdashboard");
       }
 
     } catch (error) {
-      alert("Invalid Credentials");
+      alert("Login Failed");
+      console.log(error);
     }
   };
 
@@ -43,8 +61,6 @@ const LoginPage = () => {
       animate={{ opacity: 1 }}
       transition={{ duration: 0.8 }}
     >
-
-      {/* LEFT */}
       <motion.div
         className="login-left"
         initial={{ x: -80, opacity: 0 }}
@@ -59,14 +75,16 @@ const LoginPage = () => {
             <input
               type="email"
               placeholder="Email Address"
-              onChange={(e)=>setEmail(e.target.value)}
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               required
             />
 
             <input
               type="password"
               placeholder="Password"
-              onChange={(e)=>setPassword(e.target.value)}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
               required
             />
 
@@ -78,11 +96,14 @@ const LoginPage = () => {
             >
               Login
             </motion.button>
+
+            <p style={{ marginTop: "12px", textAlign: "center" }}>
+              <Link to="/forgot-password">Forgot Password?</Link>
+            </p>
           </form>
         </div>
       </motion.div>
 
-      {/* RIGHT */}
       <motion.div
         className="login-right"
         initial={{ x: 80, opacity: 0 }}
@@ -91,7 +112,6 @@ const LoginPage = () => {
       >
         <img src={girl} alt="login" />
       </motion.div>
-
     </motion.div>
   );
 };

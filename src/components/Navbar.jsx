@@ -5,9 +5,7 @@ import logo from "../assets/logoimg2.jpeg";
 function Navbar() {
 
   const navigate = useNavigate();
-
-  const user = JSON.parse(localStorage.getItem("user"));
-
+  
   return (
     <div className="navbar">
       <div className="logo">
@@ -25,6 +23,12 @@ function Navbar() {
         onClick={() => navigate("/gallery")}
       >
         Gallery
+      </button>
+      <button
+        className="log-btn"
+        onClick={() => navigate("/login")}
+      >
+        Login
       </button>
     </div>
   );

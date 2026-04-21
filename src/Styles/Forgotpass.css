@@ -1,0 +1,68 @@
+.fp-wrapper {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #0f172a, #1e3a8a, #38bdf8);
+  font-family: "Poppins", sans-serif;
+}
+
+.fp-card {
+  width: 100%;
+  max-width: 400px;
+  background: white;
+  padding: 35px;
+  border-radius: 18px;
+  box-shadow: 0 10px 35px rgba(0,0,0,0.2);
+  text-align: center;
+}
+
+.fp-card h2 {
+  margin-bottom: 10px;
+  color: #1e3a8a;
+}
+
+.fp-card p {
+  margin-bottom: 20px;
+  color: #555;
+}
+
+.fp-card form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.fp-card input {
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  outline: none;
+}
+
+.fp-card button {
+  padding: 12px;
+  border: none;
+  border-radius: 10px;
+  background: #2563eb;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.fp-card button:hover {
+  background: #1d4ed8;
+}
+
+.fp-message {
+  margin-top: 15px;
+  color: green;
+  font-size: 14px;
+}
+
+.fp-link {
+  margin-top: 10px;
+  color: #1e40af;
+  font-size: 13px;
+  word-break: break-all;
+}

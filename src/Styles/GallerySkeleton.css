@@ -1,0 +1,31 @@
+.gallery-skeleton-card {
+  position: relative;
+  overflow: hidden;
+  border-radius: 20px;
+}
+
+.gallery-skeleton-image {
+  width: 100%;
+  height: 280px;
+  border-radius: 20px;
+}
+
+.gallery-skeleton-overlay {
+  position: absolute;
+  left: 16px;
+  right: 16px;
+  bottom: 16px;
+}
+
+.gallery-skeleton-title {
+  width: 65%;
+  height: 20px;
+  margin-bottom: 10px;
+  border-radius: 10px;
+}
+
+.gallery-skeleton-text {
+  width: 40%;
+  height: 14px;
+  border-radius: 10px;
+}
