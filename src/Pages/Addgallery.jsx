@@ -2,18 +2,18 @@ import React, { useState } from "react";
 import "../Styles/Addgallery.css";
 import AdminSidebar from "./Adminsidebar";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 const AddGallery = () => {
   const [title, setTitle] = useState("");
   const [category, setCategory] = useState("");
   const [image, setImage] = useState(null);
-  const [message, setMessage] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (!title || !category || !image) {
-      setMessage("Please fill all fields");
+      toast.warning("Please fill all fields");
       return;
     }
 
@@ -22,6 +22,8 @@ const AddGallery = () => {
     formData.append("category", category);
     formData.append("image", image);
 
+    const toastId = toast.loading("Uploading image...");
+
     try {
       await axios.post("http://localhost:8080/api/gallery/add", formData, {
         headers: {
@@ -29,14 +31,26 @@ const AddGallery = () => {
         },
       });
 
-      setMessage("Gallery image added successfully ✅");
+      toast.update(toastId, {
+        render: "Gallery image added successfully ✅",
+        type: "success",
+        isLoading: false,
+        autoClose: 3000,
+      });
+
       setTitle("");
       setCategory("");
       setImage(null);
       e.target.reset();
     } catch (error) {
       console.log(error);
-      setMessage("Failed to upload gallery image ❌");
+
+      toast.update(toastId, {
+        render: "Failed to upload gallery image ❌",
+        type: "error",
+        isLoading: false,
+        autoClose: 3000,
+      });
     }
   };
 
@@ -99,8 +113,6 @@ const AddGallery = () => {
                 Upload Image
               </button>
             </form>
-
-            {message && <p className="admin-gallery-message">{message}</p>}
           </div>
         </div>
       </div>

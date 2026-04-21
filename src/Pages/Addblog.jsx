@@ -1,15 +1,15 @@
 import React, { useState } from "react";
 import AdminSidebar from "./Adminsidebar";
-import "../Styles/AddBlog.css"
+import "../Styles/AddBlog.css";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 const AddBlog = () => {
-
   const [blog, setBlog] = useState({
     title: "",
     category: "",
     image: "",
-    description: ""
+    description: "",
   });
 
   const handleChange = (e) => {
@@ -19,46 +19,55 @@ const AddBlog = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    if (!blog.title || !blog.category || !blog.image || !blog.description) {
+      toast.warning("Please fill all fields");
+      return;
+    }
+
+    const toastId = toast.loading("Publishing blog...");
+
     try {
-      const res = await axios.post(
-        "http://localhost:8080/api/blogs", // ✅ backend URL
-        blog
-      );
+      const res = await axios.post("http://localhost:8080/api/blogs", blog);
 
       console.log(res.data);
-      ``
-      alert("Blog Added Successfully 🚀");
 
-      // ✅ Clear form after submit
+      toast.update(toastId, {
+        render: "Blog added successfully 🚀",
+        type: "success",
+        isLoading: false,
+        autoClose: 3000,
+      });
+
       setBlog({
         title: "",
         category: "",
         image: "",
-        description: ""
+        description: "",
       });
-
     } catch (error) {
       console.error(error);
-      alert("Error adding blog ❌");
+
+      toast.update(toastId, {
+        render: "Error adding blog ❌",
+        type: "error",
+        isLoading: false,
+        autoClose: 3000,
+      });
     }
   };
 
   return (
     <div className="admin-page">
-
       <AdminSidebar />
 
       <div className="addblog-container">
-
         <div className="addblog-header">
           <h1>Add New Blog ✍️</h1>
           <p>Create blog content for your website</p>
         </div>
 
         <div className="addblog-card">
-
           <form onSubmit={handleSubmit}>
-
             <div className="form-group">
               <label>Blog Title</label>
               <input
@@ -103,14 +112,11 @@ const AddBlog = () => {
               ></textarea>
             </div>
 
-            <button className="publish-btn">
+            <button className="publish-btn" type="submit">
               Publish Blog 🚀
             </button>
-
           </form>
-
         </div>
-
       </div>
     </div>
   );

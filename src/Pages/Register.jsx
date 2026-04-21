@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "../Styles/Register.css";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 const StudentRegister = () => {
   const [formData, setFormData] = useState({
@@ -8,18 +9,30 @@ const StudentRegister = () => {
     email: "",
     password: "",
     role: "",
-    courses: ""
+    courses: "",
   });
 
   const handleChange = (e) => {
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (
+      !formData.name ||
+      !formData.email ||
+      !formData.password ||
+      !formData.courses
+    ) {
+      toast.warning("Please fill all fields");
+      return;
+    }
+
+    const toastId = toast.loading("Registering...");
 
     try {
       const response = await axios.post(
@@ -28,10 +41,30 @@ const StudentRegister = () => {
       );
 
       console.log(response.data);
-      alert("Registration Successful!");
+
+      toast.update(toastId, {
+        render: "Registration Successful! ✅",
+        type: "success",
+        isLoading: false,
+        autoClose: 3000,
+      });
+
+      setFormData({
+        name: "",
+        email: "",
+        password: "",
+        role: "",
+        courses: "",
+      });
     } catch (error) {
       console.error(error);
-      alert(error.response?.data || "Error saving data");
+
+      toast.update(toastId, {
+        render: error.response?.data || "Error saving data ❌",
+        type: "error",
+        isLoading: false,
+        autoClose: 3000,
+      });
     }
   };
 
@@ -45,6 +78,7 @@ const StudentRegister = () => {
             type="text"
             name="name"
             placeholder="Name"
+            value={formData.name}
             onChange={handleChange}
             required
           />
@@ -53,6 +87,7 @@ const StudentRegister = () => {
             type="email"
             name="email"
             placeholder="Email"
+            value={formData.email}
             onChange={handleChange}
             required
           />
@@ -61,11 +96,14 @@ const StudentRegister = () => {
             type="password"
             name="password"
             placeholder="Example Pass Sai@1234"
+            value={formData.password}
             onChange={handleChange}
             required
           />
+
           <select
             name="courses"
+            value={formData.courses}
             onChange={handleChange}
           >
             <option value="">Select Courses</option>

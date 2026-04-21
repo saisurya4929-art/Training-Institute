@@ -4,9 +4,9 @@ import girl from "../assets/girl.png";
 import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
 import { motion } from "framer-motion";
+import { toast } from "react-toastify";
 
 const LoginPage = () => {
-
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -15,17 +15,26 @@ const LoginPage = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
 
+    if (!email || !password) {
+      toast.warning("Please enter email and password");
+      return;
+    }
+
+    const toastId = toast.loading("Logging in...");
+
     try {
-      const res = await axios.post(
-        "http://localhost:8080/api/login",
-        {
-          email,
-          password
-        }
-      );
+      const res = await axios.post("http://localhost:8080/api/login", {
+        email,
+        password,
+      });
 
       if (typeof res.data === "string") {
-        alert(res.data);
+        toast.update(toastId, {
+          render: res.data,
+          type: "warning",
+          isLoading: false,
+          autoClose: 3000,
+        });
         return;
       }
 
@@ -38,81 +47,118 @@ const LoginPage = () => {
           name: res.data.name,
           email: res.data.email,
           role: res.data.role,
-          courses: res.data.courses
+          courses: res.data.courses,
         })
       );
+
+      toast.update(toastId, {
+        render: "Login successful ✅",
+        type: "success",
+        isLoading: false,
+        autoClose: 2000,
+      });
 
       if (res.data.role === "ADMIN") {
         navigate("/admin");
       } else {
         navigate("/studentdashboard");
       }
-
     } catch (error) {
-      alert("Login Failed");
       console.log(error);
+
+      toast.update(toastId, {
+        render: "Login failed ❌",
+        type: "error",
+        isLoading: false,
+        autoClose: 3000,
+      });
     }
   };
 
   return (
-    <motion.div
-      className="login-page"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.8 }}
-    >
+    <div className="login-wrapper">
       <motion.div
-        className="login-left"
-        initial={{ x: -80, opacity: 0 }}
-        animate={{ x: 0, opacity: 1 }}
+        className="login-card"
+        initial={{ opacity: 0, y: 40 }}
+        animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.7 }}
       >
-        <div className="login-box">
-          <h2>Welcome Back 👋</h2>
-          <p>Login to continue learning</p>
+        <motion.div
+          className="login-image-section"
+          initial={{ x: -60, opacity: 0 }}
+          animate={{ x: 0, opacity: 1 }}
+          transition={{ duration: 0.8 }}
+        >
+          <img src={girl} alt="login visual" className="login-side-image" />
+          <div className="login-overlay"></div>
 
-          <form onSubmit={handleLogin}>
-            <input
-              type="email"
-              placeholder="Email Address"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
-
-            <input
-              type="password"
-              placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
-
-            <motion.button
-              type="submit"
-              className="login-btn"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              Login
-            </motion.button>
-
-            <p style={{ marginTop: "12px", textAlign: "center" }}>
-              <Link to="/forgot-password">Forgot Password?</Link>
+          <div className="login-image-content">
+            <h2>Welcome Back</h2>
+            <p>
+              Continue your journey, access your courses, and build your future
+              with confidence.
             </p>
-          </form>
-        </div>
-      </motion.div>
+          </div>
+        </motion.div>
 
-      <motion.div
-        className="login-right"
-        initial={{ x: 80, opacity: 0 }}
-        animate={{ x: 0, opacity: 1 }}
-        transition={{ duration: 0.7 }}
-      >
-        <img src={girl} alt="login" />
+        <motion.div
+          className="login-form-section"
+          initial={{ x: 60, opacity: 0 }}
+          animate={{ x: 0, opacity: 1 }}
+          transition={{ duration: 0.8 }}
+        >
+          <div className="login-form-box">
+            <h1>Sign In</h1>
+            <p className="login-subtitle">
+              Please login to your account
+            </p>
+
+            <form onSubmit={handleLogin} className="login-form">
+              <div className="input-group">
+                <label>Email Address</label>
+                <input
+                  type="email"
+                  placeholder="Enter your email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                />
+              </div>
+
+              <div className="input-group">
+                <label>Password</label>
+                <input
+                  type="password"
+                  placeholder="Enter your password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                />
+              </div>
+
+              <div className="login-extra">
+                <Link to="/forgot-password" className="forgot-link">
+                  Forgot Password?
+                </Link>
+              </div>
+
+              <motion.button
+                type="submit"
+                className="login-btn"
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.97 }}
+              >
+                Login
+              </motion.button>
+
+              <p className="signup-text">
+                Don’t have an account? <Link to="/register">Sign Up</Link>
+              </p>
+            </form>
+          </div>
+        </motion.div>
       </motion.div>
-    </motion.div>
+    </div>
   );
 };
 
