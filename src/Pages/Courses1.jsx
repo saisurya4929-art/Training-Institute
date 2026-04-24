@@ -1,5 +1,6 @@
 import React from "react";
 import Sidebar from "../components/Sidebar";
+import "../Styles/StudentCommon.css";
 import "../Styles/MyCourses.css";
 
 const MyCourses = () => {
@@ -56,141 +57,110 @@ const MyCourses = () => {
     },
   ];
 
-  const assignments = [
-    {
-      id: 1,
-      title: "Build Login Page UI",
-      course: "React JS UI Design",
-      dueDate: "15 Apr 2026",
-      status: "Pending",
-      marks: "20 Marks",
-    },
-    {
-      id: 2,
-      title: "Create REST API for Student",
-      course: "Spring Boot Development",
-      dueDate: "18 Apr 2026",
-      status: "In Progress",
-      marks: "25 Marks",
-    },
-    {
-      id: 3,
-      title: "Java OOP Concepts Program",
-      course: "Java Full Stack Development",
-      dueDate: "20 Apr 2026",
-      status: "Submitted",
-      marks: "15 Marks",
-    },
-    {
-      id: 4,
-      title: "Write SQL Join Queries",
-      course: "MySQL Database",
-      dueDate: "22 Apr 2026",
-      status: "Pending",
-      marks: "10 Marks",
-    },
-  ];
-
   return (
-    <div className="student-course-page2">
+    <div className="student-page-wrapper">
       <Sidebar />
 
-      <div className="student-course-main2">
-        <div className="student-course-header2">
-          <div>
-            <h1>{student?.name || "Student"}'s Learning Space</h1>
-            <p>
-              Explore your enrolled courses, track progress, and complete your
-              assignments in one modern learning page.
-            </p>
-          </div>
-
-          <div className="student-course-user2">
-            <div className="student-course-user-avatar2">
-              {(student?.name || "S").charAt(0).toUpperCase()}
-            </div>
+      <div className="student-page-content">
+        <div className="student-course-main2">
+          <div className="student-course-header2">
             <div>
-              <h4>{student?.name || "Student"}</h4>
-              <span>Course Explorer</span>
+              <h1 className="student-page-title">
+                {student?.name || "Student"}'s Learning Space
+              </h1>
+
+              <p className="student-page-subtitle">
+                Explore your enrolled courses, track progress, and complete your
+                assignments in one modern learning page.
+              </p>
+            </div>
+
+            <div className="student-course-user2">
+              <div className="student-course-user-avatar2">
+                {(student?.name || "S").charAt(0).toUpperCase()}
+              </div>
+              <div>
+                <h4>{student?.name || "Student"}</h4>
+                <span>Course Explorer</span>
+              </div>
             </div>
           </div>
-        </div>
 
-        <div className="student-course-summary2">
-          <div className="student-course-mini2">
-            <h3>4</h3>
-            <p>Active Courses</p>
-          </div>
-          <div className="student-course-mini2">
-            <h3>82%</h3>
-            <p>Average Progress</p>
-          </div>
-          <div className="student-course-mini2">
-            <h3>4</h3>
-            <p>Assignments</p>
-          </div>
-          <div className="student-course-mini2">
-            <h3>2</h3>
-            <p>Pending Tasks</p>
-          </div>
-        </div>
-
-        <div className="student-course-grid2">
-          {courses.map((course) => (
-            <div
-              className={`student-course-card2 ${course.colorClass}`}
-              key={course.id}
-            >
-              <div className="student-course-top2">
-                <div className="student-course-icon2">{course.icon}</div>
-                <span className="student-course-status2">Active</span>
-              </div>
-
-              <h3>{course.title}</h3>
-              <h5>{course.subtitle}</h5>
-
-              <div className="student-course-info-grid2">
-                <div className="student-course-info-box2">
-                  <small>Trainer</small>
-                  <strong>{course.trainer}</strong>
-                </div>
-
-                <div className="student-course-info-box2">
-                  <small>Duration</small>
-                  <strong>{course.duration}</strong>
-                </div>
-
-                <div className="student-course-info-box2">
-                  <small>Lessons</small>
-                  <strong>{course.lessons}</strong>
-                </div>
-
-                <div className="student-course-info-box2">
-                  <small>Projects</small>
-                  <strong>{course.projects}</strong>
-                </div>
-              </div>
-
-              <div className="student-course-progress-head2">
-                <span>Progress</span>
-                <span>{course.progress}%</span>
-              </div>
-
-              <div className="student-course-progress2">
-                <div
-                  className="student-course-progress-fill2"
-                  style={{ width: `${course.progress}%` }}
-                ></div>
-              </div>
-
-              <div className="student-course-btn-row2">
-                <button className="student-course-primary2">Continue</button>
-                <button className="student-course-secondary2">Details</button>
-              </div>
+          <div className="student-course-summary2">
+            <div className="student-course-mini2">
+              <h3>4</h3>
+              <p>Active Courses</p>
             </div>
-          ))}
-        </div>
+            <div className="student-course-mini2">
+              <h3>82%</h3>
+              <p>Average Progress</p>
+            </div>
+            <div className="student-course-mini2">
+              <h3>4</h3>
+              <p>Assignments</p>
+            </div>
+            <div className="student-course-mini2">
+              <h3>2</h3>
+              <p>Pending Tasks</p>
+            </div>
+          </div>
 
+          <div className="student-course-grid2">
+            {courses.map((course) => (
+              <div
+                className={`student-course-card2 ${course.colorClass}`}
+                key={course.id}
+              >
+                <div className="student-course-top2">
+                  <div className="student-course-icon2">{course.icon}</div>
+                  <span className="student-course-status2">Active</span>
+                </div>
+
+                <h3>{course.title}</h3>
+                <h5>{course.subtitle}</h5>
+
+                <div className="student-course-info-grid2">
+                  <div className="student-course-info-box2">
+                    <small>Trainer</small>
+                    <strong>{course.trainer}</strong>
+                  </div>
+
+                  <div className="student-course-info-box2">
+                    <small>Duration</small>
+                    <strong>{course.duration}</strong>
+                  </div>
+
+                  <div className="student-course-info-box2">
+                    <small>Lessons</small>
+                    <strong>{course.lessons}</strong>
+                  </div>
+
+                  <div className="student-course-info-box2">
+                    <small>Projects</small>
+                    <strong>{course.projects}</strong>
+                  </div>
+                </div>
+
+                <div className="student-course-progress-head2">
+                  <span>Progress</span>
+                  <span>{course.progress}%</span>
+                </div>
+
+                <div className="student-course-progress2">
+                  <div
+                    className="student-course-progress-fill2"
+                    style={{ width: `${course.progress}%` }}
+                  ></div>
+                </div>
+
+                <div className="student-course-btn-row2">
+                  <button className="student-course-primary2">Continue</button>
+                  <button className="student-course-secondary2">Details</button>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
     </div>
   );

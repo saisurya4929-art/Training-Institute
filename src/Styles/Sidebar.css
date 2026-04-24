@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+/* @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
 
 .sd-sidebar {
   width: 280px;
@@ -134,4 +134,126 @@
     opacity: 1;
     transform: translateX(0);
   }
+} */
+.sd-sidebar {
+  width: 280px;
+  min-width: 280px;
+  height: 100vh;
+  position: fixed;
+  left: 0;
+  top: 0;
+  background: var(--bg-sidebar);
+  color: var(--text-main);
+  border-right: 1px solid var(--border-color);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 20px 16px;
+  box-shadow: var(--shadow);
+  z-index: 1000;
+}
+
+.sd-sidebar-top {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.sd-sidebar-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px;
+  border-radius: 18px;
+  background: var(--bg-soft);
+  border: 1px solid var(--border-color);
+}
+
+.sd-sidebar-brand h2 {
+  margin: 0;
+  color: var(--text-main);
+}
+
+.sd-sidebar-brand p {
+  margin: 0;
+  color: var(--text-soft);
+}
+
+.sd-sidebar-brand-icon {
+  font-size: 28px;
+}
+
+.sd-sidebar-userbox {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px;
+  border-radius: 18px;
+  background: var(--bg-soft);
+  border: 1px solid var(--border-color);
+}
+
+.sd-sidebar-user-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--button-gradient);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+}
+
+.sd-sidebar-userbox h4 {
+  margin: 0;
+  color: var(--text-main);
+}
+
+.sd-sidebar-userbox span {
+  color: var(--text-soft);
+  font-size: 13px;
+}
+
+.sd-sidebar-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.sd-sidebar-menu a {
+  padding: 12px 14px;
+  border-radius: 14px;
+  text-decoration: none;
+  color: var(--text-main);
+  background: transparent;
+  border: 1px solid transparent;
+  font-weight: 500;
+}
+
+.sd-sidebar-menu a:hover {
+  background: var(--bg-soft);
+  border-color: var(--border-color);
+}
+
+.sd-sidebar-menu a.active {
+  background: var(--button-gradient);
+  color: white;
+}
+
+.sd-sidebar-bottom {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.sd-sidebar-logout {
+  width: 100%;
+  padding: 12px 14px;
+  border: none;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #dc2626, #ef4444);
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
 }

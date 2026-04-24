@@ -1,6 +1,6 @@
-
 import React, { useState, useEffect } from "react";
 import Sidebar from "../components/Sidebar";
+import "../Styles/StudentCommon.css";
 import "../Styles/profile.css";
 
 const Profile = () => {
@@ -8,7 +8,7 @@ const Profile = () => {
     name: "",
     email: "",
     phone: "",
-    course: ""
+    course: "",
   });
 
   useEffect(() => {
@@ -19,7 +19,7 @@ const Profile = () => {
   const handleChange = (e) => {
     setStudent({
       ...student,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
   };
 
@@ -29,120 +29,118 @@ const Profile = () => {
   };
 
   return (
-    <div className="profile-page">
+    <div className="student-page-wrapper">
       <Sidebar />
 
-      <div className="profile-content">
-        <h2>Student Profile</h2>
+      <div className="student-page-content">
+        <div className="profile-page">
+          <h1 className="student-page-title">Student Profile</h1>
 
-        <div className="profile-card">
+          <p className="student-page-subtitle">
+            Manage your personal details, track progress, and stay updated with
+            your learning journey.
+          </p>
 
-          {/* LEFT SIDE */}
-          <div className="profile-left">
-            <h3 className="student-name">
-              Welcome, {student.name}
-            </h3>
+          <div className="profile-card">
+            <div className="profile-left">
+              <h3 className="student-name">Welcome, {student.name || "Student"}</h3>
 
-            <p className="student-text">
-              Track your learning progress, update your details and 
-              manage your courses from this dashboard.
-            </p>
+              <p className="student-text">
+                Track your learning progress, update your details and manage
+                your courses from this dashboard.
+              </p>
 
-            <div className="progress-section">
-              <h4>Progress Stats</h4>
+              <div className="progress-section">
+                <h4>Progress Stats</h4>
 
-              <div className="stat">
-                <span>Course Completion</span>
-                <div className="progress-bar">
-                  <div className="progress fill1"></div>
+                <div className="stat">
+                  <span>Course Completion</span>
+                  <div className="progress-bar">
+                    <div className="progress fill1"></div>
+                  </div>
+                </div>
+
+                <div className="stat">
+                  <span>Study Hours</span>
+                  <div className="progress-bar">
+                    <div className="progress fill2"></div>
+                  </div>
+                </div>
+
+                <div className="stat">
+                  <span>Assignments</span>
+                  <div className="progress-bar">
+                    <div className="progress fill3"></div>
+                  </div>
+                </div>
+
+                <div className="stat">
+                  <span>Test Score</span>
+                  <div className="progress-bar">
+                    <div className="progress fill4"></div>
+                  </div>
+                </div>
+
+                <div className="stat">
+                  <span>Attendance</span>
+                  <div className="progress-bar">
+                    <div className="progress fill5"></div>
+                  </div>
+                </div>
+
+                <div className="stat">
+                  <span>Enrolled Courses</span>
+                  <div className="progress-bar">
+                    <div className="progress fill6"></div>
+                  </div>
                 </div>
               </div>
+            </div>
 
-              <div className="stat">
-                <span>Study Hours</span>
-                <div className="progress-bar">
-                  <div className="progress fill2"></div>
-                </div>
+            <div className="profile-form">
+              <div className="input-group">
+                <label>Name</label>
+                <input
+                  type="text"
+                  name="name"
+                  value={student.name}
+                  onChange={handleChange}
+                />
               </div>
 
-              <div className="stat">
-                <span>Assignments</span>
-                <div className="progress-bar">
-                  <div className="progress fill3"></div>
-                </div>
+              <div className="input-group">
+                <label>Email</label>
+                <input
+                  type="email"
+                  name="email"
+                  value={student.email}
+                  onChange={handleChange}
+                />
               </div>
 
-              <div className="stat">
-                <span>Test Score</span>
-                <div className="progress-bar">
-                  <div className="progress fill4"></div>
-                </div>
+              <div className="input-group">
+                <label>Phone</label>
+                <input
+                  type="text"
+                  name="phone"
+                  value={student.phone}
+                  onChange={handleChange}
+                />
               </div>
 
-              <div className="stat">
-                <span>Attendance</span>
-                <div className="progress-bar">
-                  <div className="progress fill5"></div>
-                </div>
+              <div className="input-group">
+                <label>Course</label>
+                <input
+                  type="text"
+                  name="course"
+                  value={student.course}
+                  onChange={handleChange}
+                />
               </div>
 
-              <div className="stat">
-                <span>Enrolled Courses</span>
-                <div className="progress-bar">
-                  <div className="progress fill6"></div>
-                </div>
-              </div>
-
+              <button onClick={handleSave}>Update Profile</button>
             </div>
           </div>
-
-          {/* RIGHT SIDE */}
-          <div className="profile-form">
-            <div className="input-group">
-              <label>Name</label>
-              <input
-                type="text"
-                name="name"
-                value={student.name}
-                onChange={handleChange}
-              />
-            </div>
-
-            <div className="input-group">
-              <label>Email</label>
-              <input
-                type="email"
-                name="email"
-                value={student.email}
-                onChange={handleChange}
-              />
-            </div>
-
-            <div className="input-group">
-              <label>Phone</label>
-              <input
-                type="text"
-                name="phone"
-                value={student.phone}
-                onChange={handleChange}
-              />
-            </div>
-
-            <div className="input-group">
-              <label>Course</label>
-              <input
-                type="text"
-                name="course"
-                value={student.course}
-                onChange={handleChange}
-              />
-            </div>
-
-            <button onClick={handleSave}>
-              Update Profile
-            </button>
-          </div>
-
         </div>
       </div>
     </div>

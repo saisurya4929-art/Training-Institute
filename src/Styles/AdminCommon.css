@@ -1,0 +1,35 @@
+.admin-page-wrap {
+  background: var(--bg-main);
+  min-height: 100vh;
+}
+
+.admin-page-main {
+  margin-left: 280px;
+  min-height: 100vh;
+  padding: 28px;
+  background: var(--bg-main);
+  color: var(--text-main);
+  overflow-x: hidden;
+}
+
+.admin-page-title {
+  margin: 0 0 10px;
+  font-size: 42px;
+  font-weight: 800;
+  color: var(--text-main);
+}
+
+.admin-page-subtitle {
+  margin: 0 0 28px;
+  font-size: 17px;
+  line-height: 1.7;
+  color: var(--text-soft);
+}
+
+@media (max-width: 900px) {
+  .admin-page-main {
+    margin-left: 0;
+    padding: 18px;
+    padding-top: 110px;
+  }
+}

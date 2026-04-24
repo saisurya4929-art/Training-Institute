@@ -1,213 +1,264 @@
- @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap');
 
- * {
-   box-sizing: border-box;
- }
+* {
+  box-sizing: border-box;
+}
 
- body {
-   margin: 0;
-   padding: 0;
-   font-family: "Poppins", sans-serif;
- }
+.adg-wrap-new {
+  min-height: 100vh;
+  background: var(--bg-main);
+}
 
- .admin-gallery-page {
-   min-height: 100vh;
-   background: #f3f3f3;
- }
+.adg-main-new {
+  margin-left: 280px;
+  min-height: 100vh;
+  padding: 32px 28px;
+  background: var(--bg-main);
+  color: var(--text-main);
+  overflow-x: hidden;
+}
 
- .admin-gallery-main {
-   margin-left: 295px;
-   width: calc(100% - 295px);
-   min-height: 100vh;
-   padding: 28px 40px 40px;
- }
+.adg-head-new {
+  margin-bottom: 28px;
+}
 
- .admin-gallery-form-wrap {
-   width: 100%;
- }
+.adg-head-new h1 {
+  margin: 0 0 8px;
+  font-size: 44px;
+  font-weight: 900;
+  line-height: 1.15;
+  color: var(--text-main);
+}
 
- .admin-gallery-card {
-   background: #ffffff;
-   border-radius: 30px;
-   padding: 40px;
-   box-shadow: 0 14px 35px rgba(0, 0, 0, 0.06);
-   max-width: 950px;
- }
+.adg-head-new p {
+  margin: 0;
+  font-size: 17px;
+  font-weight: 500;
+  color: var(--text-soft);
+}
 
- .admin-gallery-heading {
-   margin-bottom: 30px;
- }
+.adg-card-new {
+  background: transparent;
+}
 
- .admin-gallery-heading h2 {
-   margin: 0 0 10px;
-   font-size: 46px;
-   font-weight: 900;
-   color: #171717;
-   line-height: 1.2;
- }
+.adg-form-new {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
 
- .admin-gallery-heading p {
-   margin: 0;
-   font-size: 17px;
-   color: #666666;
-   font-weight: 500;
-   line-height: 1.7;
-   max-width: 700px;
- }
+.adg-field-new {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 24px;
+  padding: 24px 28px;
+  box-shadow: var(--shadow);
+}
 
- .admin-gallery-form {
-   display: flex;
-   flex-direction: column;
-   gap: 24px;
- }
+.adg-field-new label {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--text-main);
+  margin: 0;
+}
 
- .admin-gallery-input-group {
-   display: flex;
-   flex-direction: column;
-   gap: 12px;
- }
+.adg-field-new input,
+.adg-field-new select {
+  width: 100%;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 17px;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  color: var(--text-main);
+  padding: 2px 0 0;
+}
 
- .admin-gallery-input-group label {
-   font-size: 19px;
-   font-weight: 800;
-   color: #1c1c1c;
- }
+.adg-field-new input::placeholder {
+  color: var(--text-soft);
+  font-weight: 500;
+}
 
- .admin-gallery-input-group input,
- .admin-gallery-input-group select {
-   width: 100%;
-   border: none;
-   outline: none;
-   background: #f8f8f8;
-   border-radius: 18px;
-   padding: 20px 18px;
-   font-size: 16px;
-   font-family: "Poppins", sans-serif;
-   font-weight: 600;
-   color: #222222;
-   box-shadow: inset 0 0 0 1px #ececec;
-   transition: all 0.25s ease;
- }
+.adg-field-new select option {
+  color: #111827;
+}
 
- .admin-gallery-input-group input:focus,
- .admin-gallery-input-group select:focus {
-   background: #ffffff;
-   box-shadow: inset 0 0 0 2px #ff7d95, 0 0 0 4px rgba(255, 125, 149, 0.12);
- }
+.adg-preview-new {
+  background: var(--bg-soft);
+  border: 1px solid var(--border-color);
+  border-radius: 18px;
+  padding: 16px 18px;
+}
 
- .admin-gallery-input-group input[type="file"] {
-   padding: 16px 18px;
-   background: #f8f8f8;
-   cursor: pointer;
- }
+.adg-preview-new p {
+  margin: 0;
+  color: var(--text-soft);
+  font-weight: 600;
+}
 
- .admin-gallery-preview {
-   background: #fff5f7;
-   border: 1px solid #ffd6df;
-   color: #d9486e;
-   padding: 16px 18px;
-   border-radius: 16px;
-   font-size: 15px;
-   font-weight: 600;
- }
+.adg-submit-new {
+  align-self: flex-end;
+  border: none;
+  outline: none;
+  background: var(--button-gradient);
+  color: #ffffff;
+  padding: 16px 34px;
+  font-size: 20px;
+  font-weight: 800;
+  font-family: 'Poppins', sans-serif;
+  border-radius: 16px;
+  cursor: pointer;
+  transition: 0.25s ease;
+  box-shadow: var(--shadow);
+  margin-top: 4px;
+}
 
- .admin-gallery-preview p {
-   margin: 0;
- }
+.adg-submit-new:hover {
+  transform: translateY(-2px);
+}
 
- .admin-gallery-btn {
-   align-self: flex-end;
-   border: none;
-   outline: none;
-   background: linear-gradient(90deg, #f5515f, #ff7ca8);
-   color: #ffffff;
-   padding: 18px 34px;
-   font-size: 20px;
-   font-weight: 800;
-   font-family: "Poppins", sans-serif;
-   border-radius: 16px;
-   cursor: pointer;
-   transition: all 0.25s ease;
-   box-shadow: 0 12px 24px rgba(245, 81, 95, 0.24);
- }
+@media (max-width: 992px) {
+  .adg-head-new h1 {
+    font-size: 36px;
+  }
 
- .admin-gallery-btn:hover {
-   transform: translateY(-2px);
-   box-shadow: 0 16px 30px rgba(245, 81, 95, 0.30);
- }
+  .adg-head-new p {
+    font-size: 15px;
+  }
 
- .admin-gallery-message {
-   margin-top: 20px;
-   font-size: 16px;
-   font-weight: 700;
-   color: #333333;
- }
+  .adg-field-new {
+    padding: 20px 22px;
+  }
 
- @media (max-width: 992px) {
-   .admin-gallery-main {
-     margin-left: 250px;
-     width: calc(100% - 250px);
-     padding: 24px 24px 30px;
-   }
+  .adg-field-new label {
+    font-size: 17px;
+  }
 
-   .admin-gallery-card {
-     padding: 28px;
-   }
+  .adg-field-new input,
+  .adg-field-new select {
+    font-size: 15px;
+  }
+}
 
-   .admin-gallery-heading h2 {
-     font-size: 36px;
-   }
+@media (max-width: 900px) {
+  .adg-main-new {
+    margin-left: 0;
+    padding: 110px 18px 18px;
+  }
+}
 
-   .admin-gallery-heading p {
-     font-size: 15px;
-   }
+@media (max-width: 768px) {
+  .adg-head-new h1 {
+    font-size: 28px;
+  }
 
-   .admin-gallery-input-group label {
-     font-size: 17px;
-   }
+  .adg-head-new p {
+    font-size: 14px;
+  }
 
-   .admin-gallery-input-group input,
-   .admin-gallery-input-group select {
-     font-size: 15px;
-     padding: 18px 16px;
-   }
- }
+  .adg-field-new {
+    border-radius: 20px;
+    padding: 18px;
+  }
 
- @media (max-width: 768px) {
-   .admin-gallery-main {
-     margin-left: 92px;
-     width: calc(100% - 92px);
-     padding: 18px;
-   }
+  .adg-field-new label {
+    font-size: 15px;
+  }
 
-   .admin-gallery-card {
-     padding: 22px;
-     border-radius: 22px;
-   }
+  .adg-field-new input,
+  .adg-field-new select {
+    font-size: 14px;
+  }
 
-   .admin-gallery-heading h2 {
-     font-size: 28px;
-   }
+  .adg-submit-new {
+    width: 100%;
+    align-self: stretch;
+    font-size: 18px;
+    padding: 15px 20px;
+  }
+}
 
-   .admin-gallery-heading p {
-     font-size: 14px;
-   }
+.adg-list-new {
+  margin-top: 40px;
+}
 
-   .admin-gallery-input-group label {
-     font-size: 16px;
-   }
+.adg-list-new h2 {
+  margin-bottom: 20px;
+}
 
-   .admin-gallery-input-group input,
-   .admin-gallery-input-group select {
-     font-size: 14px;
-     padding: 16px 14px;
-     border-radius: 14px;
-   }
+.adg-grid-new {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 20px;
+}
 
-   .admin-gallery-btn {
-     width: 100%;
-     align-self: stretch;
-     font-size: 17px;
-     padding: 16px 18px;
-   }
- }
+.adg-img-card-new {
+  background: #fff;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+}
+
+.adg-img-card-new img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+}
+
+.adg-info-new {
+  padding: 16px;
+}
+
+.adg-info-new h3 {
+  margin-bottom: 8px;
+}
+
+.adg-info-new p {
+  color: #555;
+}
+
+.adg-actions-new {
+  display: flex;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.adg-edit-new,
+.adg-delete-new,
+.adg-cancel-new {
+  border: none;
+  padding: 10px 16px;
+  border-radius: 8px;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.adg-edit-new {
+  background: #2563eb;
+}
+
+.adg-delete-new {
+  background: #dc2626;
+}
+
+.adg-cancel-new {
+  background: #6b7280;
+  margin-top: 10px;
+}
+
+.adg-edit-new:hover {
+  background: #1d4ed8;
+}
+
+.adg-delete-new:hover {
+  background: #b91c1c;
+}
+
+.adg-cancel-new:hover {
+  background: #4b5563;
+}

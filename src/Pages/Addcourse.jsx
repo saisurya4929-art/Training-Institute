@@ -1,10 +1,18 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import AdminSidebar from "./Adminsidebar";
+import Modal from "../components/Modal.jsx";
 import "../Styles/Addcourse.css";
 import { toast } from "react-toastify";
 
 const AddCourse = () => {
+  const [courses, setCourses] = useState([]);
+  const [editId, setEditId] = useState(null);
+
+  const [showModal, setShowModal] = useState(false);
+  const [modalType, setModalType] = useState("");
+  const [deleteId, setDeleteId] = useState(null);
+
   const [formData, setFormData] = useState({
     title: "",
     description: "",
@@ -12,8 +20,124 @@ const AddCourse = () => {
     imageUrl: "",
   });
 
+  const token = localStorage.getItem("token");
+
+  const authHeader = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
+  useEffect(() => {
+    fetchCourses();
+  }, []);
+
+  const fetchCourses = async () => {
+    try {
+      const res = await axios.get("http://localhost:8080/api/courses");
+      setCourses(res.data);
+    } catch (error) {
+      console.error(error);
+      toast.error("Failed to load courses");
+    }
+  };
+
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const resetForm = () => {
+    setFormData({
+      title: "",
+      description: "",
+      duration: "",
+      imageUrl: "",
+    });
+    setEditId(null);
+  };
+
+  const handleEdit = (course) => {
+    setEditId(course.id);
+
+    setFormData({
+      title: course.title,
+      description: course.description,
+      duration: course.duration,
+      imageUrl: course.imageUrl,
+    });
+
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  const handleDelete = (id) => {
+    setDeleteId(id);
+    setModalType("delete");
+    setShowModal(true);
+  };
+
+  const confirmDeleteCourse = async () => {
+    setShowModal(false);
+
+    const toastId = toast.loading("Deleting course...");
+
+    try {
+      await axios.delete(
+        `http://localhost:8080/api/courses/${deleteId}`,
+        authHeader
+      );
+
+      toast.update(toastId, {
+        render: "Course deleted successfully ✅",
+        type: "success",
+        isLoading: false,
+        autoClose: 3000,
+      });
+
+      setDeleteId(null);
+      fetchCourses();
+    } catch (error) {
+      console.error(error);
+
+      toast.update(toastId, {
+        render: "Failed to delete course ❌",
+        type: "error",
+        isLoading: false,
+        autoClose: 3000,
+      });
+    }
+  };
+
+  const confirmUpdateCourse = async () => {
+    setShowModal(false);
+
+    const toastId = toast.loading("Updating course...");
+
+    try {
+      await axios.put(
+        `http://localhost:8080/api/courses/${editId}`,
+        formData,
+        authHeader
+      );
+
+      toast.update(toastId, {
+        render: "Course updated successfully ✅",
+        type: "success",
+        isLoading: false,
+        autoClose: 3000,
+      });
+
+      resetForm();
+      fetchCourses();
+    } catch (error) {
+      console.error(error);
+
+      toast.update(toastId, {
+        render: "Failed to update course ❌",
+        type: "error",
+        isLoading: false,
+        autoClose: 3000,
+      });
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -29,10 +153,20 @@ const AddCourse = () => {
       return;
     }
 
+    if (editId) {
+      setModalType("update");
+      setShowModal(true);
+      return;
+    }
+
     const toastId = toast.loading("Adding course...");
 
     try {
-      await axios.post("http://localhost:8080/api/courses", formData);
+      await axios.post(
+        "http://localhost:8080/api/courses",
+        formData,
+        authHeader
+      );
 
       toast.update(toastId, {
         render: "Course added successfully ✅",
@@ -41,12 +175,8 @@ const AddCourse = () => {
         autoClose: 3000,
       });
 
-      setFormData({
-        title: "",
-        description: "",
-        duration: "",
-        imageUrl: "",
-      });
+      resetForm();
+      fetchCourses();
     } catch (error) {
       console.error(error);
 
@@ -60,18 +190,22 @@ const AddCourse = () => {
   };
 
   return (
-    <div className="admin-course-layout">
+    <div className="adc-wrap-new">
       <AdminSidebar />
 
-      <div className="add-course-page">
-        <div className="add-course-header">
-          <h1>Add New Course 📘</h1>
-          <p>Create course content for your website</p>
+      <main className="adc-main-new">
+        <div className="adc-head-new">
+          <h1>{editId ? "Edit Course ✏️" : "Add New Course 📘"}</h1>
+          <p>
+            {editId
+              ? "Update existing course content"
+              : "Create course content for your website"}
+          </p>
         </div>
 
-        <div className="add-course-card">
-          <form onSubmit={handleSubmit} className="add-course-form">
-            <div className="course-field">
+        <div className="adc-card-new">
+          <form onSubmit={handleSubmit} className="adc-form-new">
+            <div className="adc-field-new">
               <label>Course Title</label>
               <input
                 type="text"
@@ -79,11 +213,10 @@ const AddCourse = () => {
                 placeholder="Enter course title"
                 value={formData.title}
                 onChange={handleChange}
-                required
               />
             </div>
 
-            <div className="course-field">
+            <div className="adc-field-new">
               <label>Duration</label>
               <input
                 type="text"
@@ -91,11 +224,10 @@ const AddCourse = () => {
                 placeholder="Example: 6 Months"
                 value={formData.duration}
                 onChange={handleChange}
-                required
               />
             </div>
 
-            <div className="course-field">
+            <div className="adc-field-new">
               <label>Image URL</label>
               <input
                 type="text"
@@ -103,11 +235,10 @@ const AddCourse = () => {
                 placeholder="Enter course image URL"
                 value={formData.imageUrl}
                 onChange={handleChange}
-                required
               />
             </div>
 
-            <div className="course-field">
+            <div className="adc-field-new adc-textarea-new">
               <label>Description</label>
               <textarea
                 name="description"
@@ -115,16 +246,98 @@ const AddCourse = () => {
                 value={formData.description}
                 onChange={handleChange}
                 rows="5"
-                required
               />
             </div>
 
-            <button type="submit" className="course-submit-btn">
-              Add Course
+            <button type="submit" className="adc-submit-new">
+              {editId ? "Update Course" : "Add Course"}
             </button>
+
+            {editId && (
+              <button
+                type="button"
+                className="adc-cancel-new"
+                onClick={resetForm}
+              >
+                Cancel Edit
+              </button>
+            )}
           </form>
         </div>
-      </div>
+
+        <div className="adc-list-new">
+          <h2>All Courses</h2>
+
+          <div className="adc-course-grid-new">
+            {courses.map((course) => (
+              <div className="adc-course-card-new" key={course.id}>
+                <img src={course.imageUrl} alt={course.title} />
+
+                <div className="adc-course-info-new">
+                  <h3>{course.title}</h3>
+                  <p>{course.description}</p>
+                  <h4>Duration: {course.duration}</h4>
+
+                  <div className="adc-actions-new">
+                    <button
+                      className="adc-edit-new"
+                      onClick={() => handleEdit(course)}
+                    >
+                      Edit
+                    </button>
+
+                    <button
+                      className="adc-delete-new"
+                      onClick={() => handleDelete(course.id)}
+                    >
+                      Delete
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <Modal
+          isOpen={showModal}
+          onClose={() => setShowModal(false)}
+          title={modalType === "update" ? "Confirm Update" : "Confirm Delete"}
+          size="small"
+        >
+          <p>
+            {modalType === "update"
+              ? "Are you sure you want to update this course?"
+              : "Are you sure you want to delete this course?"}
+          </p>
+
+          <div className="modal-footer-actions">
+            <button
+              type="button"
+              className="modal-cancel-btn"
+              onClick={() => setShowModal(false)}
+            >
+              Cancel
+            </button>
+
+            <button
+              type="button"
+              className={
+                modalType === "update"
+                  ? "modal-update-btn"
+                  : "modal-delete-btn"
+              }
+              onClick={
+                modalType === "update"
+                  ? confirmUpdateCourse
+                  : confirmDeleteCourse
+              }
+            >
+              {modalType === "update" ? "Update" : "Delete"}
+            </button>
+          </div>
+        </Modal>
+      </main>
     </div>
   );
 };

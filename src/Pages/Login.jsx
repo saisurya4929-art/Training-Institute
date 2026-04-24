@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "../Styles/Login.css";
-import girl from "../assets/girl.png";
+import girl from "../assets/bgimg.jpeg";
 import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
 import { motion } from "framer-motion";
@@ -102,19 +102,19 @@ const LoginPage = () => {
         </motion.div>
 
         <motion.div
-          className="login-form-section"
+          className="login1-form-section"
           initial={{ x: 60, opacity: 0 }}
           animate={{ x: 0, opacity: 1 }}
           transition={{ duration: 0.8 }}
         >
-          <div className="login-form-box">
+          <div className="login1-form-box">
             <h1>Sign In</h1>
             <p className="login-subtitle">
               Please login to your account
             </p>
 
-            <form onSubmit={handleLogin} className="login-form">
-              <div className="input-group">
+            <form onSubmit={handleLogin} className="login1-form">
+              <div className="input-group1">
                 <label>Email Address</label>
                 <input
                   type="email"
@@ -125,7 +125,7 @@ const LoginPage = () => {
                 />
               </div>
 
-              <div className="input-group">
+              <div className="input-group1">
                 <label>Password</label>
                 <input
                   type="password"

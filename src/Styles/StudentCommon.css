@@ -1,0 +1,80 @@
+.student-page-wrapper {
+  min-height: 100vh;
+  background: var(--bg-main);
+  color: var(--text-main);
+}
+
+.student-page-content {
+  margin-left: 280px;
+  min-height: 100vh;
+  padding: 28px;
+  background: var(--bg-main);
+  color: var(--text-main);
+}
+
+.student-page-title {
+  font-size: 44px;
+  font-weight: 800;
+  color: var(--text-main);
+  margin-bottom: 10px;
+}
+
+.student-page-subtitle {
+  font-size: 18px;
+  color: var(--text-soft);
+  line-height: 1.7;
+  margin-bottom: 28px;
+}
+
+.student-card-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 22px;
+}
+
+.student-card-item {
+  background: var(--bg-card);
+  color: var(--text-main);
+  border: 1px solid var(--border-color);
+  border-radius: 22px;
+  padding: 24px;
+  box-shadow: var(--shadow);
+}
+
+.student-card-item h2,
+.student-card-item h3,
+.student-card-item h4 {
+  margin: 0 0 10px;
+  color: var(--text-main);
+}
+
+.student-card-item p,
+.student-card-item span,
+.student-card-item small {
+  color: var(--text-soft);
+  line-height: 1.6;
+}
+
+@media (max-width: 1100px) {
+  .student-card-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 900px) {
+  .student-page-content {
+    margin-left: 0;
+    padding: 18px;
+    padding-top: 110px;
+  }
+}
+
+@media (max-width: 700px) {
+  .student-card-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .student-page-title {
+    font-size: 30px;
+  }
+}
