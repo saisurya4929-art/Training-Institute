@@ -45,9 +45,8 @@ function App() {
         <Route path="/forgot-password" element={<Forgotpassword />} />
         <Route path="/reset-password/:token" element={<ResetPassword />} />
 
-        {/* User Protected */}
         <Route
-          path="/studentdashboard"
+          path="/Studentdashboard"
           element={
             <ProtectedRoute>
               <StudentDashboard />

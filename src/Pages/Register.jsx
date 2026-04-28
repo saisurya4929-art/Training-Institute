@@ -10,7 +10,6 @@ const StudentRegister = () => {
     email: "",
     password: "",
     role: "",
-    courses: "",
   });
 
   const handleInputChange = (e) => {
@@ -26,8 +25,8 @@ const StudentRegister = () => {
     if (
       !studentForm.name ||
       !studentForm.email ||
-      !studentForm.password ||
-      !studentForm.courses
+      !studentForm.password 
+      
     ) {
       toast.warning("Please fill all fields");
       return;
@@ -133,22 +132,6 @@ const StudentRegister = () => {
                   required
                 />
               </div>
-
-              <div className="admission-field-group">
-                <label>Select Course</label>
-                <select
-                  name="courses"
-                  value={studentForm.courses}
-                  onChange={handleInputChange}
-                  required
-                >
-                  <option value="">Select Courses</option>
-                  <option value="Java">Java Full Stack</option>
-                  <option value="Python">Python Full Stack</option>
-                  <option value="Mern">MERN Full Stack</option>
-                </select>
-              </div>
-
               <button type="submit" className="admission-submit-btn">
                 Register Now
               </button>

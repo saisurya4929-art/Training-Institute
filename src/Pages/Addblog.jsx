@@ -12,6 +12,7 @@ const AddBlog = () => {
   const [showModal, setShowModal] = useState(false);
   const [modalType, setModalType] = useState("");
   const [deleteId, setDeleteId] = useState(null);
+  const [selectedIds, setSelectedIds] = useState([]);
 
   const [blog, setBlog] = useState({
     title: "",
@@ -69,9 +70,27 @@ const AddBlog = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
+  const handleSelect = (id) => {
+    if (selectedIds.includes(id)) {
+      setSelectedIds(selectedIds.filter((item) => item !== id));
+    } else {
+      setSelectedIds([...selectedIds, id]);
+    }
+  };
+
   const handleDelete = (id) => {
     setDeleteId(id);
     setModalType("delete");
+    setShowModal(true);
+  };
+
+  const handleBulkDelete = () => {
+    if (selectedIds.length === 0) {
+      toast.warning("Select at least one blog");
+      return;
+    }
+
+    setModalType("bulk-delete");
     setShowModal(true);
   };
 
@@ -100,6 +119,40 @@ const AddBlog = () => {
 
       toast.update(toastId, {
         render: "Failed to delete blog ❌",
+        type: "error",
+        isLoading: false,
+        autoClose: 3000,
+      });
+    }
+  };
+
+  const confirmBulkDeleteBlog = async () => {
+    setShowModal(false);
+
+    const toastId = toast.loading("Deleting selected blogs...");
+
+    try {
+      await axios.delete("http://localhost:8080/api/blogs/bulk-delete", {
+        data: selectedIds,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      toast.update(toastId, {
+        render: "Selected blogs deleted successfully ✅",
+        type: "success",
+        isLoading: false,
+        autoClose: 3000,
+      });
+
+      setSelectedIds([]);
+      fetchBlogs();
+    } catch (error) {
+      console.error(error);
+
+      toast.update(toastId, {
+        render: "Bulk delete failed ❌",
         type: "error",
         isLoading: false,
         autoClose: 3000,
@@ -259,9 +312,25 @@ const AddBlog = () => {
         <div className="adb-list-new">
           <h2>All Blogs</h2>
 
+          {selectedIds.length > 0 && (
+            <button
+              type="button"
+              className="adb-delete-new"
+              onClick={handleBulkDelete}
+            >
+              Delete Selected ({selectedIds.length})
+            </button>
+          )}
+
           <div className="adb-blog-grid-new">
             {blogs.map((item) => (
               <div className="adb-blog-card-new" key={item.id}>
+                <input
+                  type="checkbox"
+                  checked={selectedIds.includes(item.id)}
+                  onChange={() => handleSelect(item.id)}
+                />
+
                 <img src={item.image} alt={item.title} />
 
                 <div className="adb-blog-info-new">
@@ -299,9 +368,14 @@ const AddBlog = () => {
           size="small"
         >
           <p>
-            {modalType === "update"
-              ? "Are you sure you want to update this blog?"
-              : "Are you sure you want to delete this blog?"}
+            {modalType === "update" &&
+              "Are you sure you want to update this blog?"}
+
+            {modalType === "delete" &&
+              "Are you sure you want to delete this blog?"}
+
+            {modalType === "bulk-delete" &&
+              `Are you sure you want to delete ${selectedIds.length} selected blogs?`}
           </p>
 
           <div className="modal-footer-actions">
@@ -321,7 +395,11 @@ const AddBlog = () => {
                   : "modal-delete-btn"
               }
               onClick={
-                modalType === "update" ? confirmUpdateBlog : confirmDeleteBlog
+                modalType === "update"
+                  ? confirmUpdateBlog
+                  : modalType === "delete"
+                  ? confirmDeleteBlog
+                  : confirmBulkDeleteBlog
               }
             >
               {modalType === "update" ? "Update" : "Delete"}

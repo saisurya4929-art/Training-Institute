@@ -1,6 +1,6 @@
 .blog-hero {
     height: 60vh;
-    background-image: url("../assets/blogbg2.jpeg");
+    background-image: url("../assets/blogbg.jpeg");
     background-size: cover;
     background-position: center;
     display: flex;

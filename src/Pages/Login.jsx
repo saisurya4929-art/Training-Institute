@@ -28,16 +28,6 @@ const LoginPage = () => {
         password,
       });
 
-      if (typeof res.data === "string") {
-        toast.update(toastId, {
-          render: res.data,
-          type: "warning",
-          isLoading: false,
-          autoClose: 3000,
-        });
-        return;
-      }
-
       localStorage.setItem("token", res.data.token);
 
       localStorage.setItem(
@@ -47,7 +37,6 @@ const LoginPage = () => {
           name: res.data.name,
           email: res.data.email,
           role: res.data.role,
-          courses: res.data.courses,
         })
       );
 
@@ -58,7 +47,7 @@ const LoginPage = () => {
         autoClose: 2000,
       });
 
-      if (res.data.role === "ADMIN") {
+      if (res.data.role?.toUpperCase() === "ADMIN") {
         navigate("/admin");
       } else {
         navigate("/studentdashboard");
@@ -67,7 +56,7 @@ const LoginPage = () => {
       console.log(error);
 
       toast.update(toastId, {
-        render: "Login failed ❌",
+        render: error.response?.data || "Login failed ❌",
         type: "error",
         isLoading: false,
         autoClose: 3000,
@@ -109,9 +98,7 @@ const LoginPage = () => {
         >
           <div className="login1-form-box">
             <h1>Sign In</h1>
-            <p className="login-subtitle">
-              Please login to your account
-            </p>
+            <p className="login-subtitle">Please login to your account</p>
 
             <form onSubmit={handleLogin} className="login1-form">
               <div className="input-group1">
