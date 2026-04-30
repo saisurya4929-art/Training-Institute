@@ -26,7 +26,7 @@ const HeroBanner = () => {
             <button className="hero-outline">View Courses</button>
           </div>
         </motion.div>
-      </div>``
+      </div>
     </div>
   );
 };

@@ -54,7 +54,6 @@ const AddCourse = () => {
       duration: "",
       imageUrl: "",
     });
-
     setEditId(null);
   };
 
@@ -62,10 +61,10 @@ const AddCourse = () => {
     setEditId(course.id);
 
     setFormData({
-      title: course.title,
-      description: course.description,
-      duration: course.duration,
-      imageUrl: course.imageUrl,
+      title: course.title || "",
+      description: course.description || "",
+      duration: course.duration || "",
+      imageUrl: course.imageUrl || "",
     });
 
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -78,37 +77,35 @@ const AddCourse = () => {
   };
 
   const handleSelect = (id) => {
-    if (selectedIds.includes(id)) {
-      setSelectedIds(selectedIds.filter((item) => item !== id));
-    } else {
-      setSelectedIds([...selectedIds, id]);
-    }
+    setSelectedIds((prev) =>
+      prev.includes(id)
+        ? prev.filter((item) => item !== id)
+        : [...prev, id]
+    );
   };
 
-  const handleBulkDelete = async () => {
+  const handleBulkDelete = () => {
     if (selectedIds.length === 0) {
       toast.warning("Select at least one course");
       return;
     }
 
-    const confirmDelete = window.confirm(
-      "Are you sure you want to delete selected courses?"
-    );
+    setModalType("bulkDelete");
+    setShowModal(true);
+  };
 
-    if (!confirmDelete) return;
+  const confirmBulkDelete = async () => {
+    setShowModal(false);
 
     const toastId = toast.loading("Deleting selected courses...");
 
     try {
-      await axios.delete(
-        "http://localhost:8080/api/courses/bulk-delete",
-        {
-          data: selectedIds,
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      await axios.delete("http://localhost:8080/api/courses/bulk-delete", {
+        data: selectedIds,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
       toast.update(toastId, {
         render: "Selected courses deleted successfully ✅",
@@ -147,6 +144,7 @@ const AddCourse = () => {
         autoClose: 3000,
       });
 
+      setDeleteId(null);
       fetchCourses();
     } catch (error) {
       toast.update(toastId, {
@@ -193,12 +191,17 @@ const AddCourse = () => {
     e.preventDefault();
 
     if (
-      !formData.title ||
-      !formData.description ||
-      !formData.duration ||
-      !formData.imageUrl
+      !formData.title.trim() ||
+      !formData.description.trim() ||
+      !formData.duration.trim() ||
+      !formData.imageUrl.trim()
     ) {
       toast.warning("Please fill all fields");
+      return;
+    }
+
+    if (!token) {
+      toast.error("Login token missing. Please login again.");
       return;
     }
 
@@ -236,6 +239,30 @@ const AddCourse = () => {
     }
   };
 
+  const getModalTitle = () => {
+    if (modalType === "update") return "Confirm Update";
+    if (modalType === "bulkDelete") return "Confirm Bulk Delete";
+    return "Confirm Delete";
+  };
+
+  const getModalMessage = () => {
+    if (modalType === "update") {
+      return "Are you sure you want to update this course?";
+    }
+
+    if (modalType === "bulkDelete") {
+      return `Are you sure you want to delete ${selectedIds.length} selected courses?`;
+    }
+
+    return "Are you sure you want to delete this course?";
+  };
+
+  const getModalAction = () => {
+    if (modalType === "update") return confirmUpdateCourse;
+    if (modalType === "bulkDelete") return confirmBulkDelete;
+    return confirmDeleteCourse;
+  };
+
   return (
     <div className="adc-wrap-new">
       <AdminSidebar />
@@ -254,6 +281,7 @@ const AddCourse = () => {
                 name="title"
                 value={formData.title}
                 onChange={handleChange}
+                placeholder="Enter course title"
               />
             </div>
 
@@ -264,6 +292,7 @@ const AddCourse = () => {
                 name="duration"
                 value={formData.duration}
                 onChange={handleChange}
+                placeholder="Example: 3 Months"
               />
             </div>
 
@@ -274,6 +303,7 @@ const AddCourse = () => {
                 name="imageUrl"
                 value={formData.imageUrl}
                 onChange={handleChange}
+                placeholder="Enter image URL"
               />
             </div>
 
@@ -284,6 +314,7 @@ const AddCourse = () => {
                 value={formData.description}
                 onChange={handleChange}
                 rows="5"
+                placeholder="Enter course description"
               />
             </div>
 
@@ -304,65 +335,64 @@ const AddCourse = () => {
         </div>
 
         <div className="adc-list-new">
-          <h2>All Courses</h2>
+          <div className="adc-list-head-new">
+            <h2>All Courses</h2>
 
-          {selectedIds.length > 0 && (
-            <button
-              className="adc-delete-new"
-              onClick={handleBulkDelete}
-            >
-              Delete Selected ({selectedIds.length})
-            </button>
-          )}
+            {selectedIds.length > 0 && (
+              <button className="adc-delete-new" onClick={handleBulkDelete}>
+                Delete Selected ({selectedIds.length})
+              </button>
+            )}
+          </div>
 
           <div className="adc-course-grid-new">
-            {courses.map((course) => (
-              <div className="adc-course-card-new" key={course.id}>
-                <input
-                  type="checkbox"
-                  checked={selectedIds.includes(course.id)}
-                  onChange={() => handleSelect(course.id)}
-                />
+            {courses.length === 0 ? (
+              <p>No courses found.</p>
+            ) : (
+              courses.map((course) => (
+                <div className="adc-course-card-new" key={course.id}>
+                  <input
+                    type="checkbox"
+                    checked={selectedIds.includes(course.id)}
+                    onChange={() => handleSelect(course.id)}
+                  />
 
-                <img src={course.imageUrl} alt={course.title} />
+                  <img src={course.imageUrl} alt={course.title} />
 
-                <div className="adc-course-info-new">
-                  <h3>{course.title}</h3>
-                  <p>{course.description}</p>
-                  <h4>{course.duration}</h4>
+                  <div className="adc-course-info-new">
+                    <h3>{course.title}</h3>
+                    <p>{course.description}</p>
+                    <h4>{course.duration}</h4>
 
-                  <div className="adc-actions-new">
-                    <button
-                      className="adc-edit-new"
-                      onClick={() => handleEdit(course)}
-                    >
-                      Edit
-                    </button>
+                    <div className="adc-actions-new">
+                      <button
+                        className="adc-edit-new"
+                        onClick={() => handleEdit(course)}
+                      >
+                        Edit
+                      </button>
 
-                    <button
-                      className="adc-delete-new"
-                      onClick={() => handleDelete(course.id)}
-                    >
-                      Delete
-                    </button>
+                      <button
+                        className="adc-delete-new"
+                        onClick={() => handleDelete(course.id)}
+                      >
+                        Delete
+                      </button>
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              ))
+            )}
           </div>
         </div>
 
         <Modal
           isOpen={showModal}
           onClose={() => setShowModal(false)}
-          title={modalType === "update" ? "Confirm Update" : "Confirm Delete"}
+          title={getModalTitle()}
           size="small"
         >
-          <p>
-            {modalType === "update"
-              ? "Are you sure you want to update this course?"
-              : "Are you sure you want to delete this course?"}
-          </p>
+          <p>{getModalMessage()}</p>
 
           <div className="modal-footer-actions">
             <button
@@ -378,11 +408,7 @@ const AddCourse = () => {
                   ? "modal-update-btn"
                   : "modal-delete-btn"
               }
-              onClick={
-                modalType === "update"
-                  ? confirmUpdateCourse
-                  : confirmDeleteCourse
-              }
+              onClick={getModalAction()}
             >
               {modalType === "update" ? "Update" : "Delete"}
             </button>

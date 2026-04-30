@@ -80,6 +80,7 @@ const Blog = () => {
                 <img
                   src={blog.image}
                   alt="blog"
+                  loading="lazy"
                   onError={(e) => {
                     e.target.src = "https://via.placeholder.com/400x250";
                   }}

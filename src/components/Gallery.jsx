@@ -108,6 +108,7 @@ const Gallery = () => {
                 <img
                   src={`http://localhost:8080/uploads/${item.imageurl}`}
                   alt={item.name}
+                  loading="lazy"
                   onError={(e) => {
                     e.target.src = "https://via.placeholder.com/400x300";
                   }}

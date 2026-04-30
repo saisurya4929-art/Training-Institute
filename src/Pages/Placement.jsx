@@ -142,6 +142,7 @@ const Placements = () => {
                 <img
                   src={student.imageUrl}
                   alt={student.studentName}
+                  loading="lazy"
                   onError={(e) => {
                     e.target.src = "https://via.placeholder.com/150";
                   }}

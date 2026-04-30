@@ -4,7 +4,8 @@ import girl from "../assets/bgimg.jpeg";
 import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { toast } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
@@ -15,7 +16,7 @@ const LoginPage = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
 
-    if (!email || !password) {
+    if (!email.trim() || !password.trim()) {
       toast.warning("Please enter email and password");
       return;
     }
@@ -47,11 +48,13 @@ const LoginPage = () => {
         autoClose: 2000,
       });
 
-      if (res.data.role?.toUpperCase() === "ADMIN") {
-        navigate("/admin");
-      } else {
-        navigate("/studentdashboard");
-      }
+      setTimeout(() => {
+        if (res.data.role?.toUpperCase() === "ADMIN") {
+          navigate("/");
+        } else {
+          navigate("/");
+        }
+      }, 800);
     } catch (error) {
       console.log(error);
 
@@ -66,6 +69,17 @@ const LoginPage = () => {
 
   return (
     <div className="login-wrapper">
+      <ToastContainer
+        position="top-right"
+        autoClose={2500}
+        hideProgressBar={false}
+        newestOnTop
+        closeOnClick
+        pauseOnHover
+        draggable
+        theme="colored"
+      />
+
       <motion.div
         className="login-card"
         initial={{ opacity: 0, y: 40 }}

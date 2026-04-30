@@ -190,6 +190,7 @@ const Courses = () => {
                     src={course.imageUrl}
                     alt={course.title}
                     className="modern-course-img"
+                    loading="lazy"
                     onError={(e) => {
                       e.target.src = "https://via.placeholder.com/400x250";
                     }}
