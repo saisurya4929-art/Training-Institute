@@ -22,13 +22,8 @@ const StudentRegister = () => {
   const handleRegisterSubmit = async (e) => {
     e.preventDefault();
 
-    if (
-      !studentForm.name ||
-      !studentForm.email ||
-      !studentForm.password 
-      
-    ) {
-      toast.warning("Please fill all fields");
+    if (!studentForm.name || !studentForm.email || !studentForm.password) {
+      toast.warning("Please fill all fields ⚠️");
       return;
     }
 
@@ -54,13 +49,15 @@ const StudentRegister = () => {
         email: "",
         password: "",
         role: "",
-        courses: "",
       });
     } catch (error) {
       console.error(error);
 
       toast.update(loadingToast, {
-        render: error.response?.data || "Error saving data ❌",
+        render:
+          error.response?.data?.message ||
+          error.response?.data ||
+          "Error saving data ❌",
         type: "error",
         isLoading: false,
         autoClose: 3000,
@@ -71,6 +68,8 @@ const StudentRegister = () => {
   return (
     <div className="admission-page-shell">
       <div className="admission-main-card">
+
+        {/* LEFT SIDE IMAGE */}
         <div className="admission-visual-side">
           <img
             src={instituteImg}
@@ -79,9 +78,6 @@ const StudentRegister = () => {
           />
 
           <div className="admission-image-shade"></div>
-
-          <div className="admission-image-topbar">
-          </div>
 
           <div className="admission-image-content">
             <h2>Create Account</h2>
@@ -92,11 +88,15 @@ const StudentRegister = () => {
           </div>
         </div>
 
+        {/* RIGHT SIDE FORM */}
         <div className="admission-form-side">
           <div className="admission-form-wrap">
             <h1>Sign Up</h1>
 
-            <form onSubmit={handleRegisterSubmit} className="admission-form-grid">
+            <form
+              onSubmit={handleRegisterSubmit}
+              className="admission-form-grid"
+            >
               <div className="admission-field-group">
                 <label>Full Name</label>
                 <input
@@ -126,18 +126,20 @@ const StudentRegister = () => {
                 <input
                   type="password"
                   name="password"
-                  placeholder="Example Pass Sai@1234"
+                  placeholder="Example: Sai@1234"
                   value={studentForm.password}
                   onChange={handleInputChange}
                   required
                 />
               </div>
+
               <button type="submit" className="admission-submit-btn">
-                Register Now
+                Register Now 🚀
               </button>
             </form>
           </div>
         </div>
+
       </div>
     </div>
   );

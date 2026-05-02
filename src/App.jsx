@@ -64,13 +64,13 @@ function App() {
           <Route path="/placement" element={<Placements />} />
           <Route path="/blog" element={<Blog />} />
           <Route path="/gallery" element={<Gallery />} />
-          <Route path="/Login" element={<Login />} />
+          <Route path="/login" element={<Login />} />
           <Route path="/forgot-password" element={<Forgotpassword />} />
           <Route path="/reset-password/:token" element={<ResetPassword />} />
 
           {/* STUDENT PROTECTED */}
           <Route
-            path="/Studentdashboard"
+            path="/studentdashboard"
             element={
               <ProtectedRoute>
                 <StudentDashboard />

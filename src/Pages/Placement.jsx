@@ -16,6 +16,35 @@ import Google from "../assets/Google.svg";
 import Info from "../assets/Info.svg";
 import Tcs from "../assets/img6.jpg";
 
+const setCache = (key, data) => {
+  sessionStorage.setItem(
+    key,
+    JSON.stringify({
+      data,
+      expiry: Date.now() + 5 * 60 * 1000
+    })
+  );
+};
+
+const getCache = (key) => {
+  const cache = sessionStorage.getItem(key);
+  if (!cache) return null;
+
+  try {
+    const parsed = JSON.parse(cache);
+
+    if (Date.now() > parsed.expiry) {
+      sessionStorage.removeItem(key);
+      return null;
+    }
+
+    return parsed.data;
+  } catch {
+    sessionStorage.removeItem(key);
+    return null;
+  }
+};
+
 const Placements = () => {
   const [placements, setPlacements] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -26,13 +55,25 @@ const Placements = () => {
   }, []);
 
   const fetchPlacements = async () => {
+
+    const cached = getCache("placementCache");
+    if (cached) {
+      setPlacements(cached);
+      setLoading(false);
+      return;
+    }
+
     try {
       setLoading(true);
       setError("");
 
       const res = await axios.get("http://localhost:8080/api/placements");
       console.log("placements:", res.data);
+
       setPlacements(res.data);
+
+      setCache("placementCache", res.data);
+
     } catch (error) {
       console.log("Error fetching placements:", error);
       setError("Failed to load placement data.");

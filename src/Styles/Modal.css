@@ -95,3 +95,43 @@
 .modal-btn-danger:hover {
   transform: translateY(-1px);
 }
+.modal-footer-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 14px;
+  margin-top: 28px;
+}
+
+.modal-cancel-btn,
+.modal-update-btn,
+.modal-delete-btn {
+  border: none;
+  outline: none;
+  padding: 12px 22px;
+  border-radius: 12px;
+  font-family: "Poppins", sans-serif;
+  font-size: 15px;
+  font-weight: 800;
+  color: #fff;
+  cursor: pointer;
+  transition: 0.25s ease;
+}
+
+.modal-cancel-btn {
+  background: rgba(255, 255, 255, 0.16);
+}
+
+.modal-update-btn {
+  background: linear-gradient(135deg, #2563eb, #38bdf8);
+}
+
+.modal-delete-btn {
+  background: linear-gradient(135deg, #dc2626, #ef4444);
+}
+
+.modal-cancel-btn:hover,
+.modal-update-btn:hover,
+.modal-delete-btn:hover {
+  transform: translateY(-2px);
+  opacity: 0.9;
+}

@@ -5,17 +5,55 @@ import axios from "axios";
 import BlogSkeleton from "../components/BlogSkeleton";
 import ErrorBoundary from "../components/ErrorBoundary";
 
+const setCache = (key, data) => {
+  sessionStorage.setItem(
+    key,
+    JSON.stringify({
+      data,
+      expiry: Date.now() + 5 * 60 * 1000,
+    })
+  );
+};
+
+const getCache = (key) => {
+  const cache = sessionStorage.getItem(key);
+  if (!cache) return null;
+
+  try {
+    const parsed = JSON.parse(cache);
+
+    if (Date.now() > parsed.expiry) {
+      sessionStorage.removeItem(key);
+      return null;
+    }
+
+    return parsed.data;
+  } catch {
+    sessionStorage.removeItem(key);
+    return null;
+  }
+};
+
 const Blog = () => {
   const [blogs, setBlogs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
   useEffect(() => {
+    const cachedBlogs = getCache("blogCache");
+
+    if (cachedBlogs) {
+      setBlogs(cachedBlogs);
+      setLoading(false);
+      return;
+    }
+
     axios
       .get("http://localhost:8080/api/blogs")
       .then((res) => {
         console.log("API DATA", res.data);
         setBlogs(res.data);
+        setCache("blogCache", res.data);
       })
       .catch((err) => {
         console.log(err);

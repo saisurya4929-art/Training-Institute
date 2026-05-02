@@ -4,6 +4,25 @@ import "../Styles/Gallery.css";
 import GallerySkeleton from "../components/GallerySkeleton";
 import ErrorBoundary from "../components/ErrorBoundary";
 
+const setCache = (key, data) => {
+  sessionStorage.setItem(
+    key,
+    JSON.stringify({ data, expiry: Date.now() + 5 * 60 * 1000 })
+  );
+};
+
+const getCache = (key) => {
+  const cache = sessionStorage.getItem(key);
+  if (!cache) return null;
+
+  const parsed = JSON.parse(cache);
+  if (Date.now() > parsed.expiry) {
+    sessionStorage.removeItem(key);
+    return null;
+  }
+  return parsed.data;
+};
+
 const Gallery = () => {
   const [filter, setFilter] = useState("All");
   const [lightbox, setLightbox] = useState(null);
@@ -16,11 +35,21 @@ const Gallery = () => {
   }, []);
 
   const fetchGallery = async () => {
+    const cached = getCache("galleryCache");
+
+    if (cached) {
+      setGalleryData(cached);
+      setLoading(false);
+      return;
+    }
+
     try {
       setLoading(true);
       setError("");
       const res = await axios.get("http://localhost:8080/api/gallery");
+
       setGalleryData(res.data);
+      setCache("galleryCache", res.data);
     } catch (error) {
       console.log("Error fetching gallery:", error);
       setError("Failed to load gallery images.");

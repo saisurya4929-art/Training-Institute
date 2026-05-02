@@ -50,9 +50,9 @@ const LoginPage = () => {
 
       setTimeout(() => {
         if (res.data.role?.toUpperCase() === "ADMIN") {
-          navigate("/");
+          navigate("/admin");
         } else {
-          navigate("/");
+          navigate("/studentdashboard");
         }
       }, 800);
     } catch (error) {
