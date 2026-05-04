@@ -1,30 +1,37 @@
 import React, { useState } from "react";
 import "../Styles/Login.css";
 import girl from "../assets/bgimg.jpeg";
-import axios from "axios";
+import axiosInstance from "../utils/axiosInstance";
 import { useNavigate, Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  
+  const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
 
+
+    if (loading) return;
+
     if (!email.trim() || !password.trim()) {
       toast.warning("Please enter email and password");
       return;
     }
 
+    setLoading(true); 
+
     const toastId = toast.loading("Logging in...");
 
     try {
-      const res = await axios.post("http://localhost:8080/api/login", {
+      const res = await axiosInstance.post("/api/login", {
         email,
         password,
       });
@@ -48,6 +55,9 @@ const LoginPage = () => {
         autoClose: 2000,
       });
 
+      setEmail("");
+      setPassword("");
+
       setTimeout(() => {
         if (res.data.role?.toUpperCase() === "ADMIN") {
           navigate("/admin");
@@ -56,7 +66,7 @@ const LoginPage = () => {
         }
       }, 800);
     } catch (error) {
-      console.log(error);
+      console.log("Login error:", error);
 
       toast.update(toastId, {
         render: error.response?.data || "Login failed ❌",
@@ -64,22 +74,13 @@ const LoginPage = () => {
         isLoading: false,
         autoClose: 3000,
       });
+    } finally {
+      setLoading(false); 
     }
   };
 
   return (
     <div className="login-wrapper">
-      <ToastContainer
-        position="top-right"
-        autoClose={2500}
-        hideProgressBar={false}
-        newestOnTop
-        closeOnClick
-        pauseOnHover
-        draggable
-        theme="colored"
-      />
-
       <motion.div
         className="login-card"
         initial={{ opacity: 0, y: 40 }}
@@ -122,6 +123,7 @@ const LoginPage = () => {
                   placeholder="Enter your email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
+                  disabled={loading}
                   required
                 />
               </div>
@@ -133,6 +135,7 @@ const LoginPage = () => {
                   placeholder="Enter your password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
+                  disabled={loading}
                   required
                 />
               </div>
@@ -146,10 +149,11 @@ const LoginPage = () => {
               <motion.button
                 type="submit"
                 className="login-btn"
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.97 }}
+                disabled={loading}
+                whileHover={!loading ? { scale: 1.02 } : {}}
+                whileTap={!loading ? { scale: 0.97 } : {}}
               >
-                Login
+                {loading ? "Logging in..." : "Login"}
               </motion.button>
 
               <p className="signup-text">

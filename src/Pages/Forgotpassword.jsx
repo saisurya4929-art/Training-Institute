@@ -1,25 +1,53 @@
 import React, { useState } from "react";
-import axios from "axios";
+import axiosInstance from "../utils/axiosInstance";
+import { toast } from "react-toastify";
 import "../Styles/Forgotpass.css";
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");
-  const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(false);
   const [link, setLink] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    if (!email) {
+      toast.warning("Please enter your email");
+      return;
+    }
+
+    const loadingToast = toast.loading("Sending reset link...");
+
     try {
-      const res = await axios.post("http://localhost:8080/api/password/forgot", {
+      setLoading(true);
+
+      const res = await axiosInstance.post("/api/password/forgot", {
         email: email,
       });
 
-      setMessage(res.data.message);
-      setLink(res.data.resetLink);
+      toast.update(loadingToast, {
+        render: res.data.message || "Reset link sent successfully ✅",
+        type: "success",
+        isLoading: false,
+        autoClose: 3000,
+      });
+
+      setLink(res.data.resetLink || "");
+      setEmail("");
     } catch (error) {
-      setMessage(error.response?.data?.message || "Something went wrong");
+      console.log("Forgot password error:", error);
+
+      toast.update(loadingToast, {
+        render:
+          error.response?.data?.message || "Something went wrong ❌",
+        type: "error",
+        isLoading: false,
+        autoClose: 3000,
+      });
+
       setLink("");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -35,13 +63,23 @@ const ForgotPassword = () => {
             placeholder="Enter your email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            disabled={loading}
             required
           />
-          <button type="submit">Send Reset Link</button>
+
+          <button type="submit" disabled={loading}>
+            {loading ? "Sending..." : "Send Reset Link"}
+          </button>
         </form>
 
-        {message && <p className="fp-message">{message}</p>}
-        {link && <p className="fp-link">{link}</p>}
+        {link && (
+          <div className="fp-link-box">
+            <p>Reset Link:</p>
+            <a href={link} target="_blank" rel="noreferrer">
+              {link}
+            </a>
+          </div>
+        )}
       </div>
     </div>
   );

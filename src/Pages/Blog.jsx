@@ -1,7 +1,6 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "../Styles/Blog.css";
-import { useEffect, useState } from "react";
-import axios from "axios";
+import axiosInstance from "../utils/axiosInstance";
 import BlogSkeleton from "../components/BlogSkeleton";
 import ErrorBoundary from "../components/ErrorBoundary";
 
@@ -40,6 +39,10 @@ const Blog = () => {
   const [error, setError] = useState("");
 
   useEffect(() => {
+    fetchBlogs();
+  }, []);
+
+  const fetchBlogs = async () => {
     const cachedBlogs = getCache("blogCache");
 
     if (cachedBlogs) {
@@ -48,32 +51,40 @@ const Blog = () => {
       return;
     }
 
-    axios
-      .get("http://localhost:8080/api/blogs")
-      .then((res) => {
-        console.log("API DATA", res.data);
-        setBlogs(res.data);
-        setCache("blogCache", res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-        setError("Failed to load blog data.");
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  }, []);
+    try {
+      setLoading(true);
+      setError("");
+
+      const res = await axiosInstance.get("/api/blogs");
+
+      console.log("API DATA", res.data);
+
+      const blogData = Array.isArray(res.data) ? res.data : [];
+
+      setBlogs(blogData);
+      setCache("blogCache", blogData);
+    } catch (error) {
+      console.log("Blog fetch error:", error);
+      setError(error.response?.data || "Failed to load blog data.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const renderHero = () => (
+    <section className="blog-hero">
+      <div className="blog-hero-content">
+        <h1>Learning Resources & Career Tips</h1>
+        <p>Latest blogs from admin dashboard</p>
+        <button className="blog-btn">Explore Articles</button>
+      </div>
+    </section>
+  );
 
   if (loading) {
     return (
       <div className="blog">
-        <section className="blog-hero">
-          <div className="blog-hero-content">
-            <h1>Learning Resources & Career Tips</h1>
-            <p>Latest blogs from admin dashboard</p>
-            <button className="blog-btn">Explore Articles</button>
-          </div>
-        </section>
+        {renderHero()}
 
         <section className="blog-grid">
           <BlogSkeleton />
@@ -85,13 +96,7 @@ const Blog = () => {
   if (error) {
     return (
       <div className="blog">
-        <section className="blog-hero">
-          <div className="blog-hero-content">
-            <h1>Learning Resources & Career Tips</h1>
-            <p>Latest blogs from admin dashboard</p>
-            <button className="blog-btn">Explore Articles</button>
-          </div>
-        </section>
+        {renderHero()}
 
         <section className="blog-grid">
           <p className="no-data">{error}</p>
@@ -102,13 +107,7 @@ const Blog = () => {
 
   return (
     <div className="blog">
-      <section className="blog-hero">
-        <div className="blog-hero-content">
-          <h1>Learning Resources & Career Tips</h1>
-          <p>Latest blogs from admin dashboard</p>
-          <button className="blog-btn">Explore Articles</button>
-        </div>
-      </section>
+      {renderHero()}
 
       <section className="blog-grid">
         <ErrorBoundary>
@@ -117,10 +116,11 @@ const Blog = () => {
               <div className="blog-card" key={blog.id || index}>
                 <img
                   src={blog.image}
-                  alt="blog"
+                  alt={blog.title || "blog"}
                   loading="lazy"
                   onError={(e) => {
-                    e.target.src = "https://via.placeholder.com/400x250";
+                    e.currentTarget.src =
+                      "https://via.placeholder.com/400x250";
                   }}
                 />
 
@@ -130,7 +130,7 @@ const Blog = () => {
 
                 <span className="category">{blog.category}</span>
 
-                <button>Read More</button>
+                <button type="button">Read More</button>
               </div>
             ))
           ) : (

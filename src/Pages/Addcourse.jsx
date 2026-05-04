@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import axiosInstance from "../utils/axiosInstance";
 import AdminSidebar from "./Adminsidebar";
 import Modal from "../components/Modal.jsx";
 import "../Styles/Addcourse.css";
@@ -12,7 +12,6 @@ const AddCourse = () => {
   const [showModal, setShowModal] = useState(false);
   const [modalType, setModalType] = useState("");
   const [deleteId, setDeleteId] = useState(null);
-
   const [selectedIds, setSelectedIds] = useState([]);
 
   const [formData, setFormData] = useState({
@@ -22,24 +21,18 @@ const AddCourse = () => {
     imageUrl: "",
   });
 
-  const token = localStorage.getItem("token");
-
-  const authHeader = {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  };
-
   useEffect(() => {
     fetchCourses();
   }, []);
 
   const fetchCourses = async () => {
     try {
-      const res = await axios.get("http://localhost:8080/api/courses");
-      setCourses(res.data);
+      const res = await axiosInstance.get("/api/courses");
+      setCourses(Array.isArray(res.data) ? res.data : []);
     } catch (error) {
-      toast.error("Failed to load courses");
+      console.log("Fetch courses error:", error);
+      toast.error(error.response?.data || "Failed to load courses");
+      setCourses([]);
     }
   };
 
@@ -78,9 +71,7 @@ const AddCourse = () => {
 
   const handleSelect = (id) => {
     setSelectedIds((prev) =>
-      prev.includes(id)
-        ? prev.filter((item) => item !== id)
-        : [...prev, id]
+      prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]
     );
   };
 
@@ -100,11 +91,8 @@ const AddCourse = () => {
     const toastId = toast.loading("Deleting selected courses...");
 
     try {
-      await axios.delete("http://localhost:8080/api/courses/bulk-delete", {
+      await axiosInstance.delete("/api/courses/bulk-delete", {
         data: selectedIds,
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
       });
 
       toast.update(toastId, {
@@ -117,8 +105,10 @@ const AddCourse = () => {
       setSelectedIds([]);
       fetchCourses();
     } catch (error) {
+      console.log("Bulk delete error:", error);
+
       toast.update(toastId, {
-        render: "Bulk delete failed ❌",
+        render: error.response?.data || "Bulk delete failed ❌",
         type: "error",
         isLoading: false,
         autoClose: 3000,
@@ -132,10 +122,7 @@ const AddCourse = () => {
     const toastId = toast.loading("Deleting course...");
 
     try {
-      await axios.delete(
-        `http://localhost:8080/api/courses/${deleteId}`,
-        authHeader
-      );
+      await axiosInstance.delete(`/api/courses/${deleteId}`);
 
       toast.update(toastId, {
         render: "Course deleted successfully ✅",
@@ -147,8 +134,10 @@ const AddCourse = () => {
       setDeleteId(null);
       fetchCourses();
     } catch (error) {
+      console.log("Delete course error:", error);
+
       toast.update(toastId, {
-        render: "Failed to delete course ❌",
+        render: error.response?.data || "Failed to delete course ❌",
         type: "error",
         isLoading: false,
         autoClose: 3000,
@@ -162,11 +151,7 @@ const AddCourse = () => {
     const toastId = toast.loading("Updating course...");
 
     try {
-      await axios.put(
-        `http://localhost:8080/api/courses/${editId}`,
-        formData,
-        authHeader
-      );
+      await axiosInstance.put(`/api/courses/${editId}`, formData);
 
       toast.update(toastId, {
         render: "Course updated successfully ✅",
@@ -178,8 +163,10 @@ const AddCourse = () => {
       resetForm();
       fetchCourses();
     } catch (error) {
+      console.log("Update course error:", error);
+
       toast.update(toastId, {
-        render: "Failed to update course ❌",
+        render: error.response?.data || "Failed to update course ❌",
         type: "error",
         isLoading: false,
         autoClose: 3000,
@@ -200,11 +187,6 @@ const AddCourse = () => {
       return;
     }
 
-    if (!token) {
-      toast.error("Login token missing. Please login again.");
-      return;
-    }
-
     if (editId) {
       setModalType("update");
       setShowModal(true);
@@ -214,11 +196,7 @@ const AddCourse = () => {
     const toastId = toast.loading("Adding course...");
 
     try {
-      await axios.post(
-        "http://localhost:8080/api/courses",
-        formData,
-        authHeader
-      );
+      await axiosInstance.post("/api/courses", formData);
 
       toast.update(toastId, {
         render: "Course added successfully ✅",
@@ -230,8 +208,10 @@ const AddCourse = () => {
       resetForm();
       fetchCourses();
     } catch (error) {
+      console.log("Add course error:", error);
+
       toast.update(toastId, {
-        render: "Failed to add course ❌",
+        render: error.response?.data || "Failed to add course ❌",
         type: "error",
         isLoading: false,
         autoClose: 3000,
@@ -339,7 +319,11 @@ const AddCourse = () => {
             <h2>All Courses</h2>
 
             {selectedIds.length > 0 && (
-              <button className="adc-delete-new" onClick={handleBulkDelete}>
+              <button
+                type="button"
+                className="adc-delete-new"
+                onClick={handleBulkDelete}
+              >
                 Delete Selected ({selectedIds.length})
               </button>
             )}
@@ -357,7 +341,13 @@ const AddCourse = () => {
                     onChange={() => handleSelect(course.id)}
                   />
 
-                  <img src={course.imageUrl} alt={course.title} />
+                  <img
+                    src={course.imageUrl}
+                    alt={course.title}
+                    onError={(e) => {
+                      e.currentTarget.src = "https://via.placeholder.com/300";
+                    }}
+                  />
 
                   <div className="adc-course-info-new">
                     <h3>{course.title}</h3>
@@ -366,6 +356,7 @@ const AddCourse = () => {
 
                     <div className="adc-actions-new">
                       <button
+                        type="button"
                         className="adc-edit-new"
                         onClick={() => handleEdit(course)}
                       >
@@ -373,6 +364,7 @@ const AddCourse = () => {
                       </button>
 
                       <button
+                        type="button"
                         className="adc-delete-new"
                         onClick={() => handleDelete(course.id)}
                       >
@@ -396,6 +388,7 @@ const AddCourse = () => {
 
           <div className="modal-footer-actions">
             <button
+              type="button"
               className="modal-cancel-btn"
               onClick={() => setShowModal(false)}
             >
@@ -403,6 +396,7 @@ const AddCourse = () => {
             </button>
 
             <button
+              type="button"
               className={
                 modalType === "update"
                   ? "modal-update-btn"

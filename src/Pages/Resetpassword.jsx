@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import axios from "axios";
+import axiosInstance from "../api/axiosInstance";
 import { useParams, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import "../Styles/Resetpass.css";
 
 const ResetPassword = () => {
@@ -8,24 +9,49 @@ const ResetPassword = () => {
   const navigate = useNavigate();
 
   const [newPassword, setNewPassword] = useState("");
-  const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    if (!newPassword.trim()) {
+      toast.warning("Please enter new password");
+      return;
+    }
+
+    const loadingToast = toast.loading("Resetting password...");
+
     try {
-      const res = await axios.post("http://localhost:8080/api/password/reset", {
+      setLoading(true);
+
+      const res = await axiosInstance.post("/api/password/reset", {
         token: token,
         newPassword: newPassword,
       });
 
-      setMessage(res.data.message);
+      toast.update(loadingToast, {
+        render: res.data.message || "Password reset successful ✅",
+        type: "success",
+        isLoading: false,
+        autoClose: 2500,
+      });
+
+      setNewPassword("");
 
       setTimeout(() => {
-        navigate("/");
-      }, 2000);
+        navigate("/login");
+      }, 1500);
     } catch (error) {
-      setMessage(error.response?.data?.message || "Something went wrong");
+      console.log("Reset password error:", error);
+
+      toast.update(loadingToast, {
+        render: error.response?.data?.message || "Something went wrong ❌",
+        type: "error",
+        isLoading: false,
+        autoClose: 3000,
+      });
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -41,12 +67,14 @@ const ResetPassword = () => {
             placeholder="Enter new password"
             value={newPassword}
             onChange={(e) => setNewPassword(e.target.value)}
+            disabled={loading}
             required
           />
-          <button type="submit">Reset Password</button>
-        </form>
 
-        {message && <p className="rp-message">{message}</p>}
+          <button type="submit" disabled={loading}>
+            {loading ? "Resetting..." : "Reset Password"}
+          </button>
+        </form>
       </div>
     </div>
   );

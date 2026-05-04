@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from "react";
 import Sidebar from "../components/Sidebar";
-import axios from "axios";
+import axiosInstance from "../utils/axiosInstance.js";
 import { toast } from "react-toastify";
 import "../Styles/StudentCommon.css";
 import "../Styles/MyCourses.css";
 
 const MyCourses = () => {
   const student = JSON.parse(localStorage.getItem("user"));
-  const token = localStorage.getItem("token");
 
   const [courses, setCourses] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -29,13 +28,8 @@ const MyCourses = () => {
     }
 
     try {
-      const res = await axios.get(
-        `http://localhost:8080/api/enrollments/student/${student.id}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
+      const res = await axiosInstance.get(
+        `/api/enrollments/student/${student.id}`
       );
 
       setCourses(Array.isArray(res.data) ? res.data : []);
@@ -50,14 +44,9 @@ const MyCourses = () => {
 
   const updateProgress = async (enrollmentId, completedLessons, totalLessons) => {
     try {
-      await axios.put(
-        `http://localhost:8080/api/enrollments/progress/${enrollmentId}?completedLessons=${completedLessons}&totalLessons=${totalLessons}`,
-        {},
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
+      await axiosInstance.put(
+        `/api/enrollments/progress/${enrollmentId}?completedLessons=${completedLessons}&totalLessons=${totalLessons}`,
+        {}
       );
 
       toast.success("Progress updated ✅");
@@ -87,13 +76,10 @@ const MyCourses = () => {
     }
 
     try {
-      const res = await axios.get(
-        `http://localhost:8080/api/certificates/download/${enrollmentId}`,
+      const res = await axiosInstance.get(
+        `/api/certificates/download/${enrollmentId}`,
         {
           responseType: "blob",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
         }
       );
 
@@ -105,11 +91,12 @@ const MyCourses = () => {
       document.body.appendChild(link);
       link.click();
       link.remove();
+      window.URL.revokeObjectURL(url);
 
       toast.success("Certificate downloaded ✅");
     } catch (error) {
       console.log("Certificate error:", error);
-      toast.error("Certificate download failed");
+      toast.error(error.response?.data || "Certificate download failed");
     }
   };
 
@@ -136,18 +123,10 @@ const MyCourses = () => {
     }
 
     try {
-      await axios.post(
-        `http://localhost:8080/api/reviews/${student.id}/${courseId}`,
-        {
-          rating: rating,
-          review: review,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      await axiosInstance.post(`/api/reviews/${student.id}/${courseId}`, {
+        rating,
+        review,
+      });
 
       toast.success("Review submitted successfully ✅");
       setShowReviewModal(false);
@@ -329,6 +308,7 @@ const MyCourses = () => {
                         type="button"
                         className="student-course-primary2"
                         onClick={() => handleCompleteLesson(item)}
+                        disabled={progress >= 100}
                       >
                         {progress >= 100 ? "Completed" : "Complete Lesson"}
                       </button>

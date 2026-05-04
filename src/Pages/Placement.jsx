@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import axios from "axios";
+import axiosInstance from "../utils/axiosInstance";
 import "../Styles/Placement.css";
 import PlacementSkeleton from "../components/PlacementSkeleton";
 import ErrorBoundary from "../components/ErrorBoundary";
@@ -21,7 +21,7 @@ const setCache = (key, data) => {
     key,
     JSON.stringify({
       data,
-      expiry: Date.now() + 5 * 60 * 1000
+      expiry: Date.now() + 5 * 60 * 1000,
     })
   );
 };
@@ -55,8 +55,8 @@ const Placements = () => {
   }, []);
 
   const fetchPlacements = async () => {
-
     const cached = getCache("placementCache");
+
     if (cached) {
       setPlacements(cached);
       setLoading(false);
@@ -67,74 +67,22 @@ const Placements = () => {
       setLoading(true);
       setError("");
 
-      const res = await axios.get("http://localhost:8080/api/placements");
+      const res = await axiosInstance.get("/api/placements");
+
       console.log("placements:", res.data);
 
-      setPlacements(res.data);
-
-      setCache("placementCache", res.data);
-
+      setPlacements(Array.isArray(res.data) ? res.data : []);
+      setCache("placementCache", Array.isArray(res.data) ? res.data : []);
     } catch (error) {
       console.log("Error fetching placements:", error);
-      setError("Failed to load placement data.");
+      setError(error.response?.data || "Failed to load placement data.");
     } finally {
       setLoading(false);
     }
   };
 
-  if (loading) {
-    return (
-      <div className="placements">
-        <motion.div
-          className="placement-header"
-          initial={{ opacity: 0, y: -40 }}
-          animate={{ opacity: 1, y: 0 }}
-        >
-          <h1>Our Placement Achievements</h1>
-          <p>
-            We provide 100% placement assistance with strong industry
-            connections. Our students work in top IT companies across India.
-          </p>
-        </motion.div>
-
-        <div className="placement-stats">
-          <motion.div whileHover={{ scale: 1.05 }} className="stat-box">
-            <h2>1200</h2>
-            <p>Students Placed</p>
-          </motion.div>
-
-          <motion.div whileHover={{ scale: 1.05 }} className="stat-box">
-            <h2>150+</h2>
-            <p>Hiring Companies</p>
-          </motion.div>
-
-          <motion.div whileHover={{ scale: 1.05 }} className="stat-box">
-            <h2>12 LPA</h2>
-            <p>Highest Package</p>
-          </motion.div>
-
-          <motion.div whileHover={{ scale: 1.05 }} className="stat-box">
-            <h2>3 LPA</h2>
-            <p>Average Package</p>
-          </motion.div>
-        </div>
-
-        <h2 className="section-title">Recently Placed Students</h2>
-        <PlacementSkeleton />
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className="placements">
-        <p className="no-data">{error}</p>
-      </div>
-    );
-  }
-
-  return (
-    <div className="placements">
+  const renderHeaderAndStats = () => (
+    <>
       <motion.div
         className="placement-header"
         initial={{ opacity: 0, y: -40 }}
@@ -142,8 +90,8 @@ const Placements = () => {
       >
         <h1>Our Placement Achievements</h1>
         <p>
-          We provide 100% placement assistance with strong industry
-          connections. Our students work in top IT companies across India.
+          We provide 100% placement assistance with strong industry connections.
+          Our students work in top IT companies across India.
         </p>
       </motion.div>
 
@@ -168,6 +116,32 @@ const Placements = () => {
           <p>Average Package</p>
         </motion.div>
       </div>
+    </>
+  );
+
+  if (loading) {
+    return (
+      <div className="placements">
+        {renderHeaderAndStats()}
+
+        <h2 className="section-title">Recently Placed Students</h2>
+        <PlacementSkeleton />
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="placements">
+        {renderHeaderAndStats()}
+        <p className="no-data">{error}</p>
+      </div>
+    );
+  }
+
+  return (
+    <div className="placements">
+      {renderHeaderAndStats()}
 
       <h2 className="section-title">Recently Placed Students</h2>
 
@@ -182,12 +156,13 @@ const Placements = () => {
               >
                 <img
                   src={student.imageUrl}
-                  alt={student.studentName}
+                  alt={student.studentName || "Placed Student"}
                   loading="lazy"
                   onError={(e) => {
-                    e.target.src = "https://via.placeholder.com/150";
+                    e.currentTarget.src = "https://via.placeholder.com/150";
                   }}
                 />
+
                 <h3>{student.studentName}</h3>
                 <p>{student.company}</p>
                 <span>{student.packageAmount}</span>
@@ -228,6 +203,7 @@ const Placements = () => {
               <th>Package</th>
             </tr>
           </thead>
+
           <tbody>
             {placements.length > 0 ? (
               placements.map((item, index) => (

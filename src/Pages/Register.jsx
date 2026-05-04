@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "../Styles/Register.css";
-import axios from "axios";
+import axiosInstance from "../utils/axiosInstance";
 import { toast } from "react-toastify";
 import instituteImg from "../assets/reg.jpeg";
 
@@ -9,8 +9,10 @@ const StudentRegister = () => {
     name: "",
     email: "",
     password: "",
-    role: "",
+    role: "STUDENT",
   });
+
+  const [loading, setLoading] = useState(false);
 
   const handleInputChange = (e) => {
     setStudentForm({
@@ -22,7 +24,11 @@ const StudentRegister = () => {
   const handleRegisterSubmit = async (e) => {
     e.preventDefault();
 
-    if (!studentForm.name || !studentForm.email || !studentForm.password) {
+    if (
+      !studentForm.name.trim() ||
+      !studentForm.email.trim() ||
+      !studentForm.password.trim()
+    ) {
       toast.warning("Please fill all fields ⚠️");
       return;
     }
@@ -30,12 +36,11 @@ const StudentRegister = () => {
     const loadingToast = toast.loading("Registering...");
 
     try {
-      const response = await axios.post(
-        "http://localhost:8080/api/register",
-        studentForm
-      );
+      setLoading(true);
 
-      console.log(response.data);
+      const response = await axiosInstance.post("/api/register", studentForm);
+
+      console.log("Register response:", response.data);
 
       toast.update(loadingToast, {
         render: "Registration Successful! ✅",
@@ -48,10 +53,10 @@ const StudentRegister = () => {
         name: "",
         email: "",
         password: "",
-        role: "",
+        role: "STUDENT",
       });
     } catch (error) {
-      console.error(error);
+      console.error("Register error:", error);
 
       toast.update(loadingToast, {
         render:
@@ -62,14 +67,14 @@ const StudentRegister = () => {
         isLoading: false,
         autoClose: 3000,
       });
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <div className="admission-page-shell">
       <div className="admission-main-card">
-
-        {/* LEFT SIDE IMAGE */}
         <div className="admission-visual-side">
           <img
             src={instituteImg}
@@ -88,7 +93,6 @@ const StudentRegister = () => {
           </div>
         </div>
 
-        {/* RIGHT SIDE FORM */}
         <div className="admission-form-side">
           <div className="admission-form-wrap">
             <h1>Sign Up</h1>
@@ -105,6 +109,7 @@ const StudentRegister = () => {
                   placeholder="Enter your full name"
                   value={studentForm.name}
                   onChange={handleInputChange}
+                  disabled={loading}
                   required
                 />
               </div>
@@ -117,6 +122,7 @@ const StudentRegister = () => {
                   placeholder="Enter your email"
                   value={studentForm.email}
                   onChange={handleInputChange}
+                  disabled={loading}
                   required
                 />
               </div>
@@ -129,17 +135,21 @@ const StudentRegister = () => {
                   placeholder="Example: Sai@1234"
                   value={studentForm.password}
                   onChange={handleInputChange}
+                  disabled={loading}
                   required
                 />
               </div>
 
-              <button type="submit" className="admission-submit-btn">
-                Register Now 🚀
+              <button
+                type="submit"
+                className="admission-submit-btn"
+                disabled={loading}
+              >
+                {loading ? "Registering..." : "Register Now 🚀"}
               </button>
             </form>
           </div>
         </div>
-
       </div>
     </div>
   );

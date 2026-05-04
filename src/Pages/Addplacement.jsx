@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import axiosInstance from "../utils/axiosInstance";
 import "../Styles/Addplacement.css";
 import AdminSidebar from "./Adminsidebar";
 import Modal from "../components/Modal.jsx";
@@ -22,25 +22,17 @@ const AddPlacement = () => {
     imageUrl: "",
   });
 
-  const token = localStorage.getItem("token");
-
-  const authHeader = {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  };
-
   useEffect(() => {
     fetchPlacements();
   }, []);
 
   const fetchPlacements = async () => {
     try {
-      const res = await axios.get("http://localhost:8080/api/placements");
-      setPlacements(res.data);
+      const res = await axiosInstance.get("/api/placements");
+      setPlacements(Array.isArray(res.data) ? res.data : []);
     } catch (error) {
-      console.error(error);
-      toast.error("Failed to load placements");
+      console.error("Fetch placements error:", error);
+      toast.error(error.response?.data || "Failed to load placements");
     }
   };
 
@@ -56,7 +48,6 @@ const AddPlacement = () => {
       packageAmount: "",
       imageUrl: "",
     });
-
     setEditId(null);
   };
 
@@ -64,22 +55,20 @@ const AddPlacement = () => {
     setEditId(placement.id);
 
     setFormData({
-      studentName: placement.studentName,
-      company: placement.company,
-      role: placement.role,
-      packageAmount: placement.packageAmount,
-      imageUrl: placement.imageUrl,
+      studentName: placement.studentName || "",
+      company: placement.company || "",
+      role: placement.role || "",
+      packageAmount: placement.packageAmount || "",
+      imageUrl: placement.imageUrl || "",
     });
 
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const handleSelect = (id) => {
-    if (selectedIds.includes(id)) {
-      setSelectedIds(selectedIds.filter((item) => item !== id));
-    } else {
-      setSelectedIds([...selectedIds, id]);
-    }
+    setSelectedIds((prev) =>
+      prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]
+    );
   };
 
   const handleDelete = (id) => {
@@ -104,10 +93,7 @@ const AddPlacement = () => {
     const toastId = toast.loading("Deleting placement...");
 
     try {
-      await axios.delete(
-        `http://localhost:8080/api/placements/${deleteId}`,
-        authHeader
-      );
+      await axiosInstance.delete(`/api/placements/${deleteId}`);
 
       toast.update(toastId, {
         render: "Placement deleted successfully ✅",
@@ -119,10 +105,10 @@ const AddPlacement = () => {
       setDeleteId(null);
       fetchPlacements();
     } catch (error) {
-      console.error(error);
+      console.error("Delete placement error:", error);
 
       toast.update(toastId, {
-        render: "Failed to delete placement ❌",
+        render: error.response?.data || "Failed to delete placement ❌",
         type: "error",
         isLoading: false,
         autoClose: 3000,
@@ -136,11 +122,8 @@ const AddPlacement = () => {
     const toastId = toast.loading("Deleting selected placements...");
 
     try {
-      await axios.delete("http://localhost:8080/api/placements/bulk-delete", {
+      await axiosInstance.delete("/api/placements/bulk-delete", {
         data: selectedIds,
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
       });
 
       toast.update(toastId, {
@@ -153,10 +136,10 @@ const AddPlacement = () => {
       setSelectedIds([]);
       fetchPlacements();
     } catch (error) {
-      console.error(error);
+      console.error("Bulk delete placements error:", error);
 
       toast.update(toastId, {
-        render: "Bulk delete failed ❌",
+        render: error.response?.data || "Bulk delete failed ❌",
         type: "error",
         isLoading: false,
         autoClose: 3000,
@@ -170,11 +153,7 @@ const AddPlacement = () => {
     const toastId = toast.loading("Updating placement...");
 
     try {
-      await axios.put(
-        `http://localhost:8080/api/placements/${editId}`,
-        formData,
-        authHeader
-      );
+      await axiosInstance.put(`/api/placements/${editId}`, formData);
 
       toast.update(toastId, {
         render: "Placement updated successfully ✅",
@@ -186,10 +165,10 @@ const AddPlacement = () => {
       resetForm();
       fetchPlacements();
     } catch (error) {
-      console.error(error);
+      console.error("Update placement error:", error);
 
       toast.update(toastId, {
-        render: "Failed to update placement ❌",
+        render: error.response?.data || "Failed to update placement ❌",
         type: "error",
         isLoading: false,
         autoClose: 3000,
@@ -201,11 +180,11 @@ const AddPlacement = () => {
     e.preventDefault();
 
     if (
-      !formData.studentName ||
-      !formData.company ||
-      !formData.role ||
-      !formData.packageAmount ||
-      !formData.imageUrl
+      !formData.studentName.trim() ||
+      !formData.company.trim() ||
+      !formData.role.trim() ||
+      !formData.packageAmount.trim() ||
+      !formData.imageUrl.trim()
     ) {
       toast.warning("Please fill all fields");
       return;
@@ -220,11 +199,7 @@ const AddPlacement = () => {
     const toastId = toast.loading("Adding placement...");
 
     try {
-      await axios.post(
-        "http://localhost:8080/api/placements",
-        formData,
-        authHeader
-      );
+      await axiosInstance.post("/api/placements", formData);
 
       toast.update(toastId, {
         render: "Placement added successfully ✅",
@@ -236,10 +211,10 @@ const AddPlacement = () => {
       resetForm();
       fetchPlacements();
     } catch (error) {
-      console.error(error);
+      console.error("Add placement error:", error);
 
       toast.update(toastId, {
-        render: "Failed to add placement ❌",
+        render: error.response?.data || "Failed to add placement ❌",
         type: "error",
         isLoading: false,
         autoClose: 3000,
@@ -348,40 +323,53 @@ const AddPlacement = () => {
           )}
 
           <div className="adp-grid-new">
-            {placements.map((placement) => (
-              <div className="adp-placement-card-new" key={placement.id}>
-                <input
-                  type="checkbox"
-                  checked={selectedIds.includes(placement.id)}
-                  onChange={() => handleSelect(placement.id)}
-                />
+            {placements.length > 0 ? (
+              placements.map((placement) => (
+                <div className="adp-placement-card-new" key={placement.id}>
+                  <input
+                    type="checkbox"
+                    checked={selectedIds.includes(placement.id)}
+                    onChange={() => handleSelect(placement.id)}
+                  />
 
-                <img src={placement.imageUrl} alt={placement.studentName} />
+                  <img
+                    src={placement.imageUrl}
+                    alt={placement.studentName}
+                    onError={(e) => {
+                      e.currentTarget.src =
+                        "https://via.placeholder.com/150";
+                    }}
+                  />
 
-                <div className="adp-placement-info-new">
-                  <h3>{placement.studentName}</h3>
-                  <p>Company: {placement.company}</p>
-                  <p>Role: {placement.role}</p>
-                  <p>Package: {placement.packageAmount}</p>
+                  <div className="adp-placement-info-new">
+                    <h3>{placement.studentName}</h3>
+                    <p>Company: {placement.company}</p>
+                    <p>Role: {placement.role}</p>
+                    <p>Package: {placement.packageAmount}</p>
 
-                  <div className="adp-actions-new">
-                    <button
-                      className="adp-edit-new"
-                      onClick={() => handleEdit(placement)}
-                    >
-                      Edit
-                    </button>
+                    <div className="adp-actions-new">
+                      <button
+                        type="button"
+                        className="adp-edit-new"
+                        onClick={() => handleEdit(placement)}
+                      >
+                        Edit
+                      </button>
 
-                    <button
-                      className="adp-delete-new"
-                      onClick={() => handleDelete(placement.id)}
-                    >
-                      Delete
-                    </button>
+                      <button
+                        type="button"
+                        className="adp-delete-new"
+                        onClick={() => handleDelete(placement.id)}
+                      >
+                        Delete
+                      </button>
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              ))
+            ) : (
+              <p>No placements found</p>
+            )}
           </div>
         </div>
 

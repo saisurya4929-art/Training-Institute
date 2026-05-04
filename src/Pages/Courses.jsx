@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import axios from "../utils/AxiosInstance";
 import "../styles/Courses.css";
 import CourseSkeleton from "../components/CourseSkeleton";
 import ErrorBoundary from "../components/ErrorBoundary";
@@ -64,7 +64,7 @@ const Courses = () => {
     }
 
     try {
-      const res = await axios.get("http://localhost:8080/api/courses");
+      const res = await axios.get("/api/courses");
 
       setCourses(res.data);
       saveCache(res.data);
@@ -79,7 +79,7 @@ const Courses = () => {
 
   const fetchAllReviews = async () => {
     try {
-      const res = await axios.get("http://localhost:8080/api/reviews/all");
+      const res = await axios.get("/api/reviews/all");
       setAllReviews(Array.isArray(res.data) ? res.data : []);
     } catch (err) {
       console.log("Review fetch error:", err);
@@ -97,8 +97,8 @@ const Courses = () => {
   };
 
   const handleEnroll = async (courseId) => {
-    const token = localStorage.getItem("token");
     const user = JSON.parse(localStorage.getItem("user"));
+    const token = localStorage.getItem("token");
 
     if (!token || !user) {
       toast.warning("Please login first to enroll");
@@ -114,15 +114,7 @@ const Courses = () => {
     }
 
     try {
-      const res = await axios.post(
-        `http://localhost:8080/api/enrollments/${user.id}/${courseId}`,
-        {},
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const res = await axios.post(`/api/enrollments/${user.id}/${courseId}`, {});
 
       toast.success(res.data);
     } catch (error) {
@@ -200,7 +192,6 @@ const Courses = () => {
           >
             Register
           </button>
-
         </div>
       </div>
 

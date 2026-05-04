@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import axiosInstance from "../utils/axiosInstance";
 import "../Styles/Gallery.css";
 import GallerySkeleton from "../components/GallerySkeleton";
 import ErrorBoundary from "../components/ErrorBoundary";
@@ -15,12 +15,19 @@ const getCache = (key) => {
   const cache = sessionStorage.getItem(key);
   if (!cache) return null;
 
-  const parsed = JSON.parse(cache);
-  if (Date.now() > parsed.expiry) {
+  try {
+    const parsed = JSON.parse(cache);
+
+    if (Date.now() > parsed.expiry) {
+      sessionStorage.removeItem(key);
+      return null;
+    }
+
+    return parsed.data;
+  } catch {
     sessionStorage.removeItem(key);
     return null;
   }
-  return parsed.data;
 };
 
 const Gallery = () => {
@@ -29,6 +36,8 @@ const Gallery = () => {
   const [galleryData, setGalleryData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+
+  const categories = ["All", "Classroom", "Students", "Lab", "Events"];
 
   useEffect(() => {
     fetchGallery();
@@ -46,42 +55,47 @@ const Gallery = () => {
     try {
       setLoading(true);
       setError("");
-      const res = await axios.get("http://localhost:8080/api/gallery");
 
-      setGalleryData(res.data);
-      setCache("galleryCache", res.data);
+      const res = await axiosInstance.get("/api/gallery");
+
+      const galleryList = Array.isArray(res.data) ? res.data : [];
+
+      setGalleryData(galleryList);
+      setCache("galleryCache", galleryList);
     } catch (error) {
       console.log("Error fetching gallery:", error);
-      setError("Failed to load gallery images.");
+      setError(error.response?.data || "Failed to load gallery images.");
+      setGalleryData([]);
     } finally {
       setLoading(false);
     }
   };
-
-  const categories = ["All", "Classroom", "Students", "Lab", "Events"];
 
   const filteredImages =
     filter === "All"
       ? galleryData
       : galleryData.filter((item) => item.category === filter);
 
+  const renderFilters = () => (
+    <div className="gallery-filters">
+      {categories.map((category, index) => (
+        <button
+          type="button"
+          key={index}
+          className={filter === category ? "active" : ""}
+          onClick={() => setFilter(category)}
+        >
+          {category}
+        </button>
+      ))}
+    </div>
+  );
+
   if (loading) {
     return (
       <div className="gallery-container">
         <h1 className="gallery-heading">Our Training Institute Gallery</h1>
-
-        <div className="gallery-filters">
-          {categories.map((category, index) => (
-            <button
-              key={index}
-              className={filter === category ? "active" : ""}
-              onClick={() => setFilter(category)}
-            >
-              {category}
-            </button>
-          ))}
-        </div>
-
+        {renderFilters()}
         <GallerySkeleton />
       </div>
     );
@@ -91,19 +105,7 @@ const Gallery = () => {
     return (
       <div className="gallery-container">
         <h1 className="gallery-heading">Our Training Institute Gallery</h1>
-
-        <div className="gallery-filters">
-          {categories.map((category, index) => (
-            <button
-              key={index}
-              className={filter === category ? "active" : ""}
-              onClick={() => setFilter(category)}
-            >
-              {category}
-            </button>
-          ))}
-        </div>
-
+        {renderFilters()}
         <p className="no-data">{error}</p>
       </div>
     );
@@ -113,17 +115,7 @@ const Gallery = () => {
     <div className="gallery-container">
       <h1 className="gallery-heading">Our Training Institute Gallery</h1>
 
-      <div className="gallery-filters">
-        {categories.map((category, index) => (
-          <button
-            key={index}
-            className={filter === category ? "active" : ""}
-            onClick={() => setFilter(category)}
-          >
-            {category}
-          </button>
-        ))}
-      </div>
+      {renderFilters()}
 
       <ErrorBoundary>
         <div className="gallery-grid">
@@ -136,12 +128,14 @@ const Gallery = () => {
               >
                 <img
                   src={`http://localhost:8080/uploads/${item.imageurl}`}
-                  alt={item.name}
+                  alt={item.name || "Gallery"}
                   loading="lazy"
                   onError={(e) => {
-                    e.target.src = "https://via.placeholder.com/400x300";
+                    e.currentTarget.src =
+                      "https://via.placeholder.com/400x300";
                   }}
                 />
+
                 <div className="gallery-overlay">
                   <h3>{item.name}</h3>
                   <p>{item.category}</p>
@@ -159,11 +153,12 @@ const Gallery = () => {
           <div className="gallery-lightbox" onClick={() => setLightbox(null)}>
             <img
               src={`http://localhost:8080/uploads/${lightbox.imageurl}`}
-              alt="preview"
+              alt={lightbox.name || "preview"}
               onError={(e) => {
-                e.target.src = "https://via.placeholder.com/700x500";
+                e.currentTarget.src = "https://via.placeholder.com/700x500";
               }}
             />
+
             <span className="close-btn">×</span>
           </div>
         </ErrorBoundary>

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import AdminSidebar from "./Adminsidebar";
 import Modal from "../components/Modal.jsx";
-import axios from "axios";
+import axiosInstance from "../utils/axiosInstance";
 import { toast } from "react-toastify";
 import "../Styles/Addgallery.css";
 
@@ -18,25 +18,18 @@ const AddGallery = () => {
   const [deleteId, setDeleteId] = useState(null);
   const [selectedIds, setSelectedIds] = useState([]);
 
-  const token = localStorage.getItem("token");
-
-  const authHeader = {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  };
-
   useEffect(() => {
     fetchGallery();
   }, []);
 
   const fetchGallery = async () => {
     try {
-      const res = await axios.get("http://localhost:8080/api/gallery");
-      setGalleryList(res.data);
+      const res = await axiosInstance.get("/api/gallery");
+      setGalleryList(Array.isArray(res.data) ? res.data : []);
     } catch (error) {
-      console.log(error);
-      toast.error("Failed to load gallery");
+      console.log("Gallery fetch error:", error);
+      toast.error(error.response?.data || "Failed to load gallery");
+      setGalleryList([]);
     }
   };
 
@@ -52,19 +45,17 @@ const AddGallery = () => {
 
   const handleEdit = (item) => {
     setEditId(item.id);
-    setTitle(item.name);
-    setCategory(item.category);
+    setTitle(item.name || "");
+    setCategory(item.category || "");
     setImage(null);
 
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const handleSelect = (id) => {
-    if (selectedIds.includes(id)) {
-      setSelectedIds(selectedIds.filter((item) => item !== id));
-    } else {
-      setSelectedIds([...selectedIds, id]);
-    }
+    setSelectedIds((prev) =>
+      prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]
+    );
   };
 
   const handleDelete = (id) => {
@@ -89,10 +80,7 @@ const AddGallery = () => {
     const toastId = toast.loading("Deleting gallery image...");
 
     try {
-      await axios.delete(
-        `http://localhost:8080/api/gallery/${deleteId}`,
-        authHeader
-      );
+      await axiosInstance.delete(`/api/gallery/${deleteId}`);
 
       toast.update(toastId, {
         render: "Gallery image deleted successfully ✅",
@@ -104,10 +92,10 @@ const AddGallery = () => {
       setDeleteId(null);
       fetchGallery();
     } catch (error) {
-      console.log(error);
+      console.log("Gallery delete error:", error);
 
       toast.update(toastId, {
-        render: "Failed to delete gallery image ❌",
+        render: error.response?.data || "Failed to delete gallery image ❌",
         type: "error",
         isLoading: false,
         autoClose: 3000,
@@ -121,11 +109,8 @@ const AddGallery = () => {
     const toastId = toast.loading("Deleting selected gallery images...");
 
     try {
-      await axios.delete("http://localhost:8080/api/gallery/bulk-delete", {
+      await axiosInstance.delete("/api/gallery/bulk-delete", {
         data: selectedIds,
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
       });
 
       toast.update(toastId, {
@@ -138,10 +123,10 @@ const AddGallery = () => {
       setSelectedIds([]);
       fetchGallery();
     } catch (error) {
-      console.log(error);
+      console.log("Gallery bulk delete error:", error);
 
       toast.update(toastId, {
-        render: "Bulk delete failed ❌",
+        render: error.response?.data || "Bulk delete failed ❌",
         type: "error",
         isLoading: false,
         autoClose: 3000,
@@ -163,16 +148,11 @@ const AddGallery = () => {
     const toastId = toast.loading("Updating gallery image...");
 
     try {
-      await axios.put(
-        `http://localhost:8080/api/gallery/${editId}`,
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      await axiosInstance.put(`/api/gallery/${editId}`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
 
       toast.update(toastId, {
         render: "Gallery image updated successfully ✅",
@@ -184,10 +164,10 @@ const AddGallery = () => {
       resetForm();
       fetchGallery();
     } catch (error) {
-      console.log(error);
+      console.log("Gallery update error:", error);
 
       toast.update(toastId, {
-        render: "Failed to update gallery image ❌",
+        render: error.response?.data || "Failed to update gallery image ❌",
         type: "error",
         isLoading: false,
         autoClose: 3000,
@@ -198,7 +178,7 @@ const AddGallery = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!title || !category) {
+    if (!title.trim() || !category.trim()) {
       toast.warning("Please fill title and category");
       return;
     }
@@ -222,10 +202,9 @@ const AddGallery = () => {
     const toastId = toast.loading("Uploading image...");
 
     try {
-      await axios.post("http://localhost:8080/api/gallery/add", formData, {
+      await axiosInstance.post("/api/gallery/add", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
-          Authorization: `Bearer ${token}`,
         },
       });
 
@@ -239,10 +218,10 @@ const AddGallery = () => {
       resetForm();
       fetchGallery();
     } catch (error) {
-      console.log(error);
+      console.log("Gallery upload error:", error);
 
       toast.update(toastId, {
-        render: "Failed to upload gallery image ❌",
+        render: error.response?.data || "Failed to upload gallery image ❌",
         type: "error",
         isLoading: false,
         autoClose: 3000,
@@ -337,41 +316,50 @@ const AddGallery = () => {
           )}
 
           <div className="adg-grid-new">
-            {galleryList.map((item) => (
-              <div className="adg-img-card-new" key={item.id}>
-                <input
-                  type="checkbox"
-                  checked={selectedIds.includes(item.id)}
-                  onChange={() => handleSelect(item.id)}
-                />
+            {galleryList.length > 0 ? (
+              galleryList.map((item) => (
+                <div className="adg-img-card-new" key={item.id}>
+                  <input
+                    type="checkbox"
+                    checked={selectedIds.includes(item.id)}
+                    onChange={() => handleSelect(item.id)}
+                  />
 
-                <img
-                  src={`http://localhost:8080/uploads/${item.imageurl}`}
-                  alt={item.name}
-                />
+                  <img
+                    src={`http://localhost:8080/uploads/${item.imageurl}`}
+                    alt={item.name}
+                    onError={(e) => {
+                      e.currentTarget.src = "https://via.placeholder.com/300";
+                    }}
+                  />
 
-                <div className="adg-info-new">
-                  <h3>{item.name}</h3>
-                  <p>{item.category}</p>
+                  <div className="adg-info-new">
+                    <h3>{item.name}</h3>
+                    <p>{item.category}</p>
 
-                  <div className="adg-actions-new">
-                    <button
-                      className="adg-edit-new"
-                      onClick={() => handleEdit(item)}
-                    >
-                      Edit
-                    </button>
+                    <div className="adg-actions-new">
+                      <button
+                        type="button"
+                        className="adg-edit-new"
+                        onClick={() => handleEdit(item)}
+                      >
+                        Edit
+                      </button>
 
-                    <button
-                      className="adg-delete-new"
-                      onClick={() => handleDelete(item.id)}
-                    >
-                      Delete
-                    </button>
+                      <button
+                        type="button"
+                        className="adg-delete-new"
+                        onClick={() => handleDelete(item.id)}
+                      >
+                        Delete
+                      </button>
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              ))
+            ) : (
+              <p>No gallery images found</p>
+            )}
           </div>
         </div>
 
