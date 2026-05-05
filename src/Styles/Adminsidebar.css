@@ -9,7 +9,6 @@
   background: var(--bg-sidebar);
   color: var(--text-main);
   border-right: 1px solid var(--border-color);
-  /* display: flex; */
   flex-direction: column;
   justify-content: space-between;
   padding: 20px 16px;
