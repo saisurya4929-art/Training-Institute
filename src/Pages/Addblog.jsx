@@ -36,7 +36,10 @@ const AddBlog = () => {
   };
 
   const handleChange = (e) => {
-    setBlog({ ...blog, [e.target.name]: e.target.value });
+    setBlog({
+      ...blog,
+      [e.target.name]: e.target.value,
+    });
   };
 
   const resetForm = () => {
@@ -64,7 +67,9 @@ const AddBlog = () => {
 
   const handleSelect = (id) => {
     setSelectedIds((prev) =>
-      prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]
+      prev.includes(id)
+        ? prev.filter((item) => item !== id)
+        : [...prev, id]
     );
   };
 
@@ -84,92 +89,125 @@ const AddBlog = () => {
     setShowModal(true);
   };
 
-  const confirmDeleteBlog = async () => {
+  const closeModal = () => {
     setShowModal(false);
-
-    const toastId = toast.loading("Deleting blog...");
-
-    try {
-      await axiosInstance.delete(`/api/blogs/${deleteId}`);
-
-      toast.update(toastId, {
-        render: "Blog deleted successfully ✅",
-        type: "success",
-        isLoading: false,
-        autoClose: 3000,
-      });
-
-      setDeleteId(null);
-      fetchBlogs();
-    } catch (error) {
-      console.error("Delete blog error:", error);
-
-      toast.update(toastId, {
-        render: error.response?.data || "Failed to delete blog ❌",
-        type: "error",
-        isLoading: false,
-        autoClose: 3000,
-      });
-    }
+    setModalType("");
+    setDeleteId(null);
   };
 
-  const confirmBulkDeleteBlog = async () => {
-    setShowModal(false);
+  const handleModalConfirm = async () => {
+    const currentModalType = modalType;
+    const currentDeleteId = deleteId;
+    const currentSelectedIds = [...selectedIds];
 
-    const toastId = toast.loading("Deleting selected blogs...");
+    closeModal();
 
-    try {
-      await axiosInstance.delete("/api/blogs/bulk-delete", {
-        data: selectedIds,
-      });
+    if (currentModalType === "delete") {
+      const toastId = toast.loading("Deleting blog...");
 
-      toast.update(toastId, {
-        render: "Selected blogs deleted successfully ✅",
-        type: "success",
-        isLoading: false,
-        autoClose: 3000,
-      });
+      try {
+        await axiosInstance.delete(`/api/blogs/${currentDeleteId}`);
 
-      setSelectedIds([]);
-      fetchBlogs();
-    } catch (error) {
-      console.error("Bulk delete blog error:", error);
+        toast.update(toastId, {
+          render: "Blog deleted successfully ✅",
+          type: "success",
+          isLoading: false,
+          autoClose: 3000,
+        });
 
-      toast.update(toastId, {
-        render: error.response?.data || "Bulk delete failed ❌",
-        type: "error",
-        isLoading: false,
-        autoClose: 3000,
-      });
+        setBlogs((prev) =>
+          prev.filter((item) => item.id !== currentDeleteId)
+        );
+
+        setSelectedIds((prev) =>
+          prev.filter((id) => id !== currentDeleteId)
+        );
+      } catch (error) {
+        console.error("Delete blog error:", error);
+
+        toast.update(toastId, {
+          render: error.response?.data || "Delete failed ❌",
+          type: "error",
+          isLoading: false,
+          autoClose: 3000,
+        });
+      }
+
+      return;
     }
-  };
 
-  const confirmUpdateBlog = async () => {
-    setShowModal(false);
+    if (currentModalType === "bulk-delete") {
+      const toastId = toast.loading("Deleting selected blogs...");
 
-    const toastId = toast.loading("Updating blog...");
+      try {
+        await axiosInstance.delete("/api/blogs/bulk-delete", {
+          data: currentSelectedIds,
+        });
 
-    try {
-      await axiosInstance.put(`/api/blogs/${editId}`, blog);
+        toast.update(toastId, {
+          render: "Selected blogs deleted successfully ✅",
+          type: "success",
+          isLoading: false,
+          autoClose: 3000,
+        });
 
-      toast.update(toastId, {
-        render: "Blog updated successfully ✅",
-        type: "success",
-        isLoading: false,
-        autoClose: 3000,
-      });
+        setBlogs((prev) =>
+          prev.filter((item) => !currentSelectedIds.includes(item.id))
+        );
 
-      resetForm();
-      fetchBlogs();
-    } catch (error) {
-      console.error("Update blog error:", error);
+        setSelectedIds([]);
+      } catch (error) {
+        console.error("Bulk delete blog error:", error);
 
-      toast.update(toastId, {
-        render: error.response?.data || "Error updating blog ❌",
-        type: "error",
-        isLoading: false,
-        autoClose: 3000,
-      });
+        toast.update(toastId, {
+          render: error.response?.data || "Bulk delete failed ❌",
+          type: "error",
+          isLoading: false,
+          autoClose: 3000,
+        });
+      }
+
+      return;
+    }
+
+    if (currentModalType === "update") {
+      const toastId = toast.loading("Updating blog...");
+
+      try {
+        const response = await axiosInstance.put(`/api/blogs/${editId}`, blog);
+
+        toast.update(toastId, {
+          render: "Blog updated successfully ✅",
+          type: "success",
+          isLoading: false,
+          autoClose: 3000,
+        });
+
+        setBlogs((prev) =>
+          prev.map((item) =>
+            item.id === editId
+              ? {
+                  ...item,
+                  title: response.data?.title || blog.title,
+                  category: response.data?.category || blog.category,
+                  image: response.data?.image || blog.image,
+                  description: response.data?.description || blog.description,
+                }
+              : item
+          )
+        );
+
+        resetForm();
+      } catch (error) {
+        console.error("Update blog error:", error);
+
+        toast.update(toastId, {
+          render: error.response?.data || "Update failed ❌",
+          type: "error",
+          isLoading: false,
+          autoClose: 3000,
+        });
+      }
     }
   };
 
@@ -195,7 +233,7 @@ const AddBlog = () => {
     const toastId = toast.loading("Publishing blog...");
 
     try {
-      await axiosInstance.post("/api/blogs", blog);
+      const response = await axiosInstance.post("/api/blogs", blog);
 
       toast.update(toastId, {
         render: "Blog added successfully 🚀",
@@ -204,13 +242,18 @@ const AddBlog = () => {
         autoClose: 3000,
       });
 
+      if (response.data && response.data.id) {
+        setBlogs((prev) => [response.data, ...prev]);
+      } else {
+        fetchBlogs();
+      }
+
       resetForm();
-      fetchBlogs();
     } catch (error) {
       console.error("Add blog error:", error);
 
       toast.update(toastId, {
-        render: error.response?.data || "Error adding blog ❌",
+        render: error.response?.data || "Add blog failed ❌",
         type: "error",
         isLoading: false,
         autoClose: 3000,
@@ -241,6 +284,7 @@ const AddBlog = () => {
                 name="title"
                 value={blog.title}
                 onChange={handleChange}
+                placeholder="Enter blog title"
               />
             </div>
 
@@ -251,6 +295,7 @@ const AddBlog = () => {
                 name="category"
                 value={blog.category}
                 onChange={handleChange}
+                placeholder="Enter category"
               />
             </div>
 
@@ -261,6 +306,7 @@ const AddBlog = () => {
                 name="image"
                 value={blog.image}
                 onChange={handleChange}
+                placeholder="Enter image URL"
               />
             </div>
 
@@ -271,6 +317,7 @@ const AddBlog = () => {
                 rows="5"
                 value={blog.description}
                 onChange={handleChange}
+                placeholder="Enter blog description"
               ></textarea>
             </div>
 
@@ -290,8 +337,118 @@ const AddBlog = () => {
           </form>
         </div>
 
-        {/* LIST SECTION unchanged */}
+        <section className="adb-list-new">
+          <div className="adb-list-header-new">
+            <h2>All Blogs</h2>
+
+            <button
+              type="button"
+              className="adb-delete-new"
+              onClick={handleBulkDelete}
+              disabled={selectedIds.length === 0}
+            >
+              Delete Selected ({selectedIds.length})
+            </button>
+          </div>
+
+          <div className="adb-blog-grid-new">
+            {blogs.length > 0 ? (
+              blogs.map((item) => (
+                <div className="adb-blog-card-new" key={item.id}>
+                  <div className="adb-select-row-new">
+                    <input
+                      type="checkbox"
+                      checked={selectedIds.includes(item.id)}
+                      onChange={() => handleSelect(item.id)}
+                    />
+                  </div>
+
+                  <img
+                    src={item.image}
+                    alt={item.title}
+                    onError={(e) => {
+                      e.target.src = "https://via.placeholder.com/400x250";
+                    }}
+                  />
+
+                  <div className="adb-blog-info-new">
+                    <h3>{item.title}</h3>
+                    <h4>{item.category}</h4>
+                    <p>{item.description}</p>
+
+                    <div className="adb-actions-new">
+                      <button
+                        type="button"
+                        className="adb-edit-new"
+                        onClick={() => handleEdit(item)}
+                      >
+                        Edit
+                      </button>
+
+                      <button
+                        type="button"
+                        className="adb-delete-new"
+                        onClick={() => handleDelete(item.id)}
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              ))
+            ) : (
+              <p>No blogs found</p>
+            )}
+          </div>
+        </section>
       </main>
+
+      {showModal && (
+        <Modal
+          isOpen={showModal}
+          title={
+            modalType === "delete"
+              ? "Delete Blog"
+              : modalType === "bulk-delete"
+              ? "Delete Selected Blogs"
+              : "Update Blog"
+          }
+          onClose={closeModal}
+          size="small"
+        >
+          <p>
+            {modalType === "delete"
+              ? "Are you sure you want to delete this blog?"
+              : modalType === "bulk-delete"
+              ? `Are you sure you want to delete ${selectedIds.length} selected blog(s)?`
+              : "Are you sure you want to update this blog?"}
+          </p>
+
+          <div className="modal-footer-actions">
+            <button
+              type="button"
+              className="modal-cancel-btn"
+              onClick={closeModal}
+            >
+              Cancel
+            </button>
+
+            <button
+              type="button"
+              className={
+                modalType === "delete" || modalType === "bulk-delete"
+                  ? "modal-delete-btn"
+                  : "modal-update-btn"
+              }
+              onClick={handleModalConfirm}
+            >
+              {modalType === "delete" || modalType === "bulk-delete"
+                ? "Delete"
+                : "Update"}
+            </button>
+          </div>
+        </Modal>
+      )}
     </div>
   );
 };
